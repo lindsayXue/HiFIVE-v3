@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 // Middleware
-const googleAuth = require('../../middlewares/googleAuth')
+// const googleAuth = require('../../middlewares/googleAuth')
 
 // Load Input Validation
 const validateRegisterInput = require('../../validation/register')
@@ -13,17 +13,18 @@ const User = require('../../models/User')
 // @route   GET api/users/login
 // @desc    Login user
 // @access  Public
-router.get('/login', googleAuth, async (req, res) => {
+router.get('/login', async (req, res) => {
+  const errors = {}
   try {
     let user = await User.findOne({ googleId: req.body.googleId })
     if (user) {
       return res.json(user)
     } else {
-      return res.status(404).json({ unregisteruser: 'User unregistered' })
+      errors.unregisteruser = 'User unregistered'
+      return res.status(404).json(errors)
     }
   } catch (err) {
-    errors.server = 'Server error'
-    return res.status(500).json(errors)
+    res.status(500).json({ servererror: 'Server error' })
   }
 })
 
@@ -43,23 +44,24 @@ router.post('/register', async (req, res) => {
     if (user) {
       errors.googleId = 'User already exists'
       return res.status(400).json(errors)
-    } else {
-      const newUser = new User({
-        name: req.body.name,
-        email: req.body.email,
-        googleId: req.body.googleId,
-        ageRange: req.body.ageRange,
-        fitnessLevel: req.body.fitnessLevel,
-        gender: req.body.gender,
-        jobDesc: req.body.jobDesc,
-        department: req.body.department
-      })
-      await newUser.save()
-      return res.json(newUser)
     }
+    const newUser = new User({
+      name: req.body.name,
+      email: req.body.email,
+      googleId: req.body.googleId,
+      ageRange: req.body.ageRange,
+      fitnessLevel: req.body.fitnessLevel,
+      gender: req.body.gender,
+      jobDesc: req.body.jobDesc,
+      department: req.body.department
+    })
+    if (req.body.teamSelect) {
+      newUser.teamRandom = false
+    }
+    await newUser.save()
+    return res.json(newUser)
   } catch (err) {
-    errors.server = 'Server error'
-    return res.status(500).json(errors)
+    res.status(500).json({ servererror: 'Server error' })
   }
 })
 

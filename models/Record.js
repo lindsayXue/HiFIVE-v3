@@ -19,6 +19,12 @@ const RecordSchema = new Schema({
     type: Number,
     required: true
   },
+  bonus: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'bonuses'
+    }
+  ],
   points: {
     type: Number,
     required: true
