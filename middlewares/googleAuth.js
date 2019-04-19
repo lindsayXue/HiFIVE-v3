@@ -4,6 +4,7 @@ const clientId =
 const client = new OAuth2Client(clientId)
 
 module.exports = async function(req, res, next) {
+  const errors = {}
   try {
     const ticket = await client.verifyIdToken({
       idToken: req.headers.authorization.split(' ')[1],
@@ -21,6 +22,7 @@ module.exports = async function(req, res, next) {
     req.body.email = email
     next()
   } catch (err) {
-    return res.status(401).send('Unauthorised!')
+    errors.unauthoriseuser = 'Unauthorised user'
+    return res.status(401).json(errors)
   }
 }

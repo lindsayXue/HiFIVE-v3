@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 // Middleware
-// const googleAuth = require('../../middlewares/googleAuth')
+const googleAuth = require('../../middlewares/googleAuth')
 
 // Load Input Validation
 const validateRegisterInput = require('../../validation/register')
@@ -13,16 +13,17 @@ const User = require('../../models/User')
 // @route   GET api/users/login
 // @desc    Login user
 // @access  Public
-router.get('/login', async (req, res) => {
+router.get('/login', googleAuth, async (req, res) => {
   try {
     let user = await User.findOne({ googleId: req.body.googleId })
     if (user) {
       return res.json(user)
     } else {
-      return res.status(400).json('User unregistered')
+      return res.status(404).json({ unregisteruser: 'User unregistered' })
     }
   } catch (err) {
-    console.log(err)
+    errors.server = 'Server error'
+    return res.status(500).json(errors)
   }
 })
 
@@ -57,7 +58,8 @@ router.post('/register', async (req, res) => {
       return res.json(newUser)
     }
   } catch (err) {
-    console.log(err)
+    errors.server = 'Server error'
+    return res.status(500).json(errors)
   }
 })
 
