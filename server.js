@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 
 const users = require('./routes/api/users')
+const records = require('./routes/api/records')
 
 const app = express()
 
@@ -21,6 +22,9 @@ mongoose
 
 // User Routes
 app.use('/api/users', users)
+
+// Record Routes
+app.use('/api/records', records)
 
 const port = process.env.PORT || 5000
 

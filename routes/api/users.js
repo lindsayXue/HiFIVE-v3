@@ -15,7 +15,7 @@ const User = require('../../models/User')
 // @access  Public
 router.get('/login', async (req, res) => {
   try {
-    let user = await user.findOne({ googleId: req.body.googleId })
+    let user = await User.findOne({ googleId: req.body.googleId })
     if (user) {
       return res.json(user)
     } else {
