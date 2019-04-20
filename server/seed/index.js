@@ -1,6 +1,6 @@
 const Team = require('../models/Team')
 const Promise = require('bluebird')
-const teams = require('./teams.json')
+const teams = require('./teams.json.js')
 const mongoose = require('mongoose')
 
 // DB Config
