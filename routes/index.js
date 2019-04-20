@@ -6,6 +6,7 @@ const bonuses = require('./api/bonuses')
 const activity = require('./api/activity')
 const teams = require('./api/teams')
 const hifives = require('./api/hifives')
+const adminPosts = require('./api/adminPosts')
 
 // User Routes
 router.use('/users', users)
@@ -22,7 +23,10 @@ router.use('/activity', activity)
 // Team Routes
 router.use('/teams', teams)
 
-// Team Routes
+// HiFIVE Routes
 router.use('/hifives', hifives)
+
+// Admin posts Routes
+router.use('/adminposts', adminPosts)
 
 module.exports = router
