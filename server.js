@@ -6,6 +6,7 @@ const users = require('./routes/api/users')
 const records = require('./routes/api/records')
 const bonuses = require('./routes/api/bonuses')
 const activity = require('./routes/api/activity')
+const teams = require('./routes/api/teams')
 
 const app = express()
 
@@ -33,6 +34,9 @@ app.use('/api/bonuses', bonuses)
 
 // Activity Routes
 app.use('/api/activity', activity)
+
+// Team Routes
+app.use('/api/teams', teams)
 
 const port = process.env.PORT || 5000
 

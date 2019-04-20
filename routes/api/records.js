@@ -21,8 +21,10 @@ router.get('/', async (req, res) => {
     const errors = {}
     let records
     if (!!req.body.number) {
+      let skip = !req.body.skip ? 0 : req.body.skip
       records = await Record.find()
         .sort({ date: -1 })
+        .skip(Number(skip))
         .limit(Number(req.body.number))
     } else {
       records = await Record.find().sort({ date: -1 })
@@ -86,10 +88,12 @@ router.get('/user', async (req, res) => {
   try {
     let userRecords
     if (!!req.body.number) {
+      let skip = !req.body.skip ? 0 : req.body.skip
       userRecords = await Record.find({ user: req.body.userId })
         .sort({
           date: -1
         })
+        .skip(Number(skip))
         .limit(Number(req.body.number))
     } else {
       userRecords = await Record.find({ user: req.body.userId }).sort({
