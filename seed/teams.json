@@ -1,0 +1,22 @@
+[
+  {
+    "name": "RED",
+    "color": "#F44336"
+  },
+  {
+    "name": "BLUE",
+    "color": "#2196F3"
+  },
+  {
+    "name": "LIME",
+    "color": "#CDDC39"
+  },
+  {
+    "name": "ORANGE",
+    "color": "#FF9800"
+  },
+  {
+    "name": "PINK",
+    "color": "#F48FB1"
+  }
+]

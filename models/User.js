@@ -43,6 +43,11 @@ const UserSchema = new Schema({
     type: Number,
     default: 0
   },
+  team: {
+    type: Schema.Types.ObjectId,
+    ref: 'teams',
+    required: true
+  },
   teamRandom: {
     type: Boolean,
     default: true

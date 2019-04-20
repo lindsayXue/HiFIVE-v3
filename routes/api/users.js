@@ -13,6 +13,9 @@ const User = require('../../models/User')
 // Load Activity model
 const Activity = require('../../models/Activity')
 
+// Load Team model
+const Team = require('../../models/Team')
+
 // @route   GET api/users/login
 // @desc    Login user
 // @access  Public
@@ -58,10 +61,21 @@ router.post('/register', async (req, res) => {
       jobDesc: req.body.jobDesc,
       department: req.body.department
     })
-    if (req.body.teamSelect) {
+    if (!!req.body.teamSelect) {
       newUser.teamRandom = false
+      newUser.team = req.body.team
+    } else {
+      const team = await Team.find()
+        .sort({ member: 1 })
+        .limit(1)
+      newUser.team = team[0]._id
     }
-    await newUser.save()
+
+    // Add team member
+    console.log('add team member', newUser.team)
+    await Team.findByIdAndUpdate(newUser.team, {
+      $inc: { member: 1 }
+    })
 
     // Add participant to activity
     await Activity.findOneAndUpdate(
@@ -70,6 +84,7 @@ router.post('/register', async (req, res) => {
         $inc: { participant: 1 }
       }
     )
+    await newUser.save()
     return res.json(newUser)
   } catch (err) {
     console.log(err)
