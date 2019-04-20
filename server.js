@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const users = require('./routes/api/users')
 const records = require('./routes/api/records')
 const bonuses = require('./routes/api/bonuses')
+const activity = require('./routes/api/activity')
 
 const app = express()
 
@@ -29,6 +30,9 @@ app.use('/api/records', records)
 
 // Bonus Routes
 app.use('/api/bonuses', bonuses)
+
+// Activity Routes
+app.use('/api/activity', activity)
 
 const port = process.env.PORT || 5000
 
