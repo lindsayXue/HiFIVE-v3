@@ -15,15 +15,17 @@ const AdminPostSchema = new Schema({
     {
       user: {
         type: Schema.Types.ObjectId,
-        ref: 'users'
+        ref: 'users',
+        required: true
       }
     }
   ],
-  comment: [
+  comments: [
     {
       user: {
         type: Schema.Types.ObjectId,
-        ref: 'users'
+        ref: 'users',
+        required: true
       },
       text: {
         type: String,

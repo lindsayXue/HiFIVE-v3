@@ -5,7 +5,8 @@ const Schema = mongoose.Schema
 const RecordSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
-    ref: 'users'
+    ref: 'users',
+    required: true
   },
   date: {
     type: Date,

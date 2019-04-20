@@ -5,11 +5,13 @@ const Schema = mongoose.Schema
 const HiFIVESchema = new Schema({
   sender: {
     type: Schema.Types.ObjectId,
-    ref: 'users'
+    ref: 'users',
+    required: true
   },
   receiver: {
     type: Schema.Types.ObjectId,
-    ref: 'users'
+    ref: 'users',
+    required: true
   },
   reason: {
     type: String,
