@@ -4,6 +4,9 @@ const router = express.Router()
 // Load Record model
 const Record = require('../../models/Record')
 
+// Load User model
+const User = require('../../models/User')
+
 // Load Validator
 const validateRecordInput = require('../../validation/record')
 
@@ -55,6 +58,12 @@ router.post('/add', async (req, res) => {
       points: req.body.points
     })
     await newRecord.save()
+
+    // Add points to user
+    await User.findByIdAndUpdate(req.body.userId, {
+      $inc: { points: req.body.points }
+    })
+
     res.json(newRecord)
   } catch (err) {
     console.log(err)
