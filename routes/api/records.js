@@ -11,9 +11,9 @@ const validateRecordInput = require('../../validation/record')
 // @desc    Get all records
 // @access  Public
 router.get('/', async (req, res) => {
-  const errors = {}
-  let records
   try {
+    const errors = {}
+    let records
     if (!!req.body.number) {
       records = await Record.find()
         .sort({ date: -1 })
@@ -37,15 +37,15 @@ router.get('/', async (req, res) => {
 // @desc    Create a record
 // @access  Private
 router.post('/add', async (req, res) => {
-  const { errors, isValid } = validateRecordInput(req.body)
-
-  // Check Validation
-  if (!isValid) {
-    // If any errors, send 400 with errors object
-    return res.status(400).json(errors)
-  }
-
   try {
+    const { errors, isValid } = validateRecordInput(req.body)
+
+    // Check Validation
+    if (!isValid) {
+      // If any errors, send 400 with errors object
+      return res.status(400).json(errors)
+    }
+
     const newRecord = new Record({
       user: req.body.userId,
       date: req.body.date,
