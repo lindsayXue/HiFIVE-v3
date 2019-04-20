@@ -10,6 +10,9 @@ const validateRegisterInput = require('../../validation/register')
 // Load User model
 const User = require('../../models/User')
 
+// Load Activity model
+const Activity = require('../../models/Activity')
+
 // @route   GET api/users/login
 // @desc    Login user
 // @access  Public
@@ -59,8 +62,17 @@ router.post('/register', async (req, res) => {
       newUser.teamRandom = false
     }
     await newUser.save()
+
+    // Add participant to activity
+    await Activity.findOneAndUpdate(
+      {},
+      {
+        $inc: { participant: 1 }
+      }
+    )
     return res.json(newUser)
   } catch (err) {
+    console.log(err)
     res.status(500).json({ servererror: 'Server error' })
   }
 })
