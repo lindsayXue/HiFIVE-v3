@@ -125,4 +125,50 @@ router.post('/register', async (req, res) => {
   }
 })
 
+// @route   PUT api/users/edit
+// @desc    Edit user
+// @access  Admin
+router.put('/edit', async (req, res) => {
+  try {
+    let editUser
+    let userBefore = await User.findById(req.body.userId) // Get user original data
+
+    // when edit user team
+    if (!!req.body.team) {
+      editUser = await User.findByIdAndUpdate(req.body.userId, {
+        points: req.body.points,
+        hifive: req.body.hifive,
+        teamRandom: false,
+        team: req.body.team,
+        accountState: req.body.accountState
+      })
+
+      // Edit team member and points
+      await Team.findByIdAndUpdate(userBefore.team, {
+        $inc: { member: -1, points: -userBefore.points }
+      })
+
+      await Team.findByIdAndUpdate(req.body.team, {
+        $inc: { member: 1, points: req.body.points }
+      })
+    } else {
+      editUser = await User.findByIdAndUpdate(req.body.userId, {
+        points: req.body.points,
+        hifive: req.body.hifive,
+        accountState: req.body.accountState
+      })
+
+      // Edit team points
+      let pointsDiff = req.body.points - userBefore.points
+      await Team.findByIdAndUpdate(userBefore.team, {
+        $inc: { points: pointsDiff }
+      })
+    }
+    res.json(editUser)
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ servererror: 'Server error' })
+  }
+})
+
 module.exports = router
