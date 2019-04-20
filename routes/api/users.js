@@ -72,10 +72,14 @@ router.post('/register', async (req, res) => {
     }
 
     // Add team member
-    console.log('add team member', newUser.team)
-    await Team.findByIdAndUpdate(newUser.team, {
+    const teamUpdate = await Team.findByIdAndUpdate(newUser.team, {
       $inc: { member: 1 }
     })
+
+    if (!teamUpdate) {
+      errors.noteamfound = 'No team found'
+      return res.status(400).json(errors)
+    }
 
     // Add participant to activity
     await Activity.findOneAndUpdate(
@@ -84,6 +88,7 @@ router.post('/register', async (req, res) => {
         $inc: { participant: 1 }
       }
     )
+
     await newUser.save()
     return res.json(newUser)
   } catch (err) {
