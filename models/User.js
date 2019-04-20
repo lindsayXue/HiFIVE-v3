@@ -39,7 +39,7 @@ const UserSchema = new Schema({
     type: Number,
     default: 0
   },
-  hiFive: {
+  hifive: {
     type: Number,
     default: 0
   },

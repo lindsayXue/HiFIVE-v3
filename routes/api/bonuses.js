@@ -26,9 +26,8 @@ router.get('/', async (req, res) => {
     if (bonuses.length == 0) {
       errors.nobonusesfound = 'No bonuses found'
       return res.status(404).json(errors)
-    } else {
-      res.json(bonuses)
     }
+    res.json(bonuses)
   } catch (err) {
     console.log(err)
     res.status(500).json({ servererror: 'Server error' })

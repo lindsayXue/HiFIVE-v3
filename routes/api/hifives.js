@@ -4,8 +4,74 @@ const router = express.Router()
 // Load Team model
 const HiFIVE = require('../../models/HiFIVE')
 
+// Load User model
+const User = require('../../models/User')
+
+// Load Validator
+const validateHiFIVEInput = require('../../validation/hifive')
+
 // @route   GET api/hifives
 // @desc    Get all hifives
 // @access  Public
+router.get('/', async (req, res) => {
+  try {
+    const errors = {}
+    let hifives
+    if (!!req.body.number) {
+      let skip = !req.body.skip ? 0 : req.body.skip
+      hifives = await HiFIVE.find()
+        .sort({ createdAt: -1 })
+        .skip(Number(skip))
+        .limit(Number(req.body.number))
+        .populate({ path: 'sender', select: 'name' })
+        .populate({ path: 'receiver', select: 'name' })
+    } else {
+      hifives = await HiFIVE.find()
+        .sort({ createdAt: -1 })
+        .populate({ path: 'sender', select: 'name' })
+        .populate({ path: 'receiver', select: 'name' })
+    }
+    if (hifives.length == 0) {
+      errors.nohifivesfound = 'No hifives found'
+      return res.status(404).json(errors)
+    }
+    res.json(hifives)
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ servererror: 'Server error' })
+  }
+})
+
+// @route   POST api/hifives/add
+// @desc    Add a hifive
+// @access  Private
+router.post('/add', async (req, res) => {
+  try {
+    const { errors, isValid } = validateHiFIVEInput(req.body)
+
+    // Check Validation
+    if (!isValid) {
+      // If any errors, send 400 with errors object
+      return res.status(400).json(errors)
+    }
+
+    const newHiFIVE = new HiFIVE({
+      sender: req.body.sender,
+      receiver: req.body.receiver,
+      reason: req.body.reason
+    })
+
+    // Add hifive point to receiver
+    await User.findByIdAndUpdate(req.body.receiver, {
+      $inc: { hifive: 1 }
+    })
+
+    newHiFIVE.save()
+    res.json(newHiFIVE)
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ servererror: 'Server error' })
+  }
+})
 
 module.exports = router
