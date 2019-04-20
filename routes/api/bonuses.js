@@ -15,8 +15,10 @@ router.get('/', async (req, res) => {
     const errors = {}
     let bonuses
     if (!!req.body.number) {
+      let skip = !req.body.skip ? 0 : req.body.skip
       bonuses = await Bonus.find()
         .sort({ createdAt: -1 })
+        .skip(Number(skip))
         .limit(Number(req.body.number))
     } else {
       bonuses = await Bonus.find().sort({ createdAt: -1 })

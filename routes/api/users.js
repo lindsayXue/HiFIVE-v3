@@ -16,6 +16,34 @@ const Activity = require('../../models/Activity')
 // Load Team model
 const Team = require('../../models/Team')
 
+// @route   GET api/users
+// @desc    Get all users
+// @access  Public
+router.get('/', async (req, res) => {
+  try {
+    const errors = {}
+    let users
+    if (!!req.body.number) {
+      let skip = !req.body.skip ? 0 : req.body.skip
+      users = await User.find()
+        .sort({ createdAt: -1 })
+        .skip(Number(skip))
+        .limit(Number(req.body.number))
+    } else {
+      users = await User.find().sort({ createdAt: -1 })
+    }
+    if (users.length == 0) {
+      errors.nouserfound = 'No user found'
+      return res.status(404).json(errors)
+    } else {
+      res.json(users)
+    }
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ servererror: 'Server error' })
+  }
+})
+
 // @route   GET api/users/login
 // @desc    Login user
 // @access  Public
