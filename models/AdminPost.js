@@ -14,7 +14,7 @@ const AdminPostSchema = new Schema({
   likes: [
     {
       user: {
-        type: Schema.Types.ObjectId,
+        type: String,
         ref: 'users',
         required: true
       }
@@ -23,7 +23,7 @@ const AdminPostSchema = new Schema({
   comments: [
     {
       user: {
-        type: Schema.Types.ObjectId,
+        type: String,
         ref: 'users',
         required: true
       },

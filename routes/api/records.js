@@ -55,7 +55,7 @@ router.post('/add', async (req, res) => {
     }
 
     const newRecord = new Record({
-      user: req.body.userId,
+      user: req.body.googleId,
       date: req.body.date,
       type: req.body.type,
       duration: req.body.duration,
@@ -64,7 +64,7 @@ router.post('/add', async (req, res) => {
     })
 
     // Add points to user
-    const updateUser = await User.findByIdAndUpdate(req.body.userId, {
+    const updateUser = await User.findByIdAndUpdate(req.body.googleId, {
       $inc: { points: req.body.points }
     })
 
@@ -89,14 +89,14 @@ router.get('/user', async (req, res) => {
     let userRecords
     if (!!req.body.number) {
       let skip = !req.body.skip ? 0 : req.body.skip
-      userRecords = await Record.find({ user: req.body.userId })
+      userRecords = await Record.find({ user: req.body.googleId })
         .sort({
           date: -1
         })
         .skip(Number(skip))
         .limit(Number(req.body.number))
     } else {
-      userRecords = await Record.find({ user: req.body.userId }).sort({
+      userRecords = await Record.find({ user: req.body.googleId }).sort({
         date: -1
       })
     }

@@ -90,7 +90,7 @@ router.post('/like/:id', async (req, res) => {
   try {
     const post = await AdminPost.findById(req.params.id)
     if (
-      post.likes.filter(like => like.user.toString() === req.body.userId)
+      post.likes.filter(like => like.user.toString() === req.body.googleId)
         .length > 0
     ) {
       return res
@@ -98,7 +98,7 @@ router.post('/like/:id', async (req, res) => {
         .json({ alreadyliked: 'User already liked this post' })
     }
 
-    post.likes.unshift({ user: req.body.userId })
+    post.likes.unshift({ user: req.body.googleId })
     await post.save()
     res.json(post)
   } catch (err) {
@@ -114,7 +114,7 @@ router.post('/unlike/:id', async (req, res) => {
   try {
     const post = await AdminPost.findById(req.params.id)
     if (
-      post.likes.filter(like => like.user.toString() === req.body.userId)
+      post.likes.filter(like => like.user.toString() === req.body.googleId)
         .length === 0
     ) {
       return res.status(400).json({ notliked: 'You have not liked this post' })
@@ -122,7 +122,7 @@ router.post('/unlike/:id', async (req, res) => {
 
     // Get remove index
     const removeIndex = post.likes.map(like =>
-      like.user.toString().indexOf(req.body.userId)
+      like.user.toString().indexOf(req.body.googleId)
     )
 
     // Splice out of array
@@ -150,7 +150,7 @@ router.post('/comment/:id', async (req, res) => {
     }
 
     const newComment = {
-      user: req.body.userId,
+      user: req.body.googleId,
       text: req.body.text
     }
     const post = await AdminPost.findById(req.params.id)

@@ -50,7 +50,7 @@ router.get('/', async (req, res) => {
 router.get('/login', async (req, res) => {
   const errors = {}
   try {
-    let user = await User.findOne({ googleId: req.body.googleId })
+    let user = await User.findById(req.body.googleId)
     if (user) {
       return res.json(user)
     } else {
@@ -66,23 +66,23 @@ router.get('/login', async (req, res) => {
 // @desc    Register user
 // @access  Public
 router.post('/register', async (req, res) => {
-  const { errors, isValid } = validateRegisterInput(req.body)
-
-  // Check Validation
-  if (!isValid) {
-    return res.status(400).json(errors)
-  }
-
   try {
-    let user = await User.findOne({ googleId: req.body.googleId })
+    const { errors, isValid } = validateRegisterInput(req.body)
+
+    // Check Validation
+    if (!isValid) {
+      return res.status(400).json(errors)
+    }
+
+    let user = await User.findById(req.body.googleId)
     if (user) {
-      errors.googleId = 'User already exists'
+      errors.userexists = 'User already exists'
       return res.status(400).json(errors)
     }
     const newUser = new User({
+      _id: req.body.googleId,
       name: req.body.name,
       email: req.body.email,
-      googleId: req.body.googleId,
       ageRange: req.body.ageRange,
       fitnessLevel: req.body.fitnessLevel,
       gender: req.body.gender,
@@ -91,6 +91,10 @@ router.post('/register', async (req, res) => {
     })
     if (!!req.body.teamSelect) {
       newUser.teamRandom = false
+      if (!req.body.team) {
+        errors.team = 'Team field is required'
+        return res.status(400).json(errors)
+      }
       newUser.team = req.body.team
     } else {
       const team = await Team.find()
@@ -131,11 +135,10 @@ router.post('/register', async (req, res) => {
 router.put('/edit', async (req, res) => {
   try {
     let editUser
-    let userBefore = await User.findById(req.body.userId) // Get user original data
 
     // when edit user team
     if (!!req.body.team) {
-      editUser = await User.findByIdAndUpdate(req.body.userId, {
+      editUser = await User.findByIdAndUpdate(req.body.googleId, {
         points: req.body.points,
         hifive: req.body.hifive,
         teamRandom: false,
@@ -144,23 +147,23 @@ router.put('/edit', async (req, res) => {
       })
 
       // Edit team member and points
-      await Team.findByIdAndUpdate(userBefore.team, {
-        $inc: { member: -1, points: -userBefore.points }
+      await Team.findByIdAndUpdate(editUser.team, {
+        $inc: { member: -1, points: -editUser.points }
       })
 
       await Team.findByIdAndUpdate(req.body.team, {
         $inc: { member: 1, points: req.body.points }
       })
     } else {
-      editUser = await User.findByIdAndUpdate(req.body.userId, {
+      editUser = await User.findByIdAndUpdate(req.body.googleId, {
         points: req.body.points,
         hifive: req.body.hifive,
         accountState: req.body.accountState
       })
 
       // Edit team points
-      let pointsDiff = req.body.points - userBefore.points
-      await Team.findByIdAndUpdate(userBefore.team, {
+      let pointsDiff = req.body.points - editUser.points
+      await Team.findByIdAndUpdate(editUser.team, {
         $inc: { points: pointsDiff }
       })
     }

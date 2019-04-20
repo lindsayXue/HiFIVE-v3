@@ -3,6 +3,11 @@ const Schema = mongoose.Schema
 
 // Create Schema
 const UserSchema = new Schema({
+  _id: {
+    type: String,
+    required: true,
+    unique: true
+  },
   name: {
     type: String,
     required: true
@@ -10,10 +15,6 @@ const UserSchema = new Schema({
   email: {
     type: String,
     required: true // Not sure whether it is required
-  },
-  googleId: {
-    type: String,
-    required: true
   },
   ageRange: {
     type: String,
