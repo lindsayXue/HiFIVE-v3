@@ -15,6 +15,10 @@ const ActivitySchema = new Schema({
     type: Number,
     default: 0
   },
+  points: {
+    type: Number,
+    default: 0
+  },
   createdAt: {
     type: Date,
     default: Date.now

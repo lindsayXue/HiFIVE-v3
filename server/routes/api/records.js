@@ -10,6 +10,9 @@ const User = require('../../models/User')
 // Load Team model
 const Team = require('../../models/Team')
 
+// Load Activity model
+const Activity = require('../../models/Activity')
+
 // Load Validator
 const validateRecordInput = require('../../validation/record')
 
@@ -72,6 +75,14 @@ router.post('/add', async (req, res) => {
     await Team.findByIdAndUpdate(updateUser.team, {
       $inc: { points: req.body.points }
     })
+
+    // Add points to activity
+    await Activity.findOneAndUpdate(
+      {},
+      {
+        $inc: { points: req.body.points }
+      }
+    )
 
     await newRecord.save()
     res.json(newRecord)

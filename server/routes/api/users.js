@@ -134,16 +134,20 @@ router.post('/register', async (req, res) => {
 // @access  Admin
 router.put('/edit', async (req, res) => {
   try {
-    let editUser
+    let editUser = await User.findByIdAndUpdate(req.body.googleId, {
+      points: req.body.points,
+      hifive: req.body.hifive,
+      team: req.body.team,
+      accountState: req.body.accountState
+    })
 
-    // when edit user team
-    if (!!req.body.team) {
-      editUser = await User.findByIdAndUpdate(req.body.googleId, {
-        points: req.body.points,
-        hifive: req.body.hifive,
-        teamRandom: false,
-        team: req.body.team,
-        accountState: req.body.accountState
+    let pointsDiff = req.body.points - editUser.points
+
+    // When edit team
+    if (editUser.team !== req.body.team) {
+      // Set teamRandom to false
+      await User.findByIdAndUpdate(req.body.googleId, {
+        teamRandom: false
       })
 
       // Edit team member and points
@@ -155,18 +159,60 @@ router.put('/edit', async (req, res) => {
         $inc: { member: 1, points: req.body.points }
       })
     } else {
-      editUser = await User.findByIdAndUpdate(req.body.googleId, {
-        points: req.body.points,
-        hifive: req.body.hifive,
-        accountState: req.body.accountState
-      })
-
       // Edit team points
-      let pointsDiff = req.body.points - editUser.points
       await Team.findByIdAndUpdate(editUser.team, {
         $inc: { points: pointsDiff }
       })
     }
+
+    // Edit activity points
+    await Activity.findOneAndUpdate(
+      {},
+      {
+        $inc: { points: pointsDiff }
+      }
+    )
+
+    // // when edit user team
+    // if (!!req.body.team) {
+    //   editUser = await User.findByIdAndUpdate(req.body.googleId, {
+    //     points: req.body.points,
+    //     hifive: req.body.hifive,
+    //     teamRandom: false,
+    //     team: req.body.team,
+    //     accountState: req.body.accountState
+    //   })
+
+    //   // Edit team member and points
+    //   await Team.findByIdAndUpdate(editUser.team, {
+    //     $inc: { member: -1, points: -editUser.points }
+    //   })
+
+    //   await Team.findByIdAndUpdate(req.body.team, {
+    //     $inc: { member: 1, points: req.body.points }
+    //   })
+    // } else {
+    //   editUser = await User.findByIdAndUpdate(req.body.googleId, {
+    //     points: req.body.points,
+    //     hifive: req.body.hifive,
+    //     accountState: req.body.accountState
+    //   })
+
+    //   // Edit team points
+    //   let pointsDiff = req.body.points - editUser.points
+    //   await Team.findByIdAndUpdate(editUser.team, {
+    //     $inc: { points: pointsDiff }
+    //   })
+    // }
+    // // Edit activity points
+    // let pointsDiff = req.body.points - editUser.points
+    // await Activity.findOneAndUpdate(
+    //   {},
+    //   {
+    //     $inc: { points: pointsDiff }
+    //   }
+    // )
+
     res.json(editUser)
   } catch (err) {
     console.log(err)
