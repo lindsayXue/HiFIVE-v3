@@ -1,48 +1,56 @@
-import React from 'react'
+import React, { Component } from 'react'
+import Rank from './Rank'
+import { Link } from 'react-router-dom'
 
-const Contribution = () => {
-  return (
-    <div>
-      <h5 className="card-header text-info">
-        Contribution
-        <a href="#" className="btn btn-info float-right">
-          More
-        </a>
-      </h5>
+class Contribution extends Component {
+  render() {
+    const userWinner = [
+      {
+        name: 'Lingzi Xue',
+        points: 2000
+      },
+      {
+        name: 'Yuanjie Wu',
+        points: 1900
+      },
+      {
+        name: 'Zhinan Wu',
+        points: 1800
+      }
+    ]
 
-      <div className="card-body">
-        <div
-          id="carouselExampleControls"
-          className="carousel slide"
-          data-ride="carousel"
-        >
-          <div className="carousel-inner text-center">
-            <div className="carousel-item active">111111</div>
-            <div className="carousel-item">222222</div>
-            <div className="carousel-item">333333</div>
-          </div>
-          <a
-            className="carousel-control-prev"
-            href="#carouselExampleControls"
-            role="button"
-            data-slide="prev"
-          >
-            <span className="carousel-control-prev-icon" aria-hidden="true" />
-            <span className="sr-only">Previous</span>
-          </a>
-          <a
-            className="carousel-control-next"
-            href="#carouselExampleControls"
-            role="button"
-            data-slide="next"
-          >
-            <span className="carousel-control-next-icon" aria-hidden="true" />
-            <span className="sr-only">Next</span>
-          </a>
+    const teamWinner = [
+      {
+        name: 'RED',
+        points: 2000
+      },
+      {
+        name: 'BLUE',
+        points: 1900
+      },
+      {
+        name: 'LIME',
+        points: 1800
+      }
+    ]
+
+    return (
+      <div>
+        <h5 className="card-header">
+          Contribution
+          <Link to="/contribution">
+            <button type="button" className="btn btn-sm btn-info float-right">
+              View More
+            </button>
+          </Link>
+        </h5>
+        <div className="card-body my-auto">
+          <Rank title="Personal" data={userWinner} />
+          <Rank title="Team" data={teamWinner} />
         </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
 
 export default Contribution

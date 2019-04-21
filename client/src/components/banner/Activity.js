@@ -14,7 +14,7 @@ const Activity = () => {
           <i className="fas fa-users" /> 0
         </p>
         <Link to="/posts">
-          <button type="button" class="btn btn-info btn-sm">
+          <button type="button" className="btn btn-info btn-sm">
             Posts board
           </button>
         </Link>
