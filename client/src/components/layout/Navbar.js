@@ -6,14 +6,14 @@ import Logo from '../../assets/hifive.png'
 class Navbar extends Component {
   render() {
     return (
-      <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
+      <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
         <div className="container">
           <Link className="navbar-brand" to="/">
             <img
               src={Logo}
               width="30"
               height="30"
-              class="d-inline-block align-top"
+              className="d-inline-block align-top"
               alt="Logo"
             />{' '}
             HiFIVE
@@ -44,8 +44,7 @@ class Navbar extends Component {
             </ul>
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
-                <a href="" className="nav-link">
-                  {' '}
+                <a href="/" className="nav-link">
                   Logout
                 </a>
               </li>

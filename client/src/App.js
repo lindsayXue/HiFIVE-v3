@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
+import Landing from './components/layout/Landing'
 // import Login from './components/auth/Login'
 // import Register from './components/auth/Register'
 import Home from './components/home/Home'
@@ -16,6 +17,7 @@ class App extends Component {
       <Router>
         <div className="App">
           <Navbar />
+          <Landing />
           <div className="container">
             <Route exact path="/home" component={Home} />
             <Route exact path="/user" component={User} />
