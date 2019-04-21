@@ -11,7 +11,7 @@ const ActivitySchema = new Schema({
     type: Date,
     required: true
   },
-  participant: {
+  participants: {
     type: Number,
     default: 0
   },

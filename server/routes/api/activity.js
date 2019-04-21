@@ -21,7 +21,7 @@ router.get('/', async (req, res) => {
       errors.noactivity = 'No activity'
       return res.status(400).json(errors)
     }
-    res.json(activity)
+    res.json(activity[0])
   } catch (err) {
     console.log(err)
     res.status(500).json({ servererror: 'Server error' })
