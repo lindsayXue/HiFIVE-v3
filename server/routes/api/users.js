@@ -113,11 +113,11 @@ router.post('/register', async (req, res) => {
       return res.status(400).json(errors)
     }
 
-    // Add participant to activity
+    // Add participants to activity
     await Activity.findOneAndUpdate(
       {},
       {
-        $inc: { participant: 1 }
+        $inc: { participants: 1 }
       }
     )
 

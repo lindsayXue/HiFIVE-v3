@@ -1,18 +1,11 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { getActivity } from '../../actions/activityAction'
+// import PropTypes from 'prop-types'
+// import { connect } from 'react-redux'
 import TimeBoard from './TimeBoard'
 import PostCarousel from './postCarousel'
 
 class Banner extends Component {
-  componentDidMount() {
-    this.props.getActivity()
-  }
-
   render() {
-    const { activity } = this.props
-
     return (
       <div>
         <div className="banner bg-light row justice-content-around">
@@ -28,7 +21,7 @@ class Banner extends Component {
             </p>
           </div>
           <div className="col-md-3 my-auto">
-            <TimeBoard Activity={activity.activity} />
+            <TimeBoard />
           </div>
         </div>
         <PostCarousel />
@@ -37,16 +30,4 @@ class Banner extends Component {
   }
 }
 
-Banner.propTypes = {
-  activity: PropTypes.object.isRequired,
-  getActivity: PropTypes.func.isRequired
-}
-
-const mapStateToProps = state => ({
-  activity: state.activity
-})
-
-export default connect(
-  mapStateToProps,
-  { getActivity }
-)(Banner)
+export default Banner

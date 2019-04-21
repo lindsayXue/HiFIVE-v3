@@ -1,11 +1,7 @@
 import { SET_CURRENT_ACTIVITY } from '../actions/types'
 
 const initialState = {
-  activity: {
-    start: '',
-    end: '',
-    participants: 0
-  }
+  activity: {}
 }
 
 export default function(state = initialState, action) {

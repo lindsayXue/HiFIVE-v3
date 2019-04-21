@@ -42,12 +42,12 @@ router.post('/', async (req, res) => {
     }
 
     const users = await User.find()
-    const participant = users.length
+    const participants = users.length
 
     const newActivity = new Activity({
       start: req.body.start,
       end: req.body.end,
-      participant
+      participants
     })
     await newActivity.save()
     res.json(newActivity)
