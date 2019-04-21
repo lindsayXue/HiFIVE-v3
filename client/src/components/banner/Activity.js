@@ -5,7 +5,7 @@ const Activity = () => {
   return (
     <div className="card mx-auto" style={{ width: '15rem' }}>
       <div className="card-body text-center">
-        <h5 className="card-title ">Activity</h5>
+        <h5 className="card-title text-info">Activity</h5>
         <hr />
         <p className="card-text">
           <i className="fas fa-clock" /> time - time
