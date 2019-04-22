@@ -50,7 +50,6 @@ router.get('/', async (req, res) => {
 router.post('/login', async (req, res) => {
   const errors = {}
   try {
-    console.log(req.body)
     let user = await User.findById(req.body.googleId)
     if (user) {
       return res.json(user)

@@ -26,10 +26,11 @@ export const setCurrentUser = user => {
 // Login User
 export const loginUser = (googleId, history) => async dispatch => {
   try {
-    const user = await AuthService.login(googleId)
-    console.log(user)
-    dispatch(setCurrentUser(user))
-    // history.push('/user/home')
+    const user = await AuthService.login({
+      googleId
+    })
+    dispatch(setCurrentUser(user.data))
+    history.push('/user/home')
   } catch (err) {
     dispatch({
       type: GET_ERRORS,
