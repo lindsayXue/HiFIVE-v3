@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 // Middleware
-// const googleAuth = require('../../middlewares/googleAuth')
+const googleAuth = require('../../middlewares/googleAuth')
 
 // Load Input Validation
 const validateRegisterInput = require('../../validation/register')
@@ -47,17 +47,17 @@ router.get('/', async (req, res) => {
 // @route   POST api/users/login
 // @desc    Login user
 // @access  Public
-router.post('/login', async (req, res) => {
-  const errors = {}
+router.post('/login', googleAuth, async (req, res) => {
   try {
+    console.log(req.body.googleId)
     let user = await User.findById(req.body.googleId)
     if (user) {
       return res.json(user)
     } else {
-      errors.unregisteruser = 'User unregistered'
-      return res.status(404).json(errors)
+      return res.status(404).json({ unregisteruser: 'User unregister' })
     }
   } catch (err) {
+    console.log(err)
     res.status(500).json({ servererror: 'Server error' })
   }
 })

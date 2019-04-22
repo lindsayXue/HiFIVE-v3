@@ -23,18 +23,26 @@ export const setCurrentUser = user => {
   }
 }
 
-// Login User
-export const loginUser = (googleId, history) => async dispatch => {
+// Log user in
+export const loginUser = (googleToken, history) => async dispatch => {
   try {
-    const user = await AuthService.login({
-      googleId
-    })
-    dispatch(setCurrentUser(user.data))
+    const res = await AuthService.login(googleToken)
+    dispatch(setCurrentUser(res.data))
     history.push('/user/home')
   } catch (err) {
+    if (err.response.status === 404) {
+      history.push('/register')
+      return
+    }
     dispatch({
       type: GET_ERRORS,
       payload: err.response.data
     })
   }
+}
+
+// Log user out
+export const logoutUser = history => dispatch => {
+  // Set current user to {} which will set isAuthenticated to false
+  dispatch(setCurrentUser({}))
 }

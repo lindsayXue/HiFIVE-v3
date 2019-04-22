@@ -6,43 +6,55 @@ import PropTypes from 'prop-types'
 
 class Login extends Component {
   state = {
-    googleId: '',
-    errors: {}
+    googleToken: '',
+    inputError: ''
   }
 
   onChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
+    this.setState({ [e.target.name]: e.target.value })
   }
 
   onSubmit = e => {
     e.preventDefault()
 
-    this.props.loginUser(this.state.googleId, this.props.history)
+    if (!this.state.googleToken) {
+      this.setState({ inputError: 'Required' })
+      return
+    }
+
+    this.props.loginUser(
+      { googleToken: this.state.googleToken },
+      this.props.history
+    )
   }
 
   render() {
-    const { googleId, errors } = this.state
+    const { errors } = this.props
+    const { googleToken, inputError } = this.state
+
     return (
       <div className="login my-4 mx-4">
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
               <h1 className="display-4 text-left text-info">Log In</h1>
-              <p className="lead text-left text-muted">
-                Sign in with your Google account
-              </p>
               <form onSubmit={this.onSubmit}>
                 <TextFieldGroup
-                  placeholder="Google ID"
-                  name="googleId"
-                  value={googleId}
+                  name="googleToken"
+                  placeHolder="Google Token"
+                  value={googleToken}
                   onChange={this.onChange}
-                  error={errors.googleId}
+                  error={inputError}
                 />
                 <input type="submit" className="btn btn-info btn-block mt-4" />
               </form>
+              {!!errors.unregisteruser || errors.servererror ? (
+                <div className="alert alert-danger" role="alert">
+                  {errors.unregisteruser || errors.servererror}
+                </div>
+              ) : (
+                ''
+              )}
             </div>
           </div>
         </div>
@@ -55,11 +67,12 @@ Login.propTypes = {
   loginUser: PropTypes.func.isRequired
 }
 
-// const mapStateToProps = state => {
-//   auth: state.auth
-// }
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+})
 
 export default connect(
-  null,
+  mapStateToProps,
   { loginUser }
 )(Login)

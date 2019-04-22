@@ -1,9 +1,16 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-
+import { connect } from 'react-redux'
+import { logoutUser } from '../../actions/authAction'
 import Logo from '../../assets/hifive.png'
 
 class Navbar extends Component {
+  onLogoutClick = e => {
+    e.preventDefault()
+
+    this.props.logoutUser()
+  }
+
   render() {
     return (
       <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
@@ -44,7 +51,7 @@ class Navbar extends Component {
             </ul>
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
-                <a href="/" className="nav-link">
+                <a onClick={this.onLogoutClick} href="/" className="nav-link">
                   Logout
                 </a>
               </li>
@@ -56,4 +63,7 @@ class Navbar extends Component {
   }
 }
 
-export default Navbar
+export default connect(
+  null,
+  { logoutUser }
+)(Navbar)
