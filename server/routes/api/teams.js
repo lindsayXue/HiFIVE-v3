@@ -22,4 +22,23 @@ router.get('/', async (req, res) => {
   }
 })
 
+// @route   GET api/teams/:id
+// @desc    Get a team
+// @access  Public
+router.get('/:id', async (req, res) => {
+  try {
+    const errors = {}
+    console.log(req.params)
+    const team = await Team.findById(req.params.id)
+    if (team.length == 0) {
+      errors.noteamfound = 'No team found'
+      return res.status(400).json(errors)
+    }
+
+    res.json(team)
+  } catch (err) {
+    res.status(500).json({ servererror: 'Server error' })
+  }
+})
+
 module.exports = router

@@ -10,6 +10,7 @@ import { withRouter } from 'react-router-dom'
 
 class Register extends Component {
   state = {
+    googleToken: '',
     name: '',
     ageRange: '',
     gender: '',
@@ -25,7 +26,7 @@ class Register extends Component {
     if (this.props.auth.isAuthenticated) {
       this.props.history.push('/user/home')
     }
-    const res = await TeamService.index()
+    const res = await TeamService.getTeams()
     const teams = res.data
     let teamOptions = teams.map(team => {
       return {
@@ -54,6 +55,7 @@ class Register extends Component {
     e.preventDefault()
 
     const newUser = {
+      googleToken: this.state.googleToken,
       name: this.state.name,
       ageRange: this.state.ageRange,
       gender: this.state.gender,
@@ -64,15 +66,13 @@ class Register extends Component {
       team: this.state.team
     }
 
-    // Add google token
-    newUser.googleToken = '555555'
-
     console.log(newUser)
     this.props.registerUser(newUser, this.props.history)
   }
 
   render() {
     const {
+      googleToken,
       name,
       ageRange,
       gender,
@@ -123,6 +123,14 @@ class Register extends Component {
             <div className="col-md-6 m-auto">
               <h1 className="text-center text-info m-4">Sign Up</h1>
               <form onSubmit={this.onSubmit}>
+                <InputGroup
+                  placeholder="Google Token"
+                  label="Google Token"
+                  name="googleToken"
+                  value={googleToken}
+                  onChange={this.onChange}
+                  error={errors.googleToken}
+                />
                 <InputGroup
                   placeholder="Name"
                   label="Name"

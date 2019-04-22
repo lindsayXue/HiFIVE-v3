@@ -1,9 +1,28 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import TeamService from '../../services/user/TeamService'
 import TimeBoard from './TimeBoard'
 import PostCarousel from './postCarousel'
 
 class Banner extends Component {
+  state = {
+    team: ''
+  }
+
+  async componentDidMount() {
+    const res = await TeamService.getUserTeam(this.props.auth.user.team)
+    this.setState({ team: res.data })
+  }
+
   render() {
+    const { user } = this.props.auth
+    const { team } = this.state
+
+    const flagStyle = {
+      color: !team.color ? '' : team.color
+    }
+    console.log(flagStyle)
+
     return (
       <div>
         <div className="banner bg-light row justice-content-around">
@@ -14,8 +33,8 @@ class Banner extends Component {
               Community
             </h3>
             <p>
-              <i className="fas fa-user" /> UserName{' '}
-              <i className="fas fa-flag" />
+              <i className="fas fa-user" /> {user.name}{' '}
+              <i className="fas fa-flag" style={flagStyle} />
             </p>
           </div>
           <div className="col-md-3 my-auto">
@@ -27,4 +46,9 @@ class Banner extends Component {
     )
   }
 }
-export default Banner
+
+const mapStateToProps = state => ({
+  auth: state.auth
+})
+
+export default connect(mapStateToProps)(Banner)

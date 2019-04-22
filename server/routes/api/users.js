@@ -49,7 +49,6 @@ router.get('/', async (req, res) => {
 // @access  Public
 router.post('/login', googleAuth, async (req, res) => {
   try {
-    console.log(req.body.googleId)
     let user = await User.findById(req.body.googleId)
     if (user) {
       return res.json(user)

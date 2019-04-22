@@ -1,7 +1,7 @@
 import Api from '../Api'
 
 export default {
-  index() {
+  getActivity() {
     return Api().get('activity')
   }
 }

@@ -1,7 +1,10 @@
 import Api from '../Api'
 
 export default {
-  index() {
+  getTeams() {
     return Api().get('teams')
+  },
+  getUserTeam(teamId) {
+    return Api().get(`teams/${teamId}`)
   }
 }

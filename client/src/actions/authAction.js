@@ -4,8 +4,8 @@ import { GET_ERRORS, SET_CURRENT_USER } from './types'
 // Register User
 export const registerUser = (userData, history) => async dispatch => {
   try {
-    const user = await AuthService.register(userData)
-    dispatch(setCurrentUser(user))
+    const res = await AuthService.register(userData)
+    dispatch(setCurrentUser(res.data))
     history.push('/user/home')
   } catch (err) {
     dispatch({

@@ -5,7 +5,7 @@ import ActivityService from '../services/user/ActivityService'
 export const getActivity = () => async dispatch => {
   // dispatch(setContentLoading())
   try {
-    const res = await ActivityService.index()
+    const res = await ActivityService.getActivity()
     dispatch({
       type: SET_CURRENT_ACTIVITY,
       payload: res.data
