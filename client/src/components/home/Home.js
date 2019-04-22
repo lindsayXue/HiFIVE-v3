@@ -12,6 +12,15 @@ class Home extends Component {
         <div className="card col-md-4 px-0 mt-2">
           <Contribution />
         </div>
+        <div className="card col-md-4 px-0 mt-2">
+          <Contribution />
+        </div>
+        <div className="card col-md-4 px-0 mt-2">
+          <Contribution />
+        </div>
+        <div className="card col-md-4 px-0 mt-2">
+          <Contribution />
+        </div>
       </div>
     )
   }
