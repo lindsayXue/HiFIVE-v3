@@ -30,13 +30,13 @@ class Navbar extends Component {
           <div className="collapse navbar-collapse" id="mobile-nav">
             <ul className="navbar-nav mr-auto">
               <li className="nav-item">
-                <Link className="nav-link" to="/home">
+                <Link className="nav-link" to="/user/home">
                   {' '}
                   Home
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/user">
+                <Link className="nav-link" to="/user/personal">
                   {' '}
                   User
                 </Link>

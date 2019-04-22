@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Moment from 'react-moment'
 import { connect } from 'react-redux'
 import { getActivity } from '../../actions/activityAction'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 
 class TimeBoard extends Component {
   componentDidMount() {

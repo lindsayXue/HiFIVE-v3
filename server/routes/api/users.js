@@ -44,12 +44,13 @@ router.get('/', async (req, res) => {
   }
 })
 
-// @route   GET api/users/login
+// @route   POST api/users/login
 // @desc    Login user
 // @access  Public
-router.get('/login', async (req, res) => {
+router.post('/login', async (req, res) => {
   const errors = {}
   try {
+    console.log(req.body)
     let user = await User.findById(req.body.googleId)
     if (user) {
       return res.json(user)

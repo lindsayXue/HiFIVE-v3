@@ -7,7 +7,7 @@ import store from './store'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
 import Banner from './components/banner/Banner'
-// import Login from './components/auth/Login'
+import Login from './components/auth/Login'
 // import Register from './components/auth/Register'
 import Home from './components/home/Home'
 import User from './components/user/User'
@@ -21,10 +21,11 @@ class App extends Component {
         <Router>
           <div className="App">
             <Navbar />
-            <Banner />
+            <Route exact path="/" component={Login} />
+            <Route path="/user" component={Banner} />
             <div className="container">
-              <Route exact path="/home" component={Home} />
-              <Route exact path="/user" component={User} />
+              <Route exact path="/user/home" component={Home} />
+              <Route exact path="/user/personal" component={User} />
             </div>
             <Footer />
           </div>
