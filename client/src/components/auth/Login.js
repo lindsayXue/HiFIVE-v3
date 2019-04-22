@@ -1,13 +1,19 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { loginUser } from '../../actions/authAction'
-import TextFieldGroup from '../common/TextFieldGroup'
+import InputGroup from '../common/InputGroup'
 import PropTypes from 'prop-types'
 
 class Login extends Component {
   state = {
     googleToken: '',
     inputError: ''
+  }
+
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push('/user/home')
+    }
   }
 
   onChange = e => {
@@ -37,10 +43,11 @@ class Login extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
-              <h1 className="display-4 text-left text-info">Log In</h1>
+              <h1 className="display-4 text-center text-info">Log In</h1>
               <form onSubmit={this.onSubmit}>
-                <TextFieldGroup
+                <InputGroup
                   name="googleToken"
+                  label="Google Id"
                   placeHolder="Google Token"
                   value={googleToken}
                   onChange={this.onChange}

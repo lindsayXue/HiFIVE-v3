@@ -10,7 +10,7 @@ import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
 import Banner from './components/banner/Banner'
 import Login from './components/auth/Login'
-// import Register from './components/auth/Register'
+import Register from './components/auth/Register'
 import Home from './components/home/Home'
 import User from './components/user/User'
 
@@ -24,6 +24,7 @@ class App extends Component {
           <div className="App">
             <Navbar />
             <Route exact path="/" component={Login} />
+            <Route exact path="/register" component={Register} />
             <PrivateRoute path="/user" component={Banner} />
             <div className="container">
               <PrivateRoute exact path="/user/home" component={Home} />

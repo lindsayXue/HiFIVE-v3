@@ -6,7 +6,7 @@ export const registerUser = (userData, history) => async dispatch => {
   try {
     const user = await AuthService.register(userData)
     dispatch(setCurrentUser(user))
-    history.push('/home')
+    history.push('/user/home')
   } catch (err) {
     dispatch({
       type: GET_ERRORS,

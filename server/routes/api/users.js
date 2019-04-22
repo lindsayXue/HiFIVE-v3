@@ -65,7 +65,7 @@ router.post('/login', googleAuth, async (req, res) => {
 // @route   POST api/users/register
 // @desc    Register user
 // @access  Public
-router.post('/register', async (req, res) => {
+router.post('/register', googleAuth, async (req, res) => {
   try {
     const { errors, isValid } = validateRegisterInput(req.body)
 
@@ -89,18 +89,18 @@ router.post('/register', async (req, res) => {
       jobDesc: req.body.jobDesc,
       department: req.body.department
     })
-    if (!!req.body.teamSelect) {
-      newUser.teamRandom = false
-      if (!req.body.team) {
-        errors.team = 'Team field is required'
-        return res.status(400).json(errors)
-      }
-      newUser.team = req.body.team
-    } else {
+    if (!!req.body.teamRandom) {
       const team = await Team.find()
         .sort({ member: 1 })
         .limit(1)
       newUser.team = team[0]._id
+    } else {
+      if (!req.body.team) {
+        errors.team = 'Team field is required'
+        return res.status(400).json(errors)
+      }
+      newUser.teamRandom = false
+      newUser.team = req.body.team
     }
 
     // Add team member
