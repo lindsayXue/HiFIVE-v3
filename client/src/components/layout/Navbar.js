@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { logoutUser } from '../../actions/authAction'
 import Logo from '../../assets/hifive.png'
+import PropTypes from 'prop-types'
 
 class Navbar extends Component {
   onLogoutClick = e => {
@@ -12,6 +13,34 @@ class Navbar extends Component {
   }
 
   render() {
+    const { isAuthenticated } = this.props.auth
+
+    const authLinks = (
+      <ul className="navbar-nav mr-auto">
+        <li className="nav-item">
+          <Link className="nav-link" to="/user/home">
+            {' '}
+            Home
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link className="nav-link" to="/user/personal">
+            {' '}
+            User
+          </Link>
+        </li>
+      </ul>
+    )
+    const logoutLink = (
+      <ul className="navbar-nav ml-auto">
+        <li className="nav-item">
+          <a onClick={this.onLogoutClick} href="/" className="nav-link">
+            Logout
+          </a>
+        </li>
+      </ul>
+    )
+
     return (
       <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
         <div className="container">
@@ -35,27 +64,8 @@ class Navbar extends Component {
           </button>
 
           <div className="collapse navbar-collapse" id="mobile-nav">
-            <ul className="navbar-nav mr-auto">
-              <li className="nav-item">
-                <Link className="nav-link" to="/user/home">
-                  {' '}
-                  Home
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/user/personal">
-                  {' '}
-                  User
-                </Link>
-              </li>
-            </ul>
-            <ul className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <a onClick={this.onLogoutClick} href="/" className="nav-link">
-                  Logout
-                </a>
-              </li>
-            </ul>
+            {isAuthenticated ? authLinks : ''}
+            {isAuthenticated ? logoutLink : ''}
           </div>
         </div>
       </nav>
@@ -63,7 +73,16 @@ class Navbar extends Component {
   }
 }
 
+Navbar.propTypes = {
+  logoutUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
+}
+
+const mapStateToProps = state => ({
+  auth: state.auth
+})
+
 export default connect(
-  null,
+  mapStateToProps,
   { logoutUser }
 )(Navbar)
