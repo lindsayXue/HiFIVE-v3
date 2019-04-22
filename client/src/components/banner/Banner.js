@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { getActivity } from '../../actions/activityAction'
 import TeamService from '../../services/user/TeamService'
 import PostService from '../../services/user/PostService'
 import TimeBoard from './TimeBoard'
@@ -17,6 +18,8 @@ class Banner extends Component {
     const teamRes = await TeamService.getUserTeam(this.props.auth.user.team)
     const postsRes = await PostService.getPosts()
     this.setState({ team: teamRes.data, posts: postsRes.data })
+
+    this.props.getActivity()
   }
 
   render() {
@@ -52,11 +55,15 @@ class Banner extends Component {
 }
 
 Banner.propTypes = {
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  getActivity: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
   auth: state.auth
 })
 
-export default connect(mapStateToProps)(Banner)
+export default connect(
+  mapStateToProps,
+  { getActivity }
+)(Banner)

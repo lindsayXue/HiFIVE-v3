@@ -2,16 +2,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Moment from 'react-moment'
 import { connect } from 'react-redux'
-import { getActivity } from '../../actions/activityAction'
-// import { Link } from 'react-router-dom'
 
 class TimeBoard extends Component {
-  componentDidMount() {
-    this.props.getActivity()
-  }
-
   render() {
-    const { activity } = this.props.activity
+    const { activity } = this.props
 
     return (
       <div className="card mx-auto" style={{ width: '15rem' }}>
@@ -38,15 +32,11 @@ class TimeBoard extends Component {
 }
 
 TimeBoard.propTypes = {
-  activity: PropTypes.object.isRequired,
-  getActivity: PropTypes.func.isRequired
+  activity: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
   activity: state.activity
 })
 
-export default connect(
-  mapStateToProps,
-  { getActivity }
-)(TimeBoard)
+export default connect(mapStateToProps)(TimeBoard)

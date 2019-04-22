@@ -34,7 +34,7 @@ function postCarousel(props) {
           >
             {/* <span className="carousel-control-prev-icon" aria-hidden="true" />
             <span className="sr-only">Previous</span> */}
-            <i class="fas fa-arrow-left" />
+            <i className="fas fa-arrow-left" />
           </a>
           <a
             className="carousel-control-next text-dark"
@@ -44,7 +44,7 @@ function postCarousel(props) {
           >
             {/* <span className="carousel-control-next-icon" aria-hidden="true" />
             <span className="sr-only">Next</span> */}
-            <i class="fas fa-arrow-right" />
+            <i className="fas fa-arrow-right" />
           </a>
         </div>
       </div>

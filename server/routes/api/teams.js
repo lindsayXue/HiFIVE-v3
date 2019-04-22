@@ -28,7 +28,6 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const errors = {}
-    console.log(req.params)
     const team = await Team.findById(req.params.id)
     if (team.length == 0) {
       errors.noteamfound = 'No team found'
