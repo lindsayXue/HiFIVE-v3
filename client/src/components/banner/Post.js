@@ -1,15 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const Post = () => {
+const Post = props => {
   return (
-    <p className="card-title">
-      <Link to="/posts" className="card-link text-dark">
-        <i className="fas fa-star text-info" /> Welcome to the System.
+    <div>
+      <Link to="/posts" className="text-dark">
+        <i className="fas fa-star text-info" /> {props.post.title}
       </Link>
       {'  '}
       <i className="far fa-hand-point-left text-info" />
-    </p>
+    </div>
   )
 }
 

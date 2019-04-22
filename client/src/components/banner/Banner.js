@@ -1,27 +1,31 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import TeamService from '../../services/user/TeamService'
+import PostService from '../../services/user/PostService'
 import TimeBoard from './TimeBoard'
+import PropTypes from 'prop-types'
+
 import PostCarousel from './postCarousel'
 
 class Banner extends Component {
   state = {
-    team: ''
+    team: '',
+    posts: []
   }
 
   async componentDidMount() {
-    const res = await TeamService.getUserTeam(this.props.auth.user.team)
-    this.setState({ team: res.data })
+    const teamRes = await TeamService.getUserTeam(this.props.auth.user.team)
+    const postsRes = await PostService.getPosts()
+    this.setState({ team: teamRes.data, posts: postsRes.data })
   }
 
   render() {
     const { user } = this.props.auth
-    const { team } = this.state
+    const { team, posts } = this.state
 
     const flagStyle = {
       color: !team.color ? '' : team.color
     }
-    console.log(flagStyle)
 
     return (
       <div>
@@ -41,10 +45,14 @@ class Banner extends Component {
             <TimeBoard />
           </div>
         </div>
-        <PostCarousel />
+        <PostCarousel posts={posts} />
       </div>
     )
   }
+}
+
+Banner.propTypes = {
+  auth: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
