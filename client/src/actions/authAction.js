@@ -1,10 +1,10 @@
-import AuthService from '../services/user/AuthService'
+import axios from 'axios'
 import { GET_ERRORS, SET_CURRENT_USER } from './types'
 
 // Register User
 export const registerUser = (userData, history) => async dispatch => {
   try {
-    const user = await AuthService.register(userData)
+    const user = await axios.post('/user/register', userData)
     dispatch(setCurrentUser(user))
     history.push('/home')
   } catch (err) {
@@ -26,8 +26,7 @@ export const setCurrentUser = user => {
 // Login User
 export const loginUser = (googleId, history) => async dispatch => {
   try {
-    console.log('loginUser running')
-    const user = await AuthService.login(googleId)
+    const user = await axios.post('/user/login', googleId)
     console.log(user)
     dispatch(setCurrentUser(user))
     // history.push('/user/home')
