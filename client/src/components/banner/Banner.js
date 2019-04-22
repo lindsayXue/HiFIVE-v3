@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-// import PropTypes from 'prop-types'
-// import { connect } from 'react-redux'
 import TimeBoard from './TimeBoard'
 import PostCarousel from './postCarousel'
 
@@ -29,5 +27,4 @@ class Banner extends Component {
     )
   }
 }
-
 export default Banner

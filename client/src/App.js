@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import store from './store'
 
+import PrivateRoute from './components/common/PrivateRoute'
+
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
 import Banner from './components/banner/Banner'
@@ -22,10 +24,10 @@ class App extends Component {
           <div className="App">
             <Navbar />
             <Route exact path="/" component={Login} />
-            <Route path="/user" component={Banner} />
+            <PrivateRoute path="/user" component={Banner} />
             <div className="container">
-              <Route exact path="/user/home" component={Home} />
-              <Route exact path="/user/personal" component={User} />
+              <PrivateRoute exact path="/user/home" component={Home} />
+              <PrivateRoute exact path="/user/personal" component={User} />
             </div>
             <Footer />
           </div>
