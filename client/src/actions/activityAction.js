@@ -1,11 +1,11 @@
 import { SET_CURRENT_ACTIVITY } from './types'
-import axios from 'axios'
+import ActivityService from '../services/user/ActivityService'
 
 // GET Activity
 export const getActivity = () => async dispatch => {
   // dispatch(setContentLoading())
   try {
-    const res = await axios.get('/activity')
+    const res = await ActivityService.index()
     dispatch({
       type: SET_CURRENT_ACTIVITY,
       payload: res.data
