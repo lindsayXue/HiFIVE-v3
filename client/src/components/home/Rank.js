@@ -76,12 +76,12 @@ class Rank extends Component {
     }
 
     return (
-      <div className="card mb-2 border border-white">
-        <div className="card-body">
+      <div className="card border border-white">
+        <div className="card-body pb-0">
           <h5 className="card-title text-info">{title}</h5>
           <hr />
+          {winnerBoard}
         </div>
-        {winnerBoard}
       </div>
     )
   }
