@@ -1,39 +1,37 @@
 import React, { Component } from 'react'
 import Rank from './Rank'
 import { Link } from 'react-router-dom'
+import UserService from '../../services/user/UserService'
+import TeamService from '../../services/user/TeamService'
 
 class Contribution extends Component {
+  state = {
+    userWinner: [],
+    teamWinner: [],
+    error: null
+  }
+
+  async componentDidMount() {
+    try {
+      const resUser = await UserService.getUserWinner()
+      const resTeam = await TeamService.getTeamWinner()
+      const winnerUserData = resUser.data
+      const winnerTeamData = resTeam.data
+      this.setState({
+        userWinner: winnerUserData.map(winner => {
+          return { name: winner.name, points: winner.points }
+        }),
+        teamWinner: winnerTeamData.map(winner => {
+          return { name: winner.name, points: winner.points }
+        })
+      })
+    } catch (err) {
+      this.setState({ error: err.response.data })
+    }
+  }
+
   render() {
-    const userWinner = [
-      {
-        name: 'Lingzi Xue',
-        points: 2000
-      },
-      {
-        name: 'Yuanjie Wu',
-        points: 1900
-      },
-      {
-        name: 'Zhinan Wu',
-        points: 1800
-      }
-    ]
-
-    const teamWinner = [
-      {
-        name: 'RED',
-        points: 2000
-      },
-      {
-        name: 'BLUE',
-        points: 1900
-      },
-      {
-        name: 'LIME',
-        points: 1800
-      }
-    ]
-
+    const { userWinner, teamWinner, error } = this.state
     return (
       <div>
         <h5 className="card-header">
@@ -45,9 +43,10 @@ class Contribution extends Component {
           </Link>
         </h5>
         <div className="card-body my-auto">
-          <Rank title="Personal" data={userWinner} />
-          <Rank title="Team" data={teamWinner} />
+          <Rank title="Personal" winner={userWinner} />
+          <Rank title="Team" winner={teamWinner} />
         </div>
+        {/* {error && <div className="invalid-feedback">{error}</div>} */}
       </div>
     )
   }

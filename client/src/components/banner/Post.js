@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 const Post = props => {
   return (
     <div>
-      <Link to="/posts" className="text-dark">
+      <Link to="/user/posts" className="text-dark">
         <i className="fas fa-star text-info" /> {props.post.title}
       </Link>
       {'  '}

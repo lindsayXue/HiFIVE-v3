@@ -1,33 +1,95 @@
-import React from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
-const Rank = props => {
-  return (
-    <div className="card mb-2">
-      <div className="card-body">
-        <h5 className="card-title text-info">{props.title}</h5>
-        <p className="card-text">
-          <i className="fas fa-trophy text-warning" /> {props.data[0].name}
-          <span className="font-italic float-right text-muted">
-            {props.data[0].points} minutes
-          </span>
+class Rank extends Component {
+  render() {
+    const { title, winner } = this.props
+
+    let winnerBoard
+
+    if (winner.length === 0) {
+      winnerBoard = (
+        <p className="card-text text-center">
+          <span className="font-italic text-muted">No winner yet</span>
         </p>
-        <p className="card-text">
-          <i className="fas fa-trophy" style={{ color: '#C0C0C0' }} />{' '}
-          {props.data[1].name}
-          <span className="font-italic float-right text-muted">
-            {props.data[1].points} minutes
-          </span>
-        </p>
-        <p className="card-text">
-          <i className="fas fa-trophy" style={{ color: '#964B00' }} />{' '}
-          {props.data[2].name}
-          <span className="font-italic float-right text-muted">
-            {props.data[2].points} minutes
-          </span>
-        </p>
+      )
+    } else if (winner.length === 1) {
+      winnerBoard = (
+        <div>
+          <p className="card-text">
+            <i className="fas fa-trophy text-warning" /> {winner[0].name}
+            <span className="font-italic float-right text-muted">
+              {winner[0].points} points
+            </span>
+          </p>
+          <p className="card-text text-center">
+            <span className="font-italic text-muted">No other winner yet</span>
+          </p>
+        </div>
+      )
+    } else if (winner.length === 2) {
+      winnerBoard = (
+        <div>
+          <p className="card-text">
+            <i className="fas fa-trophy text-warning" /> {winner[0].name}
+            <span className="font-italic float-right text-muted">
+              {winner[0].points} points
+            </span>
+          </p>
+          <p className="card-text">
+            <i className="fas fa-trophy" style={{ color: '#C0C0C0' }} />{' '}
+            {winner[1].name}
+            <span className="font-italic float-right text-muted">
+              {winner[1].points} points
+            </span>
+          </p>
+          <p className="card-text text-center">
+            <span className="font-italic text-muted">No other winner yet</span>
+          </p>
+        </div>
+      )
+    } else {
+      winnerBoard = (
+        <div>
+          <p className="card-text">
+            <i className="fas fa-trophy text-warning" /> {winner[0].name}
+            <span className="font-italic float-right text-muted">
+              {winner[0].points} points
+            </span>
+          </p>
+          <p className="card-text">
+            <i className="fas fa-trophy" style={{ color: '#C0C0C0' }} />{' '}
+            {winner[1].name}
+            <span className="font-italic float-right text-muted">
+              {winner[1].points} points
+            </span>
+          </p>
+          <p className="card-text">
+            <i className="fas fa-trophy" style={{ color: '#964B00' }} />{' '}
+            {winner[2].name}
+            <span className="font-italic float-right text-muted">
+              {winner[2].points} points
+            </span>
+          </p>
+        </div>
+      )
+    }
+
+    return (
+      <div className="card mb-2 border border-white">
+        <div className="card-body">
+          <h5 className="card-title text-info">{title}</h5>
+          <hr />
+        </div>
+        {winnerBoard}
       </div>
-    </div>
-  )
+    )
+  }
+}
+
+Rank.propTypes = {
+  // winner: PropTypes.array.isRequired,
+  title: PropTypes.string.isRequired
 }
 
 export default Rank

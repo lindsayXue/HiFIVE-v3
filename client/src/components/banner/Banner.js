@@ -39,7 +39,7 @@ class Banner extends Component {
               <span className="text-info"> HiFIVE </span>
               Community
             </h3>
-            <p>
+            <p className="lead">
               <i className="fas fa-user" /> {user.name}{' '}
               <i className="fas fa-flag" style={flagStyle} />
             </p>

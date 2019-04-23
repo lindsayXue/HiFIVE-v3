@@ -172,47 +172,23 @@ router.put('/edit', async (req, res) => {
       }
     )
 
-    // // when edit user team
-    // if (!!req.body.team) {
-    //   editUser = await User.findByIdAndUpdate(req.body.googleId, {
-    //     points: req.body.points,
-    //     hifive: req.body.hifive,
-    //     teamRandom: false,
-    //     team: req.body.team,
-    //     accountState: req.body.accountState
-    //   })
-
-    //   // Edit team member and points
-    //   await Team.findByIdAndUpdate(editUser.team, {
-    //     $inc: { member: -1, points: -editUser.points }
-    //   })
-
-    //   await Team.findByIdAndUpdate(req.body.team, {
-    //     $inc: { member: 1, points: req.body.points }
-    //   })
-    // } else {
-    //   editUser = await User.findByIdAndUpdate(req.body.googleId, {
-    //     points: req.body.points,
-    //     hifive: req.body.hifive,
-    //     accountState: req.body.accountState
-    //   })
-
-    //   // Edit team points
-    //   let pointsDiff = req.body.points - editUser.points
-    //   await Team.findByIdAndUpdate(editUser.team, {
-    //     $inc: { points: pointsDiff }
-    //   })
-    // }
-    // // Edit activity points
-    // let pointsDiff = req.body.points - editUser.points
-    // await Activity.findOneAndUpdate(
-    //   {},
-    //   {
-    //     $inc: { points: pointsDiff }
-    //   }
-    // )
-
     res.json(editUser)
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ servererror: 'Server error' })
+  }
+})
+
+// @route   GET api/users/winner
+// @desc    Get user rank
+// @access  Public
+router.get('/winner', async (req, res) => {
+  try {
+    const tops = await User.find()
+      .sort({ points: -1 })
+      .limit(3)
+    const winner = tops.filter(top => top.points !== 0)
+    res.json(winner)
   } catch (err) {
     console.log(err)
     res.status(500).json({ servererror: 'Server error' })

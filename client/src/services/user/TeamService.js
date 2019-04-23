@@ -6,5 +6,8 @@ export default {
   },
   getUserTeam(teamId) {
     return Api().get(`teams/${teamId}`)
+  },
+  getTeamWinner() {
+    return Api().get('teams/winner')
   }
 }

@@ -22,6 +22,22 @@ router.get('/', async (req, res) => {
   }
 })
 
+// @route   GET api/teams/winner
+// @desc    Get team rank
+// @access  Public
+router.get('/winner', async (req, res) => {
+  try {
+    const tops = await Team.find()
+      .sort({ points: -1 })
+      .limit(3)
+    const winner = tops.filter(top => top.points !== 0)
+    res.json(winner)
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ servererror: 'Server error' })
+  }
+})
+
 // @route   GET api/teams/:id
 // @desc    Get a team
 // @access  Public
@@ -36,6 +52,7 @@ router.get('/:id', async (req, res) => {
 
     res.json(team)
   } catch (err) {
+    console.log(err)
     res.status(500).json({ servererror: 'Server error' })
   }
 })

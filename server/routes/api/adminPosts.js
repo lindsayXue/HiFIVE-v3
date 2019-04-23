@@ -17,9 +17,9 @@ const validateAdminPostComment = require('../../validation/adminpostcomment')
 router.get('/', async (req, res) => {
   try {
     const posts = await AdminPost.find().sort({ date: -1 })
-    if (posts.length == 0) {
-      return res.status(400).json({ nopostsfound: 'No post found' })
-    }
+    // if (posts.length == 0) {
+    //   return res.status(400).json({ nopostsfound: 'No post found' })
+    // }
     res.json(posts)
   } catch (err) {
     console.log(err)

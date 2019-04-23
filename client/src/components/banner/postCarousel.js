@@ -13,8 +13,8 @@ function postCarousel(props) {
         >
           <div className="carousel-inner text-center">
             <div className="carousel-item active">
-              <Link to="/posts" className="text-dark">
-                <i className="fas fa-star text-info" /> Click here to Posts
+              <Link to="/user/posts" className="text-dark">
+                <i className="fas fa-bullhorn text-info" /> Click here to Posts
                 Board
               </Link>
               {'  '}
