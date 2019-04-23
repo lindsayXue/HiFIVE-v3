@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Bar } from 'react-chartjs-2'
 import TeamService from '../../services/user/TeamService'
+import { Link } from 'react-router-dom'
 
 class Team extends Component {
   state = {
@@ -16,18 +17,30 @@ class Team extends Component {
     }
   }
   render() {
-    const { teams, error } = this.state
-    console.log(teams)
+    const { teams } = this.state
 
     const chartData = {
       labels: teams.map(team => team.name),
       datasets: [
         {
-          label: '',
           backgroundColor: teams.map(team => team.color),
           data: teams.map(team => team.points)
         }
       ]
+    }
+
+    const chartOptions = {
+      legend: {
+        display: false
+      },
+      tooltips: {
+        callbacks: {
+          label: function(tooltipItem) {
+            return tooltipItem.yLabel
+          }
+        }
+      },
+      maintainAspectRatio: false
     }
 
     return (
@@ -39,10 +52,18 @@ class Team extends Component {
               data={chartData}
               width={400}
               height={300}
-              options={{ maintainAspectRatio: false }}
+              options={chartOptions}
             />
           </p>
         </div>
+        <Link to="/user/home">
+          <button
+            type="button"
+            className="btn btn-lg btn-info float-right mr-2"
+          >
+            Back
+          </button>
+        </Link>
       </div>
     )
   }

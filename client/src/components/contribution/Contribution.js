@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Personal from './Personal'
 import Team from './Team'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 
 export default class Contribution extends Component {
   render() {
@@ -15,11 +15,11 @@ export default class Contribution extends Component {
             <Team />
           </div>
         </div>
-        <Link to="/user/home">
+        {/* <Link to="/user/home">
           <button type="button" className="btn btn-md btn-info float-right m-4">
             Back
           </button>
-        </Link>
+        </Link> */}
       </div>
     )
   }
