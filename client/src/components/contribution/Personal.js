@@ -6,7 +6,7 @@ class Personal extends Component {
   state = {
     users: [],
     pagination: 1,
-    itemPage: 3,
+    itemPage: 5,
     error: null
   }
 
@@ -52,9 +52,7 @@ class Personal extends Component {
 
     return (
       <div>
-        <h5 className="card-header text-center text-info">
-          Personal Contribution
-        </h5>
+        <h5 className="card-header text-center text-info">Personal</h5>
         <div className="card-body">
           <div className="card-text">
             <table className="table table-striped">

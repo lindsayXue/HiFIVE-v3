@@ -16,7 +16,7 @@ export default class Contribution extends Component {
           </div>
         </div>
         <Link to="/user/home">
-          <button type="button" className="btn btn-sm btn-info float-right m-4">
+          <button type="button" className="btn btn-md btn-info float-right m-4">
             Back
           </button>
         </Link>

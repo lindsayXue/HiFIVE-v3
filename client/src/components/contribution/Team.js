@@ -32,7 +32,7 @@ class Team extends Component {
 
     return (
       <div>
-        <h5 className="card-header text-center text-info">Team Contribution</h5>
+        <h5 className="card-header text-center text-info">Team</h5>
         <div className="card-body">
           <p className="card-text">
             <Bar
