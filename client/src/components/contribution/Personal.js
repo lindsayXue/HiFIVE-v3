@@ -48,7 +48,7 @@ class Personal extends Component {
   }
 
   render() {
-    const { users, pagination, itemPage, error } = this.state
+    const { users, pagination, itemPage } = this.state
 
     return (
       <div>

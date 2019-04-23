@@ -18,7 +18,7 @@ class Post extends Component {
   }
 
   render() {
-    const { posts, error } = this.state
+    const { posts } = this.state
 
     return (
       <div className="row post-board d-flex justify-content-center">

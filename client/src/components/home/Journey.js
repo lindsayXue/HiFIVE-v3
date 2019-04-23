@@ -58,6 +58,68 @@ class Journey extends Component {
           </small>
         </h5>
         <div className="card-body">
+          <div className="row d-flex justify-content-between">
+            <div className="text-muted">
+              <small>
+                <i
+                  className={classnames('fas fa-map-marker-alt', {
+                    'text-info': percent >= 0
+                  })}
+                />
+                Cape Reinga
+              </small>
+            </div>
+            <div className="text-muted">
+              <small>
+                <i
+                  className={classnames('fas fa-map-marker-alt', {
+                    'text-info': percent >= 20
+                  })}
+                />
+                Auckland
+              </small>
+            </div>
+            <div className="text-muted">
+              <small>
+                <i
+                  className={classnames('fas fa-map-marker-alt', {
+                    'text-info': percent >= 40
+                  })}
+                />
+                Wellington
+              </small>
+            </div>
+            <div className="text-muted">
+              <small>
+                <i
+                  className={classnames('fas fa-map-marker-alt', {
+                    'text-info': percent >= 60
+                  })}
+                />
+                Christchurch
+              </small>
+            </div>
+            <div className="text-muted">
+              <small>
+                <i
+                  className={classnames('fas fa-map-marker-alt', {
+                    'text-info': percent >= 80
+                  })}
+                />
+                Dunedin
+              </small>
+            </div>
+            <div className="text-muted">
+              <small>
+                <i
+                  className={classnames('fas fa-map-marker-alt', {
+                    'text-info': percent >= 100
+                  })}
+                />
+                Stirling Point
+              </small>
+            </div>
+          </div>
           <div className="progress m-2">
             <div
               className="progress-bar progress-bar-striped bg-info"
@@ -68,74 +130,6 @@ class Journey extends Component {
               aria-valuemax="100"
             >
               {percent} %
-            </div>
-          </div>
-          <div className="row d-flex justify-content-between">
-            <div className="text-muted">
-              <small>
-                <i
-                  className={classnames('fas fa-map-marker-alt', {
-                    'text-info': percent >= 0
-                  })}
-                >
-                  Cape Reinga
-                </i>
-              </small>
-            </div>
-            <div className="text-muted">
-              <small>
-                <i
-                  className={classnames('fas fa-map-marker-alt', {
-                    'text-info': percent >= 20
-                  })}
-                >
-                  Auckland
-                </i>
-              </small>
-            </div>
-            <div className="text-muted">
-              <small>
-                <i
-                  className={classnames('fas fa-map-marker-alt', {
-                    'text-info': percent >= 40
-                  })}
-                >
-                  Wellington
-                </i>
-              </small>
-            </div>
-            <div className="text-muted">
-              <small>
-                <i
-                  className={classnames('fas fa-map-marker-alt', {
-                    'text-info': percent >= 60
-                  })}
-                >
-                  Christchurch
-                </i>
-              </small>
-            </div>
-            <div className="text-muted">
-              <small>
-                <i
-                  className={classnames('fas fa-map-marker-alt', {
-                    'text-info': percent >= 80
-                  })}
-                >
-                  Dunedin
-                </i>
-              </small>
-            </div>
-            <div className="text-muted">
-              <small>
-                <i
-                  className={classnames('fas fa-map-marker-alt', {
-                    'text-info': percent >= 100
-                  })}
-                >
-                  Stirling Point
-                </i>
-              </small>
             </div>
           </div>
         </div>
