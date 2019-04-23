@@ -88,7 +88,7 @@ class Rank extends Component {
 }
 
 Rank.propTypes = {
-  // winner: PropTypes.array.isRequired,
+  winner: PropTypes.array.isRequired,
   title: PropTypes.string.isRequired
 }
 

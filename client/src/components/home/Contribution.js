@@ -8,7 +8,7 @@ class Contribution extends Component {
   state = {
     userWinner: [],
     teamWinner: [],
-    error: null
+    error: 'lalal'
   }
 
   async componentDidMount() {
@@ -32,6 +32,7 @@ class Contribution extends Component {
 
   render() {
     const { userWinner, teamWinner, error } = this.state
+
     return (
       <div>
         <h5 className="card-header">
@@ -45,8 +46,8 @@ class Contribution extends Component {
         <div className="card-body my-auto">
           <Rank title="Personal" winner={userWinner} />
           <Rank title="Team" winner={teamWinner} />
+          {error && <div className="invalid-feedback">{error}</div>}
         </div>
-        {/* {error && <div className="invalid-feedback">{error}</div>} */}
       </div>
     )
   }
