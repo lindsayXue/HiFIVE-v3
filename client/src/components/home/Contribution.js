@@ -37,7 +37,7 @@ class Contribution extends Component {
       <div>
         <h5 className="card-header">
           Contribution
-          <Link to="/contribution">
+          <Link to="/user/contribution">
             <button type="button" className="btn btn-sm btn-info float-right">
               View More
             </button>

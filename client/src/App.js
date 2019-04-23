@@ -14,6 +14,7 @@ import Register from './components/auth/Register'
 import Home from './components/home/Home'
 import User from './components/user/User'
 import Post from './components/post/Post'
+import Contribution from './components/contribution/Contribution'
 
 import './App.css'
 
@@ -31,6 +32,11 @@ class App extends Component {
               <PrivateRoute exact path="/user/home" component={Home} />
               <PrivateRoute exact path="/user/personal" component={User} />
               <PrivateRoute exact path="/user/posts" component={Post} />
+              <PrivateRoute
+                exact
+                path="/user/contribution"
+                component={Contribution}
+              />
             </div>
             <Footer />
           </div>

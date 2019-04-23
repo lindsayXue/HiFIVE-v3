@@ -23,21 +23,16 @@ router.get('/', async (req, res) => {
   try {
     const errors = {}
     let users
-    if (!!req.body.number) {
-      let skip = !req.body.skip ? 0 : req.body.skip
+    if (!!req.query.number) {
+      let skip = !req.query.skip ? 0 : req.query.skip
       users = await User.find()
-        .sort({ createdAt: -1 })
+        .sort({ points: -1 })
         .skip(Number(skip))
-        .limit(Number(req.body.number))
+        .limit(Number(req.query.number))
     } else {
-      users = await User.find().sort({ createdAt: -1 })
+      users = await User.find().sort({ points: -1 })
     }
-    if (users.length == 0) {
-      errors.nouserfound = 'No user found'
-      return res.status(404).json(errors)
-    } else {
-      res.json(users)
-    }
+    res.json(users)
   } catch (err) {
     console.log(err)
     res.status(500).json({ servererror: 'Server error' })
