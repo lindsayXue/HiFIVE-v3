@@ -30,7 +30,7 @@ class App extends Component {
             <PrivateRoute path="/user" component={Banner} />
             <div className="container">
               <PrivateRoute exact path="/user/home" component={Home} />
-              <PrivateRoute exact path="/user/personal" component={User} />
+              <PrivateRoute exact path="/user/profile" component={User} />
               <PrivateRoute exact path="/user/posts" component={Post} />
               <PrivateRoute
                 exact

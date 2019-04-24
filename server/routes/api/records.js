@@ -16,6 +16,9 @@ const Activity = require('../../models/Activity')
 // Load Validator
 const validateRecordInput = require('../../validation/record')
 
+// Middleware
+const googleAuth = require('../../middlewares/googleAuth')
+
 // @route   GET api/records
 // @desc    Get all records
 // @access  Public
@@ -98,16 +101,16 @@ router.post('/add', async (req, res) => {
 router.get('/user', async (req, res) => {
   try {
     let userRecords
-    if (!!req.body.number) {
-      let skip = !req.body.skip ? 0 : req.body.skip
-      userRecords = await Record.find({ user: req.body.googleId })
+    if (!!req.query.number) {
+      let skip = !req.query.skip ? 0 : req.query.skip
+      userRecords = await Record.find({ user: req.query.googleId })
         .sort({
           date: -1
         })
         .skip(Number(skip))
-        .limit(Number(req.body.number))
+        .limit(Number(req.query.number))
     } else {
-      userRecords = await Record.find({ user: req.body.googleId }).sort({
+      userRecords = await Record.find({ user: req.query.googleId }).sort({
         date: -1
       })
     }

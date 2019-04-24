@@ -4,6 +4,7 @@ import { getActivity } from '../../actions/activityAction'
 import TeamService from '../../services/user/TeamService'
 import PostService from '../../services/user/PostService'
 import TimeBoard from './TimeBoard'
+import Userinfo from './Userinfo'
 import PropTypes from 'prop-types'
 
 import PostCarousel from './postCarousel'
@@ -39,10 +40,7 @@ class Banner extends Component {
               <span className="text-info"> HiFIVE </span>
               Community
             </h3>
-            <p className="lead">
-              <i className="fas fa-user" /> {user.name}{' '}
-              <i className="fas fa-flag" style={flagStyle} />
-            </p>
+            <Userinfo user={user} flagStyle={flagStyle} />
           </div>
           <div className="col-md-3 my-auto">
             <TimeBoard />

@@ -4,6 +4,9 @@ const router = express.Router()
 // Load Team model
 const Team = require('../../models/Team')
 
+// Load User model
+const User = require('../../models/User')
+
 // @route   GET api/teams
 // @desc    Get all teams
 // @access  Public
@@ -57,4 +60,17 @@ router.get('/:id', async (req, res) => {
   }
 })
 
+// @route   GET api/teams/members/:id
+// @desc    Get team members
+// @access  Public
+router.get('/members/:id', async (req, res) => {
+  try {
+    const members = await User.find({ team: req.params.id })
+    console.log(members)
+    res.json(members)
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ servererror: 'Server error' })
+  }
+})
 module.exports = router

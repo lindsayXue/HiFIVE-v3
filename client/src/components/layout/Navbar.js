@@ -24,7 +24,7 @@ class Navbar extends Component {
           </Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="/user/personal">
+          <Link className="nav-link" to="/user/profile">
             {' '}
             User
           </Link>

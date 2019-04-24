@@ -1,19 +1,19 @@
 import React, { Component } from 'react'
 import UserService from '../../services/user/UserService'
-import classnames from 'classnames'
+import Pagination from '../common/Pagination'
 
 class Personal extends Component {
   state = {
     users: [],
     pagination: 1,
-    itemPage: 5,
+    pageItem: 5,
     error: null
   }
 
   async componentDidMount() {
     try {
       const res = await UserService.getUsers({
-        number: this.state.itemPage
+        number: this.state.pageItem
       })
       this.setState({ users: res.data })
     } catch (err) {
@@ -24,8 +24,8 @@ class Personal extends Component {
   prevClick = async e => {
     try {
       const res = await UserService.getUsers({
-        number: this.state.itemPage,
-        skip: (this.state.pagination - 2) * this.state.itemPage
+        number: this.state.pageItem,
+        skip: (this.state.pagination - 2) * this.state.pageItem
       })
       this.setState({ users: res.data, pagination: this.state.pagination - 1 })
     } catch (err) {
@@ -36,8 +36,8 @@ class Personal extends Component {
   nextClick = async e => {
     try {
       const res = await UserService.getUsers({
-        number: this.state.itemPage,
-        skip: this.state.pagination * this.state.itemPage
+        number: this.state.pageItem,
+        skip: this.state.pagination * this.state.pageItem
       })
       this.setState({ users: res.data, pagination: this.state.pagination + 1 })
     } catch (err) {
@@ -48,7 +48,7 @@ class Personal extends Component {
   }
 
   render() {
-    const { users, pagination, itemPage } = this.state
+    const { users, pagination, pageItem } = this.state
 
     return (
       <div>
@@ -77,32 +77,14 @@ class Personal extends Component {
                 })}
               </tbody>
             </table>
-            <nav aria-label="Page navigation">
-              <ul className="pagination">
-                <li className="page-item">
-                  <button
-                    className={classnames('page-link', {
-                      'text-muted': pagination <= 1
-                    })}
-                    onClick={this.prevClick}
-                    disabled={pagination <= 1 ? 'disabled' : ''}
-                  >
-                    Previous
-                  </button>
-                </li>
-                <li className="page-item">
-                  <button
-                    className={classnames('page-link', {
-                      'text-muted': users.length < itemPage
-                    })}
-                    onClick={this.nextClick}
-                    disabled={users.length < itemPage ? 'disabled' : ''}
-                  >
-                    Next
-                  </button>
-                </li>
-              </ul>
-            </nav>
+            <Pagination
+              pagination={pagination}
+              pageItem={pageItem}
+              prevClick={this.prevClick}
+              nextClick={this.nextClick}
+              prevDisa={pagination <= 1 ? 'disabled' : ''}
+              nextDisa={users.length < pageItem ? 'disabled' : ''}
+            />
           </div>
         </div>
       </div>

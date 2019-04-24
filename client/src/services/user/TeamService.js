@@ -9,5 +9,8 @@ export default {
   },
   getTeamWinner() {
     return Api().get('teams/winner')
+  },
+  getTeamMember(teamId) {
+    return Api().get(`teams/members/${teamId}`)
   }
 }
