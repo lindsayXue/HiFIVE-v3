@@ -60,14 +60,23 @@ router.post('/add', async (req, res) => {
       return res.status(400).json(errors)
     }
 
+    let type
+    if (req.body.type === 'Other') {
+      type = req.body.typeInput
+    } else {
+      type = req.body.type
+    }
+
     const newRecord = new Record({
       user: req.body.googleId,
       date: req.body.date,
-      type: req.body.type,
+      type,
       duration: req.body.duration,
-      bonus: req.body.bonus,
       points: req.body.points
     })
+
+    // let bonus = req.body.bonus.split(',')
+    // newRecord.bonus = bonus
 
     // Add points to user
     const updateUser = await User.findByIdAndUpdate(req.body.googleId, {

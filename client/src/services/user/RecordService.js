@@ -5,5 +5,8 @@ export default {
     return Api().get('records/user', {
       params
     })
+  },
+  addRecord(params) {
+    return Api().post('records/add', params)
   }
 }

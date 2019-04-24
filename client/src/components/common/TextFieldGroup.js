@@ -3,48 +3,51 @@ import { MDBInput } from 'mdbreact'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
 
-const InputGroup = ({
+const TextFieldGroup = ({
   name,
   placeholder,
   value,
+  label,
   error,
-  icon,
+  info,
   type,
-  onChange
+  onChange,
+  disabled
 }) => {
   return (
-    <div className="input-group mb-3">
-      {/* <div className="input-group-prepend">
-        <span className="input-group-text">
-          <i className={icon} />
-        </span>
-      </div> */}
+    <div className="form-group">
       <MDBInput
+        type={type}
         className={classnames('form-control form-control-lg', {
           'is-invalid': error
         })}
+        label={label}
         placeholder={placeholder}
         name={name}
         value={value}
         onChange={onChange}
-      />
-      {error && <div className="invalid-feedback">{error}</div>}
+        disabled={disabled}
+      >
+        {/* {info && <small className="form-text text-left text-muted">{info}</small>} */}
+        {error && <div className="invalid-feedback text-left">{error}</div>}
+      </MDBInput>
     </div>
   )
 }
 
-InputGroup.propTypes = {
+TextFieldGroup.propTypes = {
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   value: PropTypes.string.isRequired,
-  icon: PropTypes.string,
+  info: PropTypes.string,
   error: PropTypes.string,
   type: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  disabled: PropTypes.string
 }
 
-InputGroup.defaultProps = {
+TextFieldGroup.defaultProps = {
   type: 'text'
 }
 
-export default InputGroup
+export default TextFieldGroup

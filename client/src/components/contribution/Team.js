@@ -45,7 +45,7 @@ class Team extends Component {
 
     return (
       <div>
-        <h5 className="card-header text-center text-info">Team</h5>
+        <h5 className="card-header text-center text-default">Team</h5>
         <div className="card-body">
           <p className="card-text">
             <Bar
@@ -59,7 +59,7 @@ class Team extends Component {
         <Link to="/user/home">
           <button
             type="button"
-            className="btn btn-lg btn-info float-right mr-2"
+            className="btn btn-lg btn-default float-right mr-2"
           >
             Back
           </button>

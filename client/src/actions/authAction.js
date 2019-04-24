@@ -1,11 +1,12 @@
 import AuthService from '../services/user/AuthService'
-import { GET_ERRORS, SET_CURRENT_USER } from './types'
+import { GET_ERRORS, SET_CURRENT_USER, CLEAR_ERRORS } from './types'
 
 // Register User
 export const registerUser = (userData, history) => async dispatch => {
   try {
     const res = await AuthService.register(userData)
     dispatch(setCurrentUser(res.data))
+    dispatch(clearErrors())
     history.push('/user/home')
   } catch (err) {
     dispatch({
@@ -45,4 +46,11 @@ export const loginUser = (googleToken, history) => async dispatch => {
 export const logoutUser = () => dispatch => {
   // Set current user to {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}))
+}
+
+// Clear errors
+export const clearErrors = () => {
+  return {
+    type: CLEAR_ERRORS
+  }
 }

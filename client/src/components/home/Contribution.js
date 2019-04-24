@@ -38,12 +38,15 @@ class Contribution extends Component {
         <h5 className="card-header">
           Contribution
           <Link to="/user/contribution">
-            <button type="button" className="btn btn-sm btn-info float-right">
+            <button
+              type="button"
+              className="btn btn-sm btn-default float-right"
+            >
               More
             </button>
           </Link>
         </h5>
-        <div className="card-body py-0">
+        <div className="card-body">
           <Rank title="Personal" winner={userWinner} />
           <Rank title="Team" winner={teamWinner} />
           {error && <div className="invalid-feedback">{error}</div>}

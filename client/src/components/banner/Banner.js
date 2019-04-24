@@ -37,7 +37,7 @@ class Banner extends Component {
           <div className="col-md-7 my-auto text-center text-dark">
             <h3 className="my-3">
               Welcome to
-              <span className="text-info"> HiFIVE </span>
+              <span className="text-default"> HiFIVE </span>
               Community
             </h3>
             <Userinfo user={user} flagStyle={flagStyle} />

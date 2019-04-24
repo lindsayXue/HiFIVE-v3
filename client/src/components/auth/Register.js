@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import InputGroup from '../common/InputGroup'
+import TextFieldGroup from '../common/TextFieldGroup'
 import SelectListGroup from '../common/SelectListGroup'
 import CheckBoxGroup from '../common/CheckBoxGroup'
 import TeamService from '../../services/user/TeamService'
@@ -66,7 +66,6 @@ class Register extends Component {
       team: this.state.team
     }
 
-    console.log(newUser)
     this.props.registerUser(newUser, this.props.history)
   }
 
@@ -86,31 +85,29 @@ class Register extends Component {
     const { errors } = this.props
 
     const ageRangeOptions = [
-      { id: 1, label: 'Select your age range', value: '' },
-      { id: 2, label: '20-29', value: '20-29' },
-      { id: 3, label: '30-39', value: '30-39' },
-      { id: 4, label: '40-49', value: '40-49' },
-      { id: 5, label: '50-59', value: '50-59' },
-      { id: 6, label: '60 plus', value: '60 plus' }
+      { label: 'Select your age range', value: '' },
+      { label: '20-29', value: '20-29' },
+      { label: '30-39', value: '30-39' },
+      { label: '40-49', value: '40-49' },
+      { label: '50-59', value: '50-59' },
+      { label: '60 plus', value: '60 plus' }
     ]
 
     const genderOptions = [
-      { id: 1, label: 'Select gender', value: '' },
-      { id: 2, label: 'male', value: 'male' },
-      { id: 3, label: 'female', value: 'female' }
+      { label: 'Select gender', value: '' },
+      { label: 'male', value: 'male' },
+      { label: 'female', value: 'female' }
     ]
 
     const fitnessLevelOptions = [
-      { id: 1, label: 'Select fitness level', value: '' },
-      { id: 2, label: 'Exercise once a week', value: 'Exercise once a week' },
-      { id: 3, label: 'Exercise twice a week', value: 'Exercise twice a week' },
+      { label: 'Select fitness level', value: '' },
+      { label: 'Exercise once a week', value: 'Exercise once a week' },
+      { label: 'Exercise twice a week', value: 'Exercise twice a week' },
       {
-        id: 4,
         label: 'Exercise three times a week',
         value: 'Exercise three times a week'
       },
       {
-        id: 5,
         label: 'Exercise five or more times a week',
         value: 'Exercise five or more times a week'
       }
@@ -121,9 +118,9 @@ class Register extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-6 m-auto">
-              <h1 className="text-center text-info m-4">Sign Up</h1>
-              <form onSubmit={this.onSubmit}>
-                <InputGroup
+              <h1 className="text-center text-default m-4">Sign Up</h1>
+              <form onSubmit={this.onSubmit} className="text-center">
+                <TextFieldGroup
                   placeholder="Google Token"
                   label="Google Token"
                   name="googleToken"
@@ -131,7 +128,7 @@ class Register extends Component {
                   onChange={this.onChange}
                   error={errors.googleToken}
                 />
-                <InputGroup
+                <TextFieldGroup
                   placeholder="Name"
                   label="Name"
                   name="name"
@@ -155,7 +152,7 @@ class Register extends Component {
                   onChange={this.onChange}
                   error={errors.gender}
                 />
-                <InputGroup
+                <TextFieldGroup
                   placeholder="Department"
                   label="Department"
                   name="department"
@@ -163,7 +160,7 @@ class Register extends Component {
                   onChange={this.onChange}
                   error={errors.department}
                 />
-                <InputGroup
+                <TextFieldGroup
                   placeholder="Job description"
                   label="Job description"
                   name="jobDesc"
@@ -195,7 +192,7 @@ class Register extends Component {
                   disabled={teamRandom}
                 />
 
-                <input type="submit" className="btn btn-info mt-4" />
+                <input type="submit" className="btn btn-default mt-4" />
               </form>
             </div>
           </div>

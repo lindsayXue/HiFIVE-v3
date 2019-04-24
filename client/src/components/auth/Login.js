@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { loginUser } from '../../actions/authAction'
-import InputGroup from '../common/InputGroup'
+import TextFieldGroup from '../common/TextFieldGroup'
 import PropTypes from 'prop-types'
 
 class Login extends Component {
@@ -43,9 +43,9 @@ class Login extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
-              <h1 className="display-4 text-center text-info">Log In</h1>
+              <h1 className="display-4 text-center text-default">Log In</h1>
               <form onSubmit={this.onSubmit}>
-                <InputGroup
+                <TextFieldGroup
                   name="googleToken"
                   label="Google Id"
                   placeHolder="Google Token"
@@ -53,7 +53,10 @@ class Login extends Component {
                   onChange={this.onChange}
                   error={inputError}
                 />
-                <input type="submit" className="btn btn-info btn-block mt-4" />
+                <input
+                  type="submit"
+                  className="btn btn-default btn-block mt-4"
+                />
               </form>
               {!!errors.unregisteruser || errors.servererror ? (
                 <div className="alert alert-danger" role="alert">

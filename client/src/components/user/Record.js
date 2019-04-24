@@ -73,22 +73,22 @@ class Record extends Component {
     }
     return (
       <div>
-        <h5 className="card-header text-center text-info">
+        <h5 className="card-header text-center text-default">
           Exercise Records
           <Link to="/user/record/add">
             <button
               type="button"
-              className="btn btn-sm btn-info float-right mr-2"
+              className="btn btn-sm btn-default float-right mr-2"
             >
               + Record
             </button>
           </Link>
         </h5>
-        <div className="card-body row d-flex justify-content-around">
-          <p className="card-text col-sm-11">
+        <div className="card-body">
+          <p className="card-text">
             <Line width={400} height={300} data={data} options={chartOptions} />
           </p>
-          <div className="card-text col-sm-11">
+          <div className="card-text">
             <table className="table table-striped">
               <thead>
                 <tr>

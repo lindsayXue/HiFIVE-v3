@@ -8,10 +8,10 @@ export default class Contribution extends Component {
     return (
       <div>
         <div className="row d-flex justify-content-around">
-          <div className="card col-md-5 px-0 mt-2">
+          <div className="card col-md-6 px-0 mt-2">
             <Personal />
           </div>
-          <div className="card col-md-6 px-0 mt-2">
+          <div className="card col-md-5 px-0 mt-2">
             <Team />
           </div>
         </div>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import UserService from '../../services/user/UserService'
 import Pagination from '../common/Pagination'
+import TableGroup from '../common/TableGroup'
 
 class Personal extends Component {
   state = {
@@ -37,12 +38,45 @@ class Personal extends Component {
         index < pagination * pageItem && index >= (pagination - 1) * pageItem
     )
 
+    const usersData = users.map(user => {
+      return {
+        name: user.name,
+        points: user.points,
+        hifive: user.hifive
+      }
+    })
+
+    const data = {
+      columns: [
+        {
+          label: 'Name',
+          field: 'name',
+          sort: 'asc',
+          width: 150
+        },
+        {
+          label: 'Points',
+          field: 'points',
+          sort: 'asc',
+          width: 270
+        },
+        {
+          label: 'HiFIVE',
+          field: 'hifive',
+          sort: 'asc',
+          width: 200
+        }
+      ],
+      rows: usersData
+    }
+
     return (
       <div>
-        <h5 className="card-header text-center text-info">Personal</h5>
+        <h5 className="card-header text-center text-default">Personal</h5>
         <div className="card-body">
           <div className="card-text">
-            <table className="table table-striped">
+            <TableGroup striped bordered hover data={data} />
+            {/* <table className="table table-striped">
               <thead>
                 <tr>
                   <th scope="col" />
@@ -63,15 +97,15 @@ class Personal extends Component {
                   )
                 })}
               </tbody>
-            </table>
-            <Pagination
+            </table> */}
+            {/* <Pagination
               pagination={pagination}
               pageItem={pageItem}
               prevClick={this.prevClick}
               nextClick={this.nextClick}
               currentPage={currentPage}
               totalNumber={users.length}
-            />
+            /> */}
           </div>
         </div>
       </div>

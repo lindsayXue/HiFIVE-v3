@@ -18,7 +18,7 @@ class Navbar extends Component {
     const authLinks = (
       <ul className="navbar-nav mr-auto">
         <li className="nav-item">
-          <Link className="nav-link" to="/user/home">
+          <Link className="nav-link active" to="/user/home">
             {' '}
             Home
           </Link>

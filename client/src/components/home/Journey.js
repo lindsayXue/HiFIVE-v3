@@ -51,7 +51,7 @@ class Journey extends Component {
     return (
       <div>
         {journeyImg(percent)}
-        <h5 className="card-header text-info">
+        <h5 className="card-header text-default">
           {activity.points * 10} meters NOW!
           <small className="text-muted font-italic float-right">
             One point = Ten meters
@@ -63,7 +63,7 @@ class Journey extends Component {
               <small>
                 <i
                   className={classnames('fas fa-map-marker-alt', {
-                    'text-info': percent >= 0
+                    'text-default': percent >= 0
                   })}
                 />
                 Cape Reinga
@@ -73,7 +73,7 @@ class Journey extends Component {
               <small>
                 <i
                   className={classnames('fas fa-map-marker-alt', {
-                    'text-info': percent >= 20
+                    'text-default': percent >= 20
                   })}
                 />
                 Auckland
@@ -83,7 +83,7 @@ class Journey extends Component {
               <small>
                 <i
                   className={classnames('fas fa-map-marker-alt', {
-                    'text-info': percent >= 40
+                    'text-default': percent >= 40
                   })}
                 />
                 Wellington
@@ -93,7 +93,7 @@ class Journey extends Component {
               <small>
                 <i
                   className={classnames('fas fa-map-marker-alt', {
-                    'text-info': percent >= 60
+                    'text-default': percent >= 60
                   })}
                 />
                 Christchurch
@@ -103,7 +103,7 @@ class Journey extends Component {
               <small>
                 <i
                   className={classnames('fas fa-map-marker-alt', {
-                    'text-info': percent >= 80
+                    'text-default': percent >= 80
                   })}
                 />
                 Dunedin
@@ -113,7 +113,7 @@ class Journey extends Component {
               <small>
                 <i
                   className={classnames('fas fa-map-marker-alt', {
-                    'text-info': percent >= 100
+                    'text-default': percent >= 100
                   })}
                 />
                 Stirling Point
@@ -122,7 +122,7 @@ class Journey extends Component {
           </div>
           <div className="progress m-2">
             <div
-              className="progress-bar progress-bar-striped bg-info"
+              className="progress-bar progress-bar-striped bg-default"
               role="progressbar"
               style={progressStyle}
               aria-valuenow={percent}

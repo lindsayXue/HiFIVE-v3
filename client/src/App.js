@@ -15,6 +15,7 @@ import Home from './components/home/Home'
 import User from './components/user/User'
 import Post from './components/post/Post'
 import Contribution from './components/contribution/Contribution'
+import AddRecord from './components/record/AddRecord'
 
 import './App.css'
 
@@ -36,6 +37,11 @@ class App extends Component {
                 exact
                 path="/user/contribution"
                 component={Contribution}
+              />
+              <PrivateRoute
+                exact
+                path="/user/record/add"
+                component={AddRecord}
               />
             </div>
             <Footer />
