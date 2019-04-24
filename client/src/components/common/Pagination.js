@@ -9,10 +9,10 @@ const Pagination = props => {
         <li className="page-item">
           <button
             className={classnames('page-link', {
-              'text-muted': props.prevDisa === 'disabled'
+              'text-muted': props.pagination <= 1
             })}
             onClick={props.prevClick}
-            disabled={props.prevDisa}
+            disabled={props.pagination <= 1 ? 'disabled' : ''}
           >
             Previous
           </button>
@@ -20,10 +20,12 @@ const Pagination = props => {
         <li className="page-item">
           <button
             className={classnames('page-link', {
-              'text-muted': props.nextDisa === 'disabled'
+              'text-muted': props.currentPage.length < props.pageItem
             })}
             onClick={props.nextClick}
-            disabled={props.nextDisa}
+            disabled={
+              props.currentPage.length < props.pageItem ? 'disabled' : ''
+            }
           >
             Next
           </button>
@@ -38,8 +40,7 @@ Pagination.propTypes = {
   pageItem: PropTypes.number.isRequired,
   prevClick: PropTypes.func.isRequired,
   nextClick: PropTypes.func.isRequired,
-  prevDisa: PropTypes.string.isRequired,
-  nextDisa: PropTypes.string.isRequired
+  currentPage: PropTypes.array.isRequired
 }
 
 export default Pagination

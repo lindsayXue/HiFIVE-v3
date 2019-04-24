@@ -37,6 +37,12 @@ class Member extends Component {
 
   render() {
     const { members, pageItem, pagination } = this.state
+
+    const currentPage = members.filter(
+      (member, index) =>
+        index < pagination * pageItem && index >= (pagination - 1) * pageItem
+    )
+
     return (
       <div>
         <h5 className="card-header text-center text-info">Team members</h5>
@@ -62,7 +68,7 @@ class Member extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {members.map(member => {
+                    {currentPage.map(member => {
                       return (
                         <tr key={member._id}>
                           <th scope="row" />
@@ -79,8 +85,7 @@ class Member extends Component {
                   pageItem={pageItem}
                   prevClick={this.prevClick}
                   nextClick={this.nextClick}
-                  prevDisa={pagination <= 1 ? 'disabled' : ''}
-                  nextDisa={members.length < pageItem ? 'disabled' : ''}
+                  currentPage={currentPage}
                 />
               </div>
             )}

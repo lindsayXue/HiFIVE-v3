@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Line } from 'react-chartjs-2'
 import moment from 'moment'
-import classnames from 'classnames'
 import Pagination from '../common/Pagination'
 
 class Record extends Component {
@@ -41,16 +40,10 @@ class Record extends Component {
   render() {
     const { records, pagination, pageItem } = this.state
 
-    const pageOne = []
-    const pageTwo = []
-
-    records.forEach(record => {
-      if (pageOne.length < pageItem) {
-        pageOne.push(record)
-      } else {
-        pageTwo.push(record)
-      }
-    })
+    const currentPage = records.filter(
+      (record, index) =>
+        index < pagination * pageItem && index >= (pagination - 1) * pageItem
+    )
 
     const data = {
       labels: records
@@ -107,30 +100,17 @@ class Record extends Component {
                 </tr>
               </thead>
               <tbody>
-                {pagination === 1 &&
-                  pageOne.map(record => {
-                    return (
-                      <tr key={record._id}>
-                        <th scope="row" />
-                        <td>{moment(record.date).format('MMM DD')}</td>
-                        <td>{record.type}</td>
-                        <td>{record.duration}</td>
-                        <td>{record.points}</td>
-                      </tr>
-                    )
-                  })}
-                {pagination === 2 &&
-                  pageTwo.map(record => {
-                    return (
-                      <tr key={record._id}>
-                        <th scope="row" />
-                        <td>{moment(record.date).format('MMM DD')}</td>
-                        <td>{record.type}</td>
-                        <td>{record.duration}</td>
-                        <td>{record.points}</td>
-                      </tr>
-                    )
-                  })}
+                {currentPage.map(record => {
+                  return (
+                    <tr key={record._id}>
+                      <th scope="row" />
+                      <td>{moment(record.date).format('MMM DD')}</td>
+                      <td>{record.type}</td>
+                      <td>{record.duration}</td>
+                      <td>{record.points}</td>
+                    </tr>
+                  )
+                })}
               </tbody>
             </table>
             <Pagination
@@ -138,10 +118,7 @@ class Record extends Component {
               pageItem={pageItem}
               prevClick={this.prevClick}
               nextClick={this.nextClick}
-              prevDisa={pagination <= 1 ? 'disabled' : ''}
-              nextDisa={
-                pagination >= 2 || pageTwo.length === 0 ? 'disabled' : ''
-              }
+              currentPage={currentPage}
             />
           </div>
         </div>

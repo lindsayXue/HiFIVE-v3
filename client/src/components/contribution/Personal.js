@@ -12,43 +12,30 @@ class Personal extends Component {
 
   async componentDidMount() {
     try {
-      const res = await UserService.getUsers({
-        number: this.state.pageItem
-      })
+      const res = await UserService.getUsers()
       this.setState({ users: res.data })
     } catch (err) {
       this.setState({ error: err.response.data })
     }
   }
 
-  prevClick = async e => {
-    try {
-      const res = await UserService.getUsers({
-        number: this.state.pageItem,
-        skip: (this.state.pagination - 2) * this.state.pageItem
-      })
-      this.setState({ users: res.data, pagination: this.state.pagination - 1 })
-    } catch (err) {
-      this.setState({ error: err.response })
-    }
+  prevClick = e => {
+    this.setState({ pagination: this.state.pagination - 1 })
   }
 
-  nextClick = async e => {
-    try {
-      const res = await UserService.getUsers({
-        number: this.state.pageItem,
-        skip: this.state.pagination * this.state.pageItem
-      })
-      this.setState({ users: res.data, pagination: this.state.pagination + 1 })
-    } catch (err) {
-      this.setState({
-        error: err.response.data
-      })
-    }
+  nextClick = e => {
+    this.setState({
+      pagination: this.state.pagination + 1
+    })
   }
 
   render() {
     const { users, pagination, pageItem } = this.state
+
+    const currentPage = users.filter(
+      (user, index) =>
+        index < pagination * pageItem && index >= (pagination - 1) * pageItem
+    )
 
     return (
       <div>
@@ -65,7 +52,7 @@ class Personal extends Component {
                 </tr>
               </thead>
               <tbody>
-                {users.map(user => {
+                {currentPage.map(user => {
                   return (
                     <tr key={user._id}>
                       <th scope="row" />
@@ -82,8 +69,7 @@ class Personal extends Component {
               pageItem={pageItem}
               prevClick={this.prevClick}
               nextClick={this.nextClick}
-              prevDisa={pagination <= 1 ? 'disabled' : ''}
-              nextDisa={users.length < pageItem ? 'disabled' : ''}
+              currentPage={currentPage}
             />
           </div>
         </div>
