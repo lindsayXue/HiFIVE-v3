@@ -10,7 +10,8 @@ const SelectListGroup = ({
   info,
   onChange,
   options,
-  disabled
+  disabled,
+  multiple
 }) => {
   const selectOptions = options.map(option => (
     <option key={option.label} value={option.value}>
@@ -33,6 +34,7 @@ const SelectListGroup = ({
         value={value}
         onChange={onChange}
         disabled={disabled}
+        multiple={multiple}
       >
         {selectOptions}
       </select>

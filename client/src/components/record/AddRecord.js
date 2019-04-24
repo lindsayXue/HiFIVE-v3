@@ -33,23 +33,37 @@ class AddRecord extends Component {
     this.setState({ [e.target.name]: e.target.value })
   }
 
-  onBonusCheck = e => {
-    console.log(e.target.value)
-  }
-
   onSubmit = e => {
     e.preventDefault()
 
+    let points = this.state.duration
+
     const newRecord = {
+      googleId: this.props.auth.user._id,
       date: this.state.date,
       type: this.state.type,
       typeInput: this.state.typeInput,
       duration: this.state.duration,
-      bonus: this.state.bonus
+      bonus: this.state.bonus,
+      points
     }
     console.log(newRecord)
 
     this.props.addRecord(newRecord, this.props.history)
+  }
+
+  onBonusCheck = e => {
+    let currentBonus = this.state.bonus
+    let bonusIndex = currentBonus.indexOf(e.target.value)
+    if (bonusIndex < 0) {
+      currentBonus.push(e.target.value)
+      this.setState({ bonus: currentBonus })
+    } else {
+      currentBonus.splice(bonusIndex, 1)
+      this.setState({ bonus: currentBonus })
+    }
+
+    console.log(this.state.bonus)
   }
 
   render() {
@@ -144,7 +158,6 @@ class AddRecord extends Component {
                     placeholder="Input exercise type"
                     value={typeInput}
                     onChange={this.onChange}
-                    disabled={type === 'Other' ? '' : 'disabled'}
                     error={errors.typeInput}
                   />
                 )}
@@ -156,19 +169,33 @@ class AddRecord extends Component {
                   onChange={this.onChange}
                   error={errors.duration}
                 />
-                {/* <div className="row">
+                <div className="row d-flex justify-content-center">
                   {bonusOptions.map(bonus => (
-                    <div key={bonus._id} className="col">
-                      <CheckBoxGroup
-                        name={bonus.name}
-                        label={bonus.name}
-                        value={bonus._id}
-                        onChange={this.onBonusCheck}
-                      />
-                    </div>
+                    <CheckBoxGroup
+                      key={bonus._id}
+                      name={bonus.name}
+                      label={bonus.name}
+                      value={bonus._id}
+                      onChange={this.onBonusCheck}
+                    />
                   ))}
+                </div>
+                {/* <div class="form-group">
+                  <label for="exampleFormControlSelect2">
+                    Example multiple select
+                  </label>
+                  <select
+                    multiple
+                    class="form-control"
+                    id="exampleFormControlSelect2"
+                  >
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                  </select>
                 </div> */}
-
                 <input type="submit" className="btn btn-default m-2" />
               </form>
             </div>
@@ -180,10 +207,12 @@ class AddRecord extends Component {
 }
 
 AddRecord.propTypes = {
+  auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
+  auth: state.auth,
   errors: state.errors
 })
 

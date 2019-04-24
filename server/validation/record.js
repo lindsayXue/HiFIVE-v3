@@ -16,7 +16,7 @@ module.exports = function validateRecordInput(data) {
     errors.type = 'Exercise type field is required'
   }
   if (data.type === 'Other' && Validator.isEmpty(data.typeInput)) {
-    errors.type = 'Exercise type field is required'
+    errors.typeInput = 'Exercise type field is required'
   }
   if (Validator.isEmpty(data.duration)) {
     errors.duration = 'Exercise duration field is required'

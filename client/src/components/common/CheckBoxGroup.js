@@ -12,7 +12,7 @@ const CheckBoxGroup = ({
 }) => {
   return (
     <div className="form-group">
-      <div className="form-check text-center">
+      <div className="form-check ">
         <input
           className="form-check-input"
           type="checkbox"

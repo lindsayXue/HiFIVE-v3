@@ -5,7 +5,7 @@ import RecordService from '../services/user/RecordService'
 export const addRecord = (recordData, history) => async dispatch => {
   // dispatch(setContentLoading())
   try {
-    const res = await RecordService.addRecord(recordData)
+    await RecordService.addRecord(recordData)
     dispatch(clearErrors())
     history.push('/user/profile')
   } catch (err) {
