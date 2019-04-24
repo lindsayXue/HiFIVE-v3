@@ -190,4 +190,30 @@ router.get('/winner', async (req, res) => {
   }
 })
 
+// @route   GET api/users/rank/:points/:hifive
+// @desc    Get user rank
+// @access  Public
+router.get('/rank/:points/:hifive', async (req, res) => {
+  try {
+    const pointsLess = await User.count({
+      points: {
+        $gt: req.params.points
+      }
+    })
+    const hifiveLess = await User.count({
+      hifive: {
+        $gt: req.params.hifive
+      }
+    })
+
+    res.json({
+      pointsRank: pointsLess + 1,
+      hifiveRank: hifiveLess + 1
+    })
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ servererror: 'Server error' })
+  }
+})
+
 module.exports = router

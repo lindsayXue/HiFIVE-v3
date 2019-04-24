@@ -44,10 +44,10 @@ class Member extends Component {
     )
 
     return (
-      <div>
+      <div className="card px-0">
         <h5 className="card-header text-center text-info">Team members</h5>
-        <div className="card-body row d-flex justify-content-around">
-          <div className="card-text col-sm-11">
+        <div className="card-body">
+          <div className="card-text">
             {members.length === 0 ? (
               <p className="card-text text-center">
                 <span className="font-italic text-muted">
