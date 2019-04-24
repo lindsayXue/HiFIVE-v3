@@ -119,6 +119,7 @@ class Record extends Component {
               prevClick={this.prevClick}
               nextClick={this.nextClick}
               currentPage={currentPage}
+              totalNumber={records.length}
             />
           </div>
         </div>

@@ -70,6 +70,7 @@ class Personal extends Component {
               prevClick={this.prevClick}
               nextClick={this.nextClick}
               currentPage={currentPage}
+              totalNumber={users.length}
             />
           </div>
         </div>

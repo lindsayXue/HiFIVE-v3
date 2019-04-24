@@ -3,16 +3,25 @@ import classnames from 'classnames'
 import PropTypes from 'prop-types'
 
 const Pagination = props => {
+  const {
+    pagination,
+    pageItem,
+    prevClick,
+    nextClick,
+    currentPage,
+    totalNumber
+  } = props
+  const lastPage = Math.ceil(totalNumber / pageItem)
   return (
     <nav aria-label="Page navigation">
       <ul className="pagination">
         <li className="page-item">
           <button
             className={classnames('page-link', {
-              'text-muted': props.pagination <= 1
+              'text-muted': pagination <= 1
             })}
-            onClick={props.prevClick}
-            disabled={props.pagination <= 1 ? 'disabled' : ''}
+            onClick={prevClick}
+            disabled={pagination <= 1 ? 'disabled' : ''}
           >
             Previous
           </button>
@@ -20,11 +29,14 @@ const Pagination = props => {
         <li className="page-item">
           <button
             className={classnames('page-link', {
-              'text-muted': props.currentPage.length < props.pageItem
+              'text-muted':
+                currentPage.length < pageItem || pagination >= lastPage
             })}
-            onClick={props.nextClick}
+            onClick={nextClick}
             disabled={
-              props.currentPage.length < props.pageItem ? 'disabled' : ''
+              currentPage.length < pageItem || pagination >= lastPage
+                ? 'disabled'
+                : ''
             }
           >
             Next
@@ -40,6 +52,7 @@ Pagination.propTypes = {
   pageItem: PropTypes.number.isRequired,
   prevClick: PropTypes.func.isRequired,
   nextClick: PropTypes.func.isRequired,
+  totalNumber: PropTypes.number.isRequired,
   currentPage: PropTypes.array.isRequired
 }
 
