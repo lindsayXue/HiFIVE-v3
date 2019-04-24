@@ -7,7 +7,7 @@ import BonusService from '../../services/user/BonusService'
 import { addRecord } from '../../actions/recordAction'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import PropTypes from 'prop-types'
+import PropTypes, { element } from 'prop-types'
 
 class AddRecord extends Component {
   state = {
@@ -38,13 +38,22 @@ class AddRecord extends Component {
 
     let points = this.state.duration
 
+    const bonusGet = this.state.bonus
+
+    bonusGet.forEach(bonus => {
+      const bonusFound = this.state.bonusOptions.filter(
+        element => element._id === bonus
+      )
+      points = Number(points) + Number(bonusFound[0].points)
+    })
+
     const newRecord = {
       googleId: this.props.auth.user._id,
       date: this.state.date,
       type: this.state.type,
       typeInput: this.state.typeInput,
       duration: this.state.duration,
-      bonus: this.state.bonus,
+      bonus: bonusGet,
       points
     }
     console.log(newRecord)
@@ -57,7 +66,9 @@ class AddRecord extends Component {
     let bonusIndex = currentBonus.indexOf(e.target.value)
     if (bonusIndex < 0) {
       currentBonus.push(e.target.value)
-      this.setState({ bonus: currentBonus })
+      this.setState({
+        bonus: currentBonus
+      })
     } else {
       currentBonus.splice(bonusIndex, 1)
       this.setState({ bonus: currentBonus })
