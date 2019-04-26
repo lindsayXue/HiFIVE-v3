@@ -1,20 +1,35 @@
 import React, { Component } from 'react'
 import Journey from './Journey'
 import Contribution from './Contribution'
+import { Grid } from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
+
+const styles = theme => ({
+  root: {
+    marginTop: 20
+  }
+})
 
 class Home extends Component {
   render() {
+    const { classes } = this.props
     return (
-      <div className="home row d-flex justify-content-around">
-        <div className="card col-md-6 px-0 mt-2">
+      <Grid
+        className={classes.root}
+        container
+        justify="center"
+        alignItems="flex-start"
+        spacing={40}
+      >
+        <Grid item md={5}>
           <Journey />
-        </div>
-        <div className="card col-md-4 px-0 mt-2">
+        </Grid>
+        <Grid item md={5}>
           <Contribution />
-        </div>
-      </div>
+        </Grid>
+      </Grid>
     )
   }
 }
 
-export default Home
+export default withStyles(styles)(Home)

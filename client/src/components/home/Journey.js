@@ -1,13 +1,34 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import classnames from 'classnames'
 import capeReinga from '../../assets/capeReinga1.jpg'
 import auckland from '../../assets/auckland.jpg'
 import wellington from '../../assets/wellington.jpg'
 import christchurch from '../../assets/christchurch.jpg'
 import dunedin from '../../assets/dunedin.jpg'
 import stirlingpoint from '../../assets/stirlingpoint.jpg'
+import {
+  Grid,
+  Card,
+  CardContent,
+  CardActionArea,
+  CardMedia,
+  Typography,
+  LinearProgress
+} from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
+
+const styles = theme => ({
+  card: {
+    maxWidth: '100%'
+  },
+  media: {
+    height: 300
+  },
+  textPrimary: {
+    color: theme.palette.primary.main
+  }
+})
 
 class Journey extends Component {
   state = {
@@ -15,7 +36,7 @@ class Journey extends Component {
   }
   ß
   render() {
-    const { activity } = this.props
+    const { activity, classes } = this.props
     const { distanceNZ } = this.state
 
     let percent = ((activity.points * 1000) / distanceNZ).toFixed(2)
@@ -23,117 +44,107 @@ class Journey extends Component {
       percent = 100
     }
 
-    const progressStyle = {
-      width: `${percent}%`
-    }
+    let journeyImg = capeReinga
 
-    const journeyImg = percent => {
-      if (percent >= 0 && percent < 20) {
-        return <img src={capeReinga} className="card-img-top" alt="city" />
-      }
-      if (percent >= 20 && percent < 40) {
-        return <img src={auckland} className="card-img-top" alt="city" />
-      }
-      if (percent >= 40 && percent < 60) {
-        return <img src={wellington} className="card-img-top" alt="city" />
-      }
-      if (percent >= 60 && percent < 80) {
-        return <img src={christchurch} className="card-img-top" alt="city" />
-      }
-      if (percent >= 80 && percent < 100) {
-        return <img src={dunedin} className="card-img-top" alt="city" />
-      }
-      if (percent === 100) {
-        return <img src={stirlingpoint} className="card-img-top" alt="city" />
-      }
+    if (percent >= 20 && percent < 40) {
+      journeyImg = auckland
+    }
+    if (percent >= 40 && percent < 60) {
+      journeyImg = wellington
+    }
+    if (percent >= 60 && percent < 80) {
+      journeyImg = christchurch
+    }
+    if (percent >= 80 && percent < 100) {
+      journeyImg = dunedin
+    }
+    if (percent === 100) {
+      journeyImg = stirlingpoint
     }
 
     return (
-      <div>
-        {journeyImg(percent)}
-        <h5 className="card-header text-primary">
-          {activity.points * 10} meters NOW!
-          <small className="text-muted font-italic float-right">
-            One point = Ten meters
-          </small>
-        </h5>
-        <div className="card-body">
-          <div className="row d-flex justify-content-between">
-            <div className="text-muted">
-              <small>
-                <i
-                  className={classnames('fas fa-map-marker-alt', {
-                    'text-primary': percent >= 0
-                  })}
-                />
+      <Card className={classes.card}>
+        <CardActionArea>
+          <CardMedia
+            component="img"
+            className={classes.media}
+            image={journeyImg}
+            title="Journey image"
+            alt="Journey image"
+          />
+          <CardContent>
+            <Typography gutterBottom variant="h6">
+              <Typography component="span" inline variant="h6" color="primary">
+                {activity.points * 10}{' '}
+              </Typography>
+              meters NOW!
+              <Typography inline color="secondary" style={{ float: 'right' }}>
+                One point = Ten meters
+              </Typography>
+            </Typography>
+            <hr />
+            <Grid container justify="space-around">
+              <Typography
+                component="p"
+                variant="caption"
+                color={percent >= 0 ? 'primary' : 'secondary'}
+              >
+                <i className="fas fa-map-marker-alt" />
                 Cape Reinga
-              </small>
-            </div>
-            <div className="text-muted">
-              <small>
-                <i
-                  className={classnames('fas fa-map-marker-alt', {
-                    'text-primary': percent >= 20
-                  })}
-                />
+              </Typography>
+              <Typography
+                component="p"
+                variant="caption"
+                color={percent >= 20 ? 'primary' : 'secondary'}
+              >
+                <i className="fas fa-map-marker-alt" />
                 Auckland
-              </small>
-            </div>
-            <div className="text-muted">
-              <small>
-                <i
-                  className={classnames('fas fa-map-marker-alt', {
-                    'text-primary': percent >= 40
-                  })}
-                />
+              </Typography>
+              <Typography
+                component="p"
+                variant="caption"
+                color={percent >= 40 ? 'primary' : 'secondary'}
+              >
+                <i className="fas fa-map-marker-alt" />
                 Wellington
-              </small>
-            </div>
-            <div className="text-muted">
-              <small>
-                <i
-                  className={classnames('fas fa-map-marker-alt', {
-                    'text-primary': percent >= 60
-                  })}
-                />
+              </Typography>
+              <Typography
+                component="p"
+                variant="caption"
+                color={percent >= 60 ? 'primary' : 'secondary'}
+              >
+                <i className="fas fa-map-marker-alt" />
                 Christchurch
-              </small>
-            </div>
-            <div className="text-muted">
-              <small>
-                <i
-                  className={classnames('fas fa-map-marker-alt', {
-                    'text-primary': percent >= 80
-                  })}
-                />
+              </Typography>
+              <Typography
+                component="p"
+                variant="caption"
+                color={percent >= 80 ? 'primary' : 'secondary'}
+              >
+                <i className="fas fa-map-marker-alt" />
                 Dunedin
-              </small>
-            </div>
-            <div className="text-muted">
-              <small>
-                <i
-                  className={classnames('fas fa-map-marker-alt', {
-                    'text-primary': percent >= 100
-                  })}
-                />
-                Stirling Point
-              </small>
-            </div>
-          </div>
-          <div className="progress m-2">
-            <div
-              className="progress-bar progress-bar-striped bg-default"
-              role="progressbar"
-              style={progressStyle}
-              aria-valuenow={percent}
-              aria-valuemin="0"
-              aria-valuemax="100"
+              </Typography>
+              <Typography
+                component="p"
+                variant="caption"
+                color={percent >= 100 ? 'primary' : 'secondary'}
+              >
+                <i className="fas fa-map-marker-alt" />
+                Stirling point
+              </Typography>
+            </Grid>
+            <LinearProgress value={Number(percent)} variant="determinate" />
+            <Typography
+              component="p"
+              variant="h5"
+              style={{ textAlign: 'center' }}
+              color="secondary"
             >
               {percent} %
-            </div>
-          </div>
-        </div>
-      </div>
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+      </Card>
     )
   }
 }
@@ -146,4 +157,4 @@ const mapStateToProps = state => ({
   activity: state.activity
 })
 
-export default connect(mapStateToProps)(Journey)
+export default connect(mapStateToProps)(withStyles(styles)(Journey))

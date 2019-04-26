@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Moment from 'react-moment'
 import { connect } from 'react-redux'
-import { Typography, Paper } from '@material-ui/core'
+import { Link as RouterLink } from 'react-router-dom'
+import { Typography, Paper, Link } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 
 const styles = theme => ({
@@ -34,6 +35,11 @@ class TimeBoard extends Component {
         <Typography component="p">
           <i className="fas fa-users text-primary" /> {activity.participants}
         </Typography>
+        <Link variant="body2" component={RouterLink} to="/user/posts">
+          <i className="fas fa-bullhorn" />
+          <Typography inline> Click here to Posts Board </Typography>
+          <i className="fas fa-arrow-left" />
+        </Link>
       </Paper>
     )
   }

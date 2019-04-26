@@ -5,9 +5,8 @@ import TeamService from '../../services/user/TeamService'
 import TimeBoard from './TimeBoard'
 import Userinfo from './Userinfo'
 import PropTypes from 'prop-types'
-import { Grid, Typography, Link } from '@material-ui/core'
+import { Grid, Typography } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
-import { Link as RouterLink } from 'react-router-dom'
 
 const styles = theme => ({
   banner: {
@@ -66,13 +65,6 @@ class Banner extends Component {
         </Grid>
         <Grid item md={4}>
           <TimeBoard />
-        </Grid>
-        <Grid item sm={12} className={classes.postLink}>
-          <Link variant="body2" component={RouterLink} to="/user/posts">
-            <i className="fas fa-bullhorn" />
-            <Typography inline> Click here to Posts Board </Typography>
-            <i className="fas fa-arrow-left" />
-          </Link>
         </Grid>
       </Grid>
     )
