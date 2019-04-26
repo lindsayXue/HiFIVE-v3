@@ -1,8 +1,22 @@
 import React, { Component } from 'react'
 import Rank from './Rank'
-import { Link } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
 import UserService from '../../services/user/UserService'
 import TeamService from '../../services/user/TeamService'
+import { Typography, Paper, Button } from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
+
+const styles = theme => ({
+  root: {
+    ...theme.mixins.gutters(),
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2,
+    margin: 'auto'
+  },
+  backBtn: {
+    float: 'right'
+  }
+})
 
 class Contribution extends Component {
   state = {
@@ -32,28 +46,31 @@ class Contribution extends Component {
 
   render() {
     const { userWinner, teamWinner, error } = this.state
+    const { classes } = this.props
 
     return (
-      <div>
-        <h5 className="card-header">
+      <Paper className={classes.root} elevation={2}>
+        <Typography variant="h5" color="primary" paragraph>
           Contribution
-          <Link to="/user/contribution">
-            <button
-              type="button"
-              className="btn btn-sm btn-default float-right"
-            >
-              More
-            </button>
-          </Link>
-        </h5>
-        <div className="card-body">
-          <Rank title="Personal" winner={userWinner} />
-          <Rank title="Team" winner={teamWinner} />
-          {error && <div className="invalid-feedback">{error}</div>}
-        </div>
-      </div>
+          <Button
+            component={RouterLink}
+            to="/user/contribution"
+            className={classes.backBtn}
+            variant="contained"
+            color="primary"
+          >
+            More
+          </Button>
+        </Typography>
+        <Rank title="Personal" winner={userWinner}>
+          Personal
+        </Rank>
+        <Rank title="Team" winner={teamWinner}>
+          Team
+        </Rank>
+      </Paper>
     )
   }
 }
 
-export default Contribution
+export default withStyles(styles)(Contribution)

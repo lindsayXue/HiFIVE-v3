@@ -21,10 +21,10 @@ class Home extends Component {
         alignItems="flex-start"
         spacing={40}
       >
-        <Grid item md={5}>
+        <Grid item lg={4} md={5}>
           <Journey />
         </Grid>
-        <Grid item md={5}>
+        <Grid item md={4}>
           <Contribution />
         </Grid>
       </Grid>

@@ -1,5 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import {
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  ListItemSecondaryAction
+} from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
 
 class Rank extends Component {
   render() {
@@ -9,79 +18,81 @@ class Rank extends Component {
 
     if (winner.length === 0) {
       winnerBoard = (
-        <p className="card-text text-center">
-          <span className="font-italic text-muted">No winner yet</span>
-        </p>
+        <Typography component="p" color="secondary">
+          No winner yet
+        </Typography>
       )
     } else if (winner.length === 1) {
       winnerBoard = (
         <div>
-          <p className="card-text">
-            <i className="fas fa-trophy text-warning" /> {winner[0].name}
-            <span className="font-italic float-right text-muted">
-              {winner[0].points} points
-            </span>
-          </p>
-          <p className="card-text text-center">
-            <span className="font-italic text-muted">No other winner yet</span>
-          </p>
+          <ListItem divider>
+            <ListItemIcon>
+              <i className="fas fa-trophy" style={{ color: '#ffc107' }} />
+            </ListItemIcon>
+            <ListItemText primary={winner[0].name} />
+            <ListItemText secondary={`${winner[0].points} points`} />
+          </ListItem>
+          <Typography component="p" color="secondary">
+            No other winner yet
+          </Typography>
         </div>
       )
     } else if (winner.length === 2) {
       winnerBoard = (
         <div>
-          <p className="card-text">
-            <i className="fas fa-trophy text-warning" /> {winner[0].name}
-            <span className="font-italic float-right text-muted">
-              {winner[0].points} points
-            </span>
-          </p>
-          <p className="card-text">
-            <i className="fas fa-trophy" style={{ color: '#C0C0C0' }} />{' '}
-            {winner[1].name}
-            <span className="font-italic float-right text-muted">
-              {winner[1].points} points
-            </span>
-          </p>
-          <p className="card-text text-center">
-            <span className="font-italic text-muted">No other winner yet</span>
-          </p>
+          <ListItem divider>
+            <ListItemIcon>
+              <i className="fas fa-trophy" style={{ color: '#ffc107' }} />
+            </ListItemIcon>
+            <ListItemText primary={winner[0].name} />
+            <ListItemText secondary={`${winner[0].points} points`} />
+          </ListItem>
+          <ListItem divider>
+            <ListItemIcon>
+              <i className="fas fa-trophy" style={{ color: '#C0C0C0' }} />
+            </ListItemIcon>
+            <ListItemText primary={winner[1].name} />
+            <ListItemText secondary={`${winner[1].points} points`} />
+          </ListItem>
+          <Typography component="p" color="secondary">
+            No other winner yet
+          </Typography>
         </div>
       )
     } else {
       winnerBoard = (
         <div>
-          <p className="card-text">
-            <i className="fas fa-trophy text-warning" /> {winner[0].name}
-            <span className="font-italic float-right text-muted">
-              {winner[0].points} points
-            </span>
-          </p>
-          <p className="card-text">
-            <i className="fas fa-trophy" style={{ color: '#C0C0C0' }} />{' '}
-            {winner[1].name}
-            <span className="font-italic float-right text-muted">
-              {winner[1].points} points
-            </span>
-          </p>
-          <p className="card-text">
-            <i className="fas fa-trophy" style={{ color: '#964B00' }} />{' '}
-            {winner[2].name}
-            <span className="font-italic float-right text-muted">
-              {winner[2].points} points
-            </span>
-          </p>
+          <ListItem divider>
+            <ListItemIcon>
+              <i className="fas fa-trophy" style={{ color: '#ffc107' }} />
+            </ListItemIcon>
+            <ListItemText primary={winner[0].name} />
+            <ListItemText secondary={`${winner[0].points} points`} />
+          </ListItem>
+          <ListItem divider>
+            <ListItemIcon>
+              <i className="fas fa-trophy" style={{ color: '#C0C0C0' }} />
+            </ListItemIcon>
+            <ListItemText primary={winner[1].name} />
+            <ListItemText secondary={`${winner[1].points} points`} />
+          </ListItem>
+          <ListItem divider>
+            <ListItemIcon>
+              <i className="fas fa-trophy" style={{ color: '#964B00' }} />
+            </ListItemIcon>
+            <ListItemText primary={winner[2].name} />
+            <ListItemText secondary={`${winner[2].points} points`} />
+          </ListItem>
         </div>
       )
     }
 
     return (
-      <div className="card border border-white">
-        <div className="card-body pb-0">
-          <h5 className="card-title text-primary">{title}</h5>
-          <hr />
-          {winnerBoard}
-        </div>
+      <div>
+        <Typography component="h2" variant="h6">
+          {title}
+        </Typography>
+        <List>{winnerBoard}</List>
       </div>
     )
   }
