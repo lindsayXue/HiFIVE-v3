@@ -45,7 +45,7 @@ class Team extends Component {
 
     return (
       <div>
-        <h5 className="card-header text-center text-default">Team</h5>
+        <h5 className="card-header text-center text-primary">Team</h5>
         <div className="card-body">
           <p className="card-text">
             <Bar

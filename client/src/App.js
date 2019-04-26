@@ -16,7 +16,7 @@ import User from './components/user/User'
 import Post from './components/post/Post'
 import Contribution from './components/contribution/Contribution'
 import AddRecord from './components/record/AddRecord'
-
+import { withTheme } from '@material-ui/core/styles'
 import './App.css'
 
 class App extends Component {
@@ -52,4 +52,4 @@ class App extends Component {
   }
 }
 
-export default App
+export default withTheme()(App)

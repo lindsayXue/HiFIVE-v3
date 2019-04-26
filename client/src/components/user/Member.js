@@ -45,7 +45,7 @@ class Member extends Component {
 
     return (
       <div className="card px-0">
-        <h5 className="card-header text-center text-default">Team members</h5>
+        <h5 className="card-header text-center text-primary">Team members</h5>
         <div className="card-body">
           <div className="card-text">
             {members.length === 0 ? (

@@ -66,7 +66,7 @@ router.get('/:id', async (req, res) => {
 router.get('/members/:id', async (req, res) => {
   try {
     const members = await User.find({ team: req.params.id })
-    console.log(members)
+
     res.json(members)
   } catch (err) {
     console.log(err)

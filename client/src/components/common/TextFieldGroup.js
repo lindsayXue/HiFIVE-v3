@@ -1,7 +1,7 @@
 import React from 'react'
-import { MDBInput } from 'mdbreact'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
+import TextField from '@material-ui/core/TextField'
 
 const TextFieldGroup = ({
   name,
@@ -12,11 +12,27 @@ const TextFieldGroup = ({
   info,
   type,
   onChange,
+  autoComplete,
   disabled
 }) => {
   return (
     <div className="form-group">
-      <MDBInput
+      <TextField
+        id={name}
+        name={name}
+        label={label}
+        className={classnames('form-control form-control-lg', {
+          'is-invalid': error
+        })}
+        type={type}
+        value={value}
+        autoComplete={autoComplete}
+        margin="normal"
+        onChange={onChange}
+        disabled={disabled}
+        error={!error ? false : true}
+      />
+      {/* <input
         type={type}
         className={classnames('form-control form-control-lg', {
           'is-invalid': error
@@ -27,10 +43,9 @@ const TextFieldGroup = ({
         value={value}
         onChange={onChange}
         disabled={disabled}
-      >
-        {/* {info && <small className="form-text text-left text-muted">{info}</small>} */}
-        {error && <div className="invalid-feedback text-left">{error}</div>}
-      </MDBInput>
+      /> */}
+      {/* {info && <small className="form-text text-left text-muted">{info}</small>} */}
+      {error && <div className="invalid-feedback text-left">{error}</div>}
     </div>
   )
 }

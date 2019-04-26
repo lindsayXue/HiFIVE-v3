@@ -51,7 +51,7 @@ class Journey extends Component {
     return (
       <div>
         {journeyImg(percent)}
-        <h5 className="card-header text-default">
+        <h5 className="card-header text-primary">
           {activity.points * 10} meters NOW!
           <small className="text-muted font-italic float-right">
             One point = Ten meters
@@ -63,7 +63,7 @@ class Journey extends Component {
               <small>
                 <i
                   className={classnames('fas fa-map-marker-alt', {
-                    'text-default': percent >= 0
+                    'text-primary': percent >= 0
                   })}
                 />
                 Cape Reinga
@@ -73,7 +73,7 @@ class Journey extends Component {
               <small>
                 <i
                   className={classnames('fas fa-map-marker-alt', {
-                    'text-default': percent >= 20
+                    'text-primary': percent >= 20
                   })}
                 />
                 Auckland
@@ -83,7 +83,7 @@ class Journey extends Component {
               <small>
                 <i
                   className={classnames('fas fa-map-marker-alt', {
-                    'text-default': percent >= 40
+                    'text-primary': percent >= 40
                   })}
                 />
                 Wellington
@@ -93,7 +93,7 @@ class Journey extends Component {
               <small>
                 <i
                   className={classnames('fas fa-map-marker-alt', {
-                    'text-default': percent >= 60
+                    'text-primary': percent >= 60
                   })}
                 />
                 Christchurch
@@ -103,7 +103,7 @@ class Journey extends Component {
               <small>
                 <i
                   className={classnames('fas fa-map-marker-alt', {
-                    'text-default': percent >= 80
+                    'text-primary': percent >= 80
                   })}
                 />
                 Dunedin
@@ -113,7 +113,7 @@ class Journey extends Component {
               <small>
                 <i
                   className={classnames('fas fa-map-marker-alt', {
-                    'text-default': percent >= 100
+                    'text-primary': percent >= 100
                   })}
                 />
                 Stirling Point

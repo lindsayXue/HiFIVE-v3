@@ -23,7 +23,7 @@ class Post extends Component {
     return (
       <div className="row post-board d-flex justify-content-center">
         <div className="card col-md-6 px-0">
-          <h5 className="card-header text-center text-default">
+          <h5 className="card-header text-center text-primary">
             Posts board
             <Link to="/user/home">
               <button

@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { loginUser } from '../../actions/authAction'
-import TextFieldGroup from '../common/TextFieldGroup'
 import PropTypes from 'prop-types'
+import { Grid, TextField, Button, Typography, Paper } from '@material-ui/core'
 
 class Login extends Component {
   state = {
     googleToken: '',
-    inputError: ''
+    inputError: false
   }
 
   componentDidMount() {
@@ -24,7 +24,7 @@ class Login extends Component {
     e.preventDefault()
 
     if (!this.state.googleToken) {
-      this.setState({ inputError: 'Required' })
+      this.setState({ inputError: true })
       return
     }
 
@@ -36,39 +36,44 @@ class Login extends Component {
 
   render() {
     const { errors } = this.props
-    const { googleToken, inputError } = this.state
+    const { googleToken } = this.state
 
     return (
-      <div className="login my-4 mx-4">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-8 m-auto">
-              <h1 className="display-4 text-center text-default">Log In</h1>
-              <form onSubmit={this.onSubmit}>
-                <TextFieldGroup
-                  name="googleToken"
-                  label="Google Id"
-                  placeHolder="Google Token"
-                  value={googleToken}
-                  onChange={this.onChange}
-                  error={inputError}
-                />
-                <input
-                  type="submit"
-                  className="btn btn-default btn-block mt-4"
-                />
-              </form>
-              {!!errors.unregisteruser || errors.servererror ? (
-                <div className="alert alert-danger" role="alert">
-                  {errors.unregisteruser || errors.servererror}
-                </div>
-              ) : (
-                ''
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
+      <Grid container justify="center" style={{ marginTop: '20px' }}>
+        <Grid item md={5}>
+          <Paper elevation={1} style={{ padding: '20px' }}>
+            <Typography variant="h5" component="h3" color="primary">
+              Login
+            </Typography>
+            <form onSubmit={this.onSubmit}>
+              <TextField
+                name="googleToken"
+                label="Google Id"
+                value={googleToken}
+                onChange={this.onChange}
+                required
+                fullWidth
+              />
+              {/* <input type="submit" className="btn btn-default btn-block mt-4" /> */}
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                style={{ marginTop: '20px' }}
+              >
+                Login
+              </Button>
+            </form>
+            {!!errors.unregisteruser || errors.servererror ? (
+              <div className="alert alert-danger" role="alert">
+                {errors.unregisteruser || errors.servererror}
+              </div>
+            ) : (
+              ''
+            )}
+          </Paper>
+        </Grid>
+      </Grid>
     )
   }
 }

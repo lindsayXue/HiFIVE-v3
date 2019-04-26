@@ -1,12 +1,22 @@
 import React, { Component } from 'react'
-import TextFieldGroup from '../common/TextFieldGroup'
-import SelectListGroup from '../common/SelectListGroup'
-import CheckBoxGroup from '../common/CheckBoxGroup'
 import TeamService from '../../services/user/TeamService'
 import { registerUser } from '../../actions/authAction'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
+import {
+  Grid,
+  FormControl,
+  TextField,
+  Select,
+  Checkbox,
+  FormControlLabel,
+  InputLabel,
+  MenuItem,
+  Button,
+  Typography,
+  Paper
+} from '@material-ui/core'
 
 class Register extends Component {
   state = {
@@ -35,11 +45,7 @@ class Register extends Component {
         value: team._id
       }
     })
-    teamOptions.unshift({
-      id: 1,
-      label: 'Select a team',
-      value: 'Select a team'
-    })
+
     this.setState({ teamOptions })
   }
 
@@ -85,7 +91,6 @@ class Register extends Component {
     const { errors } = this.props
 
     const ageRangeOptions = [
-      { label: 'Select your age range', value: '' },
       { label: '20-29', value: '20-29' },
       { label: '30-39', value: '30-39' },
       { label: '40-49', value: '40-49' },
@@ -94,13 +99,11 @@ class Register extends Component {
     ]
 
     const genderOptions = [
-      { label: 'Select gender', value: '' },
       { label: 'male', value: 'male' },
       { label: 'female', value: 'female' }
     ]
 
     const fitnessLevelOptions = [
-      { label: 'Select fitness level', value: '' },
       { label: 'Exercise once a week', value: 'Exercise once a week' },
       { label: 'Exercise twice a week', value: 'Exercise twice a week' },
       {
@@ -114,90 +117,191 @@ class Register extends Component {
     ]
 
     return (
-      <div className="register mt-4">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-6 m-auto">
-              <h1 className="text-center text-default m-4">Sign Up</h1>
-              <form onSubmit={this.onSubmit} className="text-center">
-                <TextFieldGroup
-                  placeholder="Google Token"
-                  label="Google Token"
-                  name="googleToken"
-                  value={googleToken}
-                  onChange={this.onChange}
-                  error={errors.googleToken}
-                />
-                <TextFieldGroup
-                  placeholder="Name"
-                  label="Name"
-                  name="name"
-                  value={name}
-                  onChange={this.onChange}
-                  error={errors.name}
-                />
-                <SelectListGroup
-                  name="ageRange"
-                  label="Age range"
+      <Grid container justify="center" style={{ marginTop: '20px' }}>
+        <Grid item md={5}>
+          <Paper elevation={1} style={{ padding: '20px' }}>
+            <Typography
+              variant="h5"
+              component="h3"
+              color="primary"
+              style={{ marginBottom: '10px' }}
+            >
+              Sign up
+            </Typography>
+            <form onSubmit={this.onSubmit}>
+              <TextField
+                name="googleToken"
+                label="Google Id"
+                value={googleToken}
+                onChange={this.onChange}
+                required
+                fullWidth
+              />
+              <TextField
+                placeholder="Name"
+                label="Name"
+                name="name"
+                value={name}
+                onChange={this.onChange}
+                error={!!errors.name ? true : false}
+                fullWidth
+              />
+              {errors.name && (
+                <Typography color="error">{errors.name}</Typography>
+              )}
+              <FormControl fullWidth error={!!errors.ageRange ? true : false}>
+                <InputLabel htmlFor="ageRange">Age</InputLabel>
+                <Select
                   value={ageRange}
-                  options={ageRangeOptions}
                   onChange={this.onChange}
-                  error={errors.ageRange}
-                />
-                <SelectListGroup
-                  name="gender"
-                  label="Gender"
+                  inputProps={{
+                    name: 'ageRange',
+                    id: 'ageRange'
+                  }}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {ageRangeOptions.map(item => (
+                    <MenuItem key={item.value} value={item.value}>
+                      {item.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              {errors.ageRange && (
+                <Typography color="error">{errors.ageRange}</Typography>
+              )}
+              <FormControl fullWidth error={!!errors.gender ? true : false}>
+                <InputLabel htmlFor="gender">Gender</InputLabel>
+                <Select
                   value={gender}
-                  options={genderOptions}
                   onChange={this.onChange}
-                  error={errors.gender}
-                />
-                <TextFieldGroup
-                  placeholder="Department"
-                  label="Department"
-                  name="department"
-                  value={department}
-                  onChange={this.onChange}
-                  error={errors.department}
-                />
-                <TextFieldGroup
-                  placeholder="Job description"
-                  label="Job description"
-                  name="jobDesc"
-                  value={jobDesc}
-                  onChange={this.onChange}
-                  error={errors.jobDesc}
-                />
-                <SelectListGroup
-                  name="fitnessLevel"
-                  label="Fitness level"
+                  inputProps={{
+                    name: 'gender',
+                    id: 'gender'
+                  }}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {genderOptions.map(item => (
+                    <MenuItem key={item.value} value={item.value}>
+                      {item.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              {errors.gender && (
+                <Typography color="error">{errors.gender}</Typography>
+              )}
+              <TextField
+                placeholder="Department"
+                label="Department"
+                name="department"
+                value={department}
+                onChange={this.onChange}
+                error={!!errors.department ? true : false}
+                fullWidth
+              />
+              {errors.department && (
+                <Typography color="error">{errors.department}</Typography>
+              )}
+              <TextField
+                placeholder="Job description"
+                label="Job description"
+                name="jobDesc"
+                value={jobDesc}
+                onChange={this.onChange}
+                error={!!errors.jobDesc ? true : false}
+                fullWidth
+              />
+              {errors.jobDesc && (
+                <Typography color="error">{errors.jobDesc}</Typography>
+              )}
+              <FormControl
+                fullWidth
+                error={!!errors.fitnessLevel ? true : false}
+              >
+                <InputLabel htmlFor="fitnessLevel">Fitness level</InputLabel>
+                <Select
                   value={fitnessLevel}
-                  options={fitnessLevelOptions}
                   onChange={this.onChange}
-                  error={errors.fitnessLevel}
-                />
-                <CheckBoxGroup
-                  name="teamRandom"
-                  label="Team Random"
-                  value="teamRandom"
-                  onChange={this.onTeamRandomChange}
-                />
-                <SelectListGroup
-                  name="team"
-                  label="Team"
+                  inputProps={{
+                    name: 'fitnessLevel',
+                    id: 'fitnessLevel'
+                  }}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {fitnessLevelOptions.map(item => (
+                    <MenuItem key={item.value} value={item.value}>
+                      {item.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              {errors.fitnessLevel && (
+                <Typography color="error">{errors.fitnessLevel}</Typography>
+              )}
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={teamRandom}
+                    onChange={this.onTeamRandomChange}
+                    value="teamRandom"
+                    color="primary"
+                  />
+                }
+                label="Random Team"
+              />
+              <FormControl
+                error={!!errors.team ? true : false}
+                disabled={teamRandom}
+                fullWidth
+              >
+                <InputLabel htmlFor="team">Select Team</InputLabel>
+                <Select
                   value={team}
-                  options={teamOptions}
                   onChange={this.onChange}
-                  error={errors.team}
-                  disabled={teamRandom}
-                />
-
-                <input type="submit" className="btn btn-default mt-4" />
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
+                  inputProps={{
+                    name: 'team',
+                    id: 'team'
+                  }}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {teamOptions.map(item => (
+                    <MenuItem key={item.id} value={item.value}>
+                      {item.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              {errors.team && (
+                <Typography color="error">{errors.team}</Typography>
+              )}
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                style={{ marginTop: '20px' }}
+              >
+                Sign up
+              </Button>
+            </form>
+            {!!errors.unregisteruser || errors.servererror ? (
+              <div className="alert alert-danger" role="alert">
+                {errors.unregisteruser || errors.servererror}
+              </div>
+            ) : (
+              ''
+            )}
+          </Paper>
+        </Grid>
+      </Grid>
     )
   }
 }

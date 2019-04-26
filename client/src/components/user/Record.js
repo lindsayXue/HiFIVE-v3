@@ -73,7 +73,7 @@ class Record extends Component {
     }
     return (
       <div>
-        <h5 className="card-header text-center text-default">
+        <h5 className="card-header text-center text-primary">
           Exercise Records
           <Link to="/user/record/add">
             <button

@@ -205,7 +205,8 @@ router.get('/rank/:points/:hifive', async (req, res) => {
         $gt: req.params.hifive
       }
     })
-
+    console.log(pointsLess)
+    console.log(hifiveLess)
     res.json({
       pointsRank: pointsLess + 1,
       hifiveRank: hifiveLess + 1

@@ -133,7 +133,7 @@ class AddRecord extends Component {
         <div className="container">
           <div className="row">
             <div className="card col-md-6 m-auto">
-              <h4 className="text-center text-default m-4">
+              <h4 className="text-center text-primary m-4">
                 Add Exercise Record
                 <Link to="/user/profile">
                   <button

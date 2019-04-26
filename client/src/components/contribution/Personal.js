@@ -72,7 +72,7 @@ class Personal extends Component {
 
     return (
       <div>
-        <h5 className="card-header text-center text-default">Personal</h5>
+        <h5 className="card-header text-center text-primary">Personal</h5>
         <div className="card-body">
           <div className="card-text">
             <TableGroup striped bordered hover data={data} />

@@ -14,11 +14,11 @@ function postCarousel(props) {
           <div className="carousel-inner text-center">
             <div className="carousel-item active">
               <Link to="/user/posts" className="text-dark">
-                <i className="fas fa-bullhorn text-default" /> Click here to
+                <i className="fas fa-bullhorn text-primary" /> Click here to
                 Posts Board
               </Link>
               {'  '}
-              <i className="far fa-hand-point-left text-default" />
+              <i className="far fa-hand-point-left text-primary" />
             </div>
             {props.posts.map(post => (
               <div key={post._id} className="carousel-item">

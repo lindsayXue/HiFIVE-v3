@@ -10,16 +10,16 @@ class TimeBoard extends Component {
     return (
       <div className="card mx-auto" style={{ width: '15rem' }}>
         <div className="card-body text-center">
-          <h6 className="card-title text-default">Activity</h6>
+          <h6 className="card-title text-primary">Activity</h6>
           <hr />
           <p className="card-text">
-            <i className="fas fa-clock text-default" />{' '}
+            <i className="fas fa-clock text-primary" />{' '}
             <Moment format="DD/MM">{activity.start}</Moment>-
             <Moment format="DD/MM">{activity.end}</Moment>{' '}
-            <i className="fas fa-users text-default" /> {activity.participants}
+            <i className="fas fa-users text-primary" /> {activity.participants}
           </p>
           {/* <p className="card-text">
-            <i className="fas fa-users text-default" /> {activity.participants}
+            <i className="fas fa-users text-primary" /> {activity.participants}
           </p> */}
         </div>
       </div>
