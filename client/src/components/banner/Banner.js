@@ -2,12 +2,26 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getActivity } from '../../actions/activityAction'
 import TeamService from '../../services/user/TeamService'
-import PostService from '../../services/user/PostService'
 import TimeBoard from './TimeBoard'
 import Userinfo from './Userinfo'
 import PropTypes from 'prop-types'
+import { Grid, Typography, Link } from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
+import { Link as RouterLink } from 'react-router-dom'
 
-import PostCarousel from './postCarousel'
+const styles = theme => ({
+  banner: {
+    height: '20rem',
+    padding: '20px',
+    backgroundColor: theme.palette.secondary.light
+  },
+  welcome: {
+    textAlign: 'center'
+  },
+  postLink: {
+    textAlign: 'center'
+  }
+})
 
 class Banner extends Component {
   state = {
@@ -17,44 +31,58 @@ class Banner extends Component {
 
   async componentDidMount() {
     const teamRes = await TeamService.getUserTeam(this.props.auth.user.team)
-    const postsRes = await PostService.getPosts()
-    this.setState({ team: teamRes.data, posts: postsRes.data })
+
+    this.setState({ team: teamRes.data })
 
     this.props.getActivity()
   }
 
   render() {
     const { user } = this.props.auth
-    const { team, posts } = this.state
+    const { team } = this.state
+    const { classes } = this.props
 
     const flagStyle = {
       color: !team.color ? '' : team.color
     }
 
     return (
-      <div>
-        <div className="banner bg-light row justice-content-around">
-          <div className="col-md-7 my-auto text-center text-dark">
-            <h3 className="my-3">
-              Welcome to
-              <span className="text-primary"> HiFIVE </span>
-              Community
-            </h3>
-            <Userinfo user={user} flagStyle={flagStyle} />
-          </div>
-          <div className="col-md-3 my-auto">
-            <TimeBoard />
-          </div>
-        </div>
-        <PostCarousel posts={posts} />
-      </div>
+      <Grid
+        className={classes.banner}
+        container
+        justify="center"
+        alignItems="center"
+        spacing={8}
+      >
+        <Grid item md={7} className={classes.welcome}>
+          <Typography variant="h4">
+            Welcome to{' '}
+            <Typography inline component="span" variant="h4" color="primary">
+              HiFIVE
+            </Typography>{' '}
+            Community
+          </Typography>
+          <Userinfo user={user} flagStyle={flagStyle} />
+        </Grid>
+        <Grid item md={4}>
+          <TimeBoard />
+        </Grid>
+        <Grid item sm={12} className={classes.postLink}>
+          <Link variant="body2" component={RouterLink} to="/user/posts">
+            <i className="fas fa-bullhorn" />
+            <Typography inline> Click here to Posts Board </Typography>
+            <i className="fas fa-arrow-left" />
+          </Link>
+        </Grid>
+      </Grid>
     )
   }
 }
 
 Banner.propTypes = {
   auth: PropTypes.object.isRequired,
-  getActivity: PropTypes.func.isRequired
+  getActivity: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -64,4 +92,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { getActivity }
-)(Banner)
+)(withStyles(styles)(Banner))

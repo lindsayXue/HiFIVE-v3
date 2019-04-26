@@ -36,7 +36,8 @@ const styles = {
     marginRight: 20
   },
   navTitle: {
-    marginRight: 20
+    marginRight: 20,
+    marginLeft: 10
   }
 }
 

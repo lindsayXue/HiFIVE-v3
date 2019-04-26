@@ -1,6 +1,29 @@
 import React, { Component } from 'react'
 import PostService from '../../services/user/PostService'
-import { Link } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
+import {
+  Grid,
+  Typography,
+  Link,
+  Paper,
+  Button,
+  List,
+  ListItem,
+  ListItemText
+} from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
+
+const styles = theme => ({
+  root: {
+    ...theme.mixins.gutters(),
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2,
+    marginTop: 20
+  },
+  backBtn: {
+    float: 'right'
+  }
+})
 
 class Post extends Component {
   state = {
@@ -19,35 +42,50 @@ class Post extends Component {
 
   render() {
     const { posts } = this.state
+    const { classes } = this.props
 
     return (
-      <div className="row post-board d-flex justify-content-center">
-        <div className="card col-md-6 px-0">
-          <h5 className="card-header text-center text-primary">
-            Posts board
-            <Link to="/user/home">
-              <button
-                type="button"
-                className="btn btn-sm btn-default float-right"
+      <Grid container justify="center">
+        <Grid item md={6} xs={11}>
+          <Paper className={classes.root} elevation={2}>
+            <Typography variant="h5" color="primary">
+              Posts board
+              <Button
+                component={RouterLink}
+                to="/user/home"
+                className={classes.backBtn}
+                variant="contained"
+                color="primary"
               >
                 Back
-              </button>
-            </Link>
-          </h5>
-          <div className="card-body">
-            {posts.map(post => (
-              <p className="card-text" key={post._id}>
-                {post.title}
-              </p>
-            ))}
+              </Button>
+            </Typography>
+            <hr />
             {posts.length === 0 && (
-              <p className="text-muted font-italic">No post yet</p>
+              <Typography component="p" variant="subtitle1" color="secondary">
+                No post yet
+              </Typography>
             )}
-          </div>
-        </div>
-      </div>
+            <List>
+              {posts.map((post, index) => (
+                <ListItem
+                  key={index}
+                  button
+                  component="a"
+                  href={post.url}
+                  target="_blank"
+                  variant="subtitle1"
+                  color="secondary"
+                >
+                  <ListItemText primary={post.title} />
+                </ListItem>
+              ))}
+            </List>
+          </Paper>
+        </Grid>
+      </Grid>
     )
   }
 }
 
-export default Post
+export default withStyles(styles)(Post)

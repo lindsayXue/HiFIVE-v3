@@ -7,36 +7,40 @@ const AdminPostSchema = new Schema({
     type: String,
     required: true
   },
-  text: {
+  url: {
     type: String,
     required: true
   },
-  likes: [
-    {
-      user: {
-        type: String,
-        ref: 'users',
-        required: true
-      }
-    }
-  ],
-  comments: [
-    {
-      user: {
-        type: String,
-        ref: 'users',
-        required: true
-      },
-      text: {
-        type: String,
-        required: true
-      },
-      date: {
-        type: Date,
-        default: Date.now
-      }
-    }
-  ],
+  // text: {
+  //   type: String,
+  //   required: true
+  // },
+  // likes: [
+  //   {
+  //     user: {
+  //       type: String,
+  //       ref: 'users',
+  //       required: true
+  //     }
+  //   }
+  // ],
+  // comments: [
+  //   {
+  //     user: {
+  //       type: String,
+  //       ref: 'users',
+  //       required: true
+  //     },
+  //     text: {
+  //       type: String,
+  //       required: true
+  //     },
+  //     date: {
+  //       type: Date,
+  //       default: Date.now
+  //     }
+  //   }
+  // ],
   createdAt: {
     type: Date,
     default: Date.now
