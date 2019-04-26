@@ -2,13 +2,34 @@ import React, { Component } from 'react'
 import TeamService from '../../services/user/TeamService'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import Pagination from '../common/Pagination'
+import {
+  Typography,
+  Paper,
+  Table,
+  TableHead,
+  TableBody,
+  TableCell,
+  TableRow,
+  TableFooter,
+  TablePagination
+} from '@material-ui/core'
+import TablePaginationActionsWrapped from '../common/TablePaginationActions'
+import { withStyles } from '@material-ui/core/styles'
+
+const styles = theme => ({
+  root: {
+    ...theme.mixins.gutters(),
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2,
+    textAlign: 'center'
+  }
+})
 
 class Member extends Component {
   state = {
     members: [],
-    pagination: 1,
-    pageItem: 5,
+    page: 0,
+    rowsPerPage: 5,
     error: null
   }
 
@@ -25,84 +46,85 @@ class Member extends Component {
     }
   }
 
-  prevClick = e => {
-    this.setState({ pagination: this.state.pagination - 1 })
+  handleChangePage = (event, page) => {
+    this.setState({ page })
   }
 
-  nextClick = e => {
-    this.setState({
-      pagination: this.state.pagination + 1
-    })
+  handleChangeRowsPerPage = event => {
+    this.setState({ page: 0, rowsPerPage: event.target.value })
   }
 
   render() {
-    const { members, pageItem, pagination } = this.state
+    const { classes } = this.props
+    const { members, rowsPerPage, page } = this.state
 
-    const currentPage = members.filter(
-      (member, index) =>
-        index < pagination * pageItem && index >= (pagination - 1) * pageItem
-    )
+    const emptyRows =
+      rowsPerPage - Math.min(rowsPerPage, members.length - page * rowsPerPage)
 
     return (
-      <div className="card px-0">
-        <h5 className="card-header text-center text-primary">Team members</h5>
-        <div className="card-body">
-          <div className="card-text">
-            {members.length === 0 ? (
-              <p className="card-text text-center">
-                <span className="font-italic text-muted">
-                  No Team member yet
-                </span>
-              </p>
-            ) : (
-              <div>
-                <table className="table table-striped">
-                  <thead>
-                    <tr>
-                      <th scope="col">
-                        <i className="fas fa-user" />
-                      </th>
-                      <th scope="col">Name</th>
-                      <th scope="col">Points</th>
-                      <th scope="col">HiFIVE</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {currentPage.map(member => {
-                      return (
-                        <tr key={member._id}>
-                          <th scope="row" />
-                          <td>{member.name}</td>
-                          <td>{member.points}</td>
-                          <td>{member.hifive}</td>
-                        </tr>
-                      )
-                    })}
-                  </tbody>
-                </table>
-                <Pagination
-                  pagination={pagination}
-                  pageItem={pageItem}
-                  prevClick={this.prevClick}
-                  nextClick={this.nextClick}
-                  currentPage={currentPage}
-                  totalNumber={members.length}
-                />
-              </div>
+      <Paper className={classes.root} elevation={1}>
+        <Typography variant="h5" component="h3" color="primary">
+          Team members
+        </Typography>
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell align="right">Points</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {members.length === 0 && (
+              <TableRow color="secondary">
+                <TableCell>No team member yet</TableCell>
+              </TableRow>
             )}
-          </div>
-        </div>
-      </div>
+            {members
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map(member => (
+                <TableRow key={member._id}>
+                  <TableCell component="th" scope="row">
+                    {member.name}
+                  </TableCell>
+                  <TableCell align="right">{member.points}</TableCell>
+                </TableRow>
+              ))}
+            {emptyRows > 0 && (
+              <TableRow style={{ height: 48 * emptyRows }}>
+                <TableCell colSpan={6} />
+              </TableRow>
+            )}
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TablePagination
+                rowsPerPageOptions={[5]}
+                colSpan={3}
+                count={members.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                SelectProps={{
+                  native: true
+                }}
+                onChangePage={this.handleChangePage}
+                onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                ActionsComponent={TablePaginationActionsWrapped}
+              />
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </Paper>
     )
   }
 }
 
 Member.propTypes = {
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
   auth: state.auth
 })
 
-export default connect(mapStateToProps)(Member)
+export default connect(mapStateToProps)(withStyles(styles)(Member))

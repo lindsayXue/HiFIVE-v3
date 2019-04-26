@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Journey from './Journey'
 import Contribution from './Contribution'
+import PropTypes from 'prop-types'
 import { Grid } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 
@@ -30,6 +31,10 @@ class Home extends Component {
       </Grid>
     )
   }
+}
+
+Home.propTypes = {
+  classes: PropTypes.object.isRequired
 }
 
 export default withStyles(styles)(Home)

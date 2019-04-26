@@ -5,10 +5,8 @@ import {
   List,
   ListItem,
   ListItemText,
-  ListItemIcon,
-  ListItemSecondaryAction
+  ListItemIcon
 } from '@material-ui/core'
-import { withStyles } from '@material-ui/core/styles'
 
 class Rank extends Component {
   render() {

@@ -3,6 +3,7 @@ import RankContent from './RankContent'
 import UserService from '../../services/user/UserService'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { Grid } from '@material-ui/core'
 
 class Rank extends Component {
   state = {
@@ -28,17 +29,16 @@ class Rank extends Component {
 
   render() {
     const { pointsRank, hifiveRank } = this.state
+
     return (
-      <div className="card p-0 border border-white">
-        <div className="card-body p-0 row d-flex justify-content-center">
-          <div className="col-md-6 mb-2">
-            <RankContent title="Exercise" rank={pointsRank} />
-          </div>
-          <div className="col-md-6 mb-2">
-            <RankContent title="HiFIVE" rank={hifiveRank} />
-          </div>
-        </div>
-      </div>
+      <Grid container justify="center" spacing={40}>
+        <Grid item md={6}>
+          <RankContent title="Exercise" rank={pointsRank} />
+        </Grid>
+        <Grid item md={6}>
+          <RankContent title="HiFIVE" rank={hifiveRank} />
+        </Grid>
+      </Grid>
     )
   }
 }

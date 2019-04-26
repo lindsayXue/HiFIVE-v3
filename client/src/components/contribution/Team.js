@@ -1,7 +1,16 @@
 import React, { Component } from 'react'
 import { Bar } from 'react-chartjs-2'
 import TeamService from '../../services/user/TeamService'
-import { Link } from 'react-router-dom'
+import { withStyles } from '@material-ui/core/styles'
+import { Typography, Paper } from '@material-ui/core'
+
+const styles = theme => ({
+  root: {
+    ...theme.mixins.gutters(),
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2
+  }
+})
 
 class Team extends Component {
   state = {
@@ -18,6 +27,7 @@ class Team extends Component {
   }
   render() {
     const { teams } = this.state
+    const { classes } = this.props
 
     const chartData = {
       labels: teams.map(team => team.name),
@@ -44,29 +54,21 @@ class Team extends Component {
     }
 
     return (
-      <div>
-        <h5 className="card-header text-center text-primary">Team</h5>
-        <div className="card-body">
-          <p className="card-text">
-            <Bar
-              data={chartData}
-              width={400}
-              height={300}
-              options={chartOptions}
-            />
-          </p>
-        </div>
-        <Link to="/user/home">
-          <button
-            type="button"
-            className="btn btn-lg btn-default float-right mr-2"
-          >
-            Back
-          </button>
-        </Link>
-      </div>
+      <Paper className={classes.root} elevation={1}>
+        <Typography variant="h5" component="h3" color="primary">
+          Team
+        </Typography>
+        <p>
+          <Bar
+            data={chartData}
+            width={400}
+            height={300}
+            options={chartOptions}
+          />
+        </p>
+      </Paper>
     )
   }
 }
 
-export default Team
+export default withStyles(styles)(Team)

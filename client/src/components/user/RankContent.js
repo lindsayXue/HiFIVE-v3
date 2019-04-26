@@ -1,22 +1,36 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import { Typography, Paper } from '@material-ui/core'
+
+const styles = theme => ({
+  root: {
+    ...theme.mixins.gutters(),
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2,
+    textAlign: 'center'
+  }
+})
 
 const RankContent = props => {
+  const { classes, title, rank } = props
+
   return (
-    <div className="card px-0">
-      <div className="card-body">
-        <div className="card-title">{props.title} Rank</div>
-        <div className="card-text text-center">
-          <i className="fas fa-star" /> {props.rank}
-        </div>
-      </div>
-    </div>
+    <Paper className={classes.root} elevation={1}>
+      <Typography variant="h5" component="h3" color="primary">
+        {title}
+      </Typography>
+      <Typography component="p">
+        <i className="fas fa-star" /> {rank}
+      </Typography>
+    </Paper>
   )
 }
 
 RankContent.propTypes = {
   title: PropTypes.string.isRequired,
-  rank: PropTypes.number.isRequired
+  rank: PropTypes.number.isRequired,
+  classes: PropTypes.object.isRequired
 }
 
-export default RankContent
+export default withStyles(styles)(RankContent)

@@ -1,13 +1,39 @@
 import React, { Component } from 'react'
 import UserService from '../../services/user/UserService'
-import Pagination from '../common/Pagination'
-import TableGroup from '../common/TableGroup'
+import TablePaginationActionsWrapped from '../common/TablePaginationActions'
+import EnhancedTableHead from '../common/EnhancedTableHead'
+import {
+  Typography,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+  TableFooter,
+  TablePagination
+} from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
+
+const styles = theme => ({
+  root: {
+    // width: '100%',
+    padding: 20
+  },
+  table: {
+    // maxWidth: '100%'
+  },
+  tableWrapper: {
+    overflowX: 'auto'
+  }
+})
 
 class Personal extends Component {
   state = {
     users: [],
-    pagination: 1,
-    pageItem: 5,
+    order: 'asc',
+    orderBy: 'points',
+    page: 0,
+    rowsPerPage: 5,
     error: null
   }
 
@@ -20,97 +46,134 @@ class Personal extends Component {
     }
   }
 
-  prevClick = e => {
-    this.setState({ pagination: this.state.pagination - 1 })
+  handleChangePage = (e, page) => {
+    this.setState({ page })
   }
 
-  nextClick = e => {
-    this.setState({
-      pagination: this.state.pagination + 1
-    })
+  handleChangeRowsPerPage = event => {
+    this.setState({ page: 0, rowsPerPage: event.target.value })
+  }
+  handleRequestSort = (event, property) => {
+    const orderBy = property
+    let order = 'desc'
+
+    if (this.state.orderBy === property && this.state.order === 'desc') {
+      order = 'asc'
+    }
+
+    this.setState({ order, orderBy })
   }
 
   render() {
-    const { users, pagination, pageItem } = this.state
-
-    const currentPage = users.filter(
-      (user, index) =>
-        index < pagination * pageItem && index >= (pagination - 1) * pageItem
-    )
-
+    const { users, rowsPerPage, page, order, orderBy } = this.state
+    const { classes } = this.props
+    const emptyRows =
+      rowsPerPage - Math.min(rowsPerPage, users.length - page * rowsPerPage)
     const usersData = users.map(user => {
       return {
+        id: user._id,
         name: user.name,
         points: user.points,
         hifive: user.hifive
       }
     })
 
-    const data = {
-      columns: [
-        {
-          label: 'Name',
-          field: 'name',
-          sort: 'asc',
-          width: 150
-        },
-        {
-          label: 'Points',
-          field: 'points',
-          sort: 'asc',
-          width: 270
-        },
-        {
-          label: 'HiFIVE',
-          field: 'hifive',
-          sort: 'asc',
-          width: 200
-        }
-      ],
-      rows: usersData
+    const rows = [
+      {
+        id: 'name',
+        numeric: false,
+        disablePadding: true,
+        label: 'Name'
+      },
+      {
+        id: 'points',
+        numeric: true,
+        disablePadding: false,
+        label: 'Points'
+      },
+      { id: 'hifive', numeric: true, disablePadding: false, label: 'HiFIVE' }
+    ]
+
+    function desc(a, b, orderBy) {
+      if (b[orderBy] < a[orderBy]) {
+        return -1
+      }
+      if (b[orderBy] > a[orderBy]) {
+        return 1
+      }
+      return 0
+    }
+
+    function stableSort(array, cmp) {
+      const stabilizedThis = array.map((el, index) => [el, index])
+      stabilizedThis.sort((a, b) => {
+        const order = cmp(a[0], b[0])
+        if (order !== 0) return order
+        return a[1] - b[1]
+      })
+      return stabilizedThis.map(el => el[0])
+    }
+
+    function getSorting(order, orderBy) {
+      return order === 'desc'
+        ? (a, b) => desc(a, b, orderBy)
+        : (a, b) => -desc(a, b, orderBy)
     }
 
     return (
-      <div>
-        <h5 className="card-header text-center text-primary">Personal</h5>
-        <div className="card-body">
-          <div className="card-text">
-            <TableGroup striped bordered hover data={data} />
-            {/* <table className="table table-striped">
-              <thead>
-                <tr>
-                  <th scope="col" />
-                  <th scope="col">Name</th>
-                  <th scope="col">Points</th>
-                  <th scope="col">HiFIVE</th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentPage.map(user => {
-                  return (
-                    <tr key={user._id}>
-                      <th scope="row" />
-                      <td>{user.name}</td>
-                      <td>{user.points}</td>
-                      <td>{user.hifive}</td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table> */}
-            {/* <Pagination
-              pagination={pagination}
-              pageItem={pageItem}
-              prevClick={this.prevClick}
-              nextClick={this.nextClick}
-              currentPage={currentPage}
-              totalNumber={users.length}
-            /> */}
-          </div>
+      <Paper className={classes.root}>
+        <Typography variant="h5" component="h3" gutterBottom color="primary">
+          Personal
+        </Typography>
+        <div className={classes.tableWrapper}>
+          <Table className={classes.table}>
+            <EnhancedTableHead
+              rows={rows}
+              order={order}
+              orderBy={orderBy}
+              onRequestSort={this.handleRequestSort}
+              rowCount={usersData.length}
+            />
+            <TableBody>
+              {stableSort(usersData, getSorting(order, orderBy))
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map(user => (
+                  <TableRow key={user.id}>
+                    <TableCell component="th" scope="row">
+                      {user.name}
+                    </TableCell>
+                    <TableCell align="right">{user.points}</TableCell>
+                    <TableCell align="right">{user.hifive}</TableCell>
+                  </TableRow>
+                ))}
+              {emptyRows > 0 && (
+                <TableRow style={{ height: 48 * emptyRows }}>
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
+            </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  rowsPerPageOptions={[5]}
+                  colSpan={3}
+                  count={usersData.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  SelectProps={{
+                    native: true
+                  }}
+                  onChangePage={this.handleChangePage}
+                  onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                  ActionsComponent={TablePaginationActionsWrapped}
+                />
+              </TableRow>
+            </TableFooter>
+          </Table>
         </div>
-      </div>
+      </Paper>
     )
   }
 }
 
-export default Personal
+export default withStyles(styles)(Personal)

@@ -2,16 +2,40 @@ import React, { Component } from 'react'
 import RecordService from '../../services/user/RecordService'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
 import { Line } from 'react-chartjs-2'
 import moment from 'moment'
-import Pagination from '../common/Pagination'
+import {
+  Typography,
+  Paper,
+  Button,
+  Table,
+  TableHead,
+  TableBody,
+  TableCell,
+  TableRow,
+  TableFooter,
+  TablePagination
+} from '@material-ui/core'
+import TablePaginationActionsWrapped from '../common/TablePaginationActions'
+import { withStyles } from '@material-ui/core/styles'
+
+const styles = theme => ({
+  root: {
+    ...theme.mixins.gutters(),
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2
+  },
+  backBtn: {
+    float: 'right'
+  }
+})
 
 class Record extends Component {
   state = {
     records: [],
-    pageItem: 5,
-    pagination: 1,
+    page: 0,
+    rowsPerPage: 5,
     error: null
   }
 
@@ -27,23 +51,19 @@ class Record extends Component {
     }
   }
 
-  prevClick = e => {
-    this.setState({ pagination: this.state.pagination - 1 })
+  handleChangePage = (event, page) => {
+    this.setState({ page })
   }
 
-  nextClick = e => {
-    this.setState({
-      pagination: this.state.pagination + 1
-    })
+  handleChangeRowsPerPage = event => {
+    this.setState({ page: 0, rowsPerPage: event.target.value })
   }
 
   render() {
-    const { records, pagination, pageItem } = this.state
-
-    const currentPage = records.filter(
-      (record, index) =>
-        index < pagination * pageItem && index >= (pagination - 1) * pageItem
-    )
+    const { classes } = this.props
+    const { records, rowsPerPage, page } = this.state
+    const emptyRows =
+      rowsPerPage - Math.min(rowsPerPage, records.length - page * rowsPerPage)
 
     const data = {
       labels: records
@@ -72,58 +92,75 @@ class Record extends Component {
       maintainAspectRatio: false
     }
     return (
-      <div>
-        <h5 className="card-header text-center text-primary">
+      <Paper className={classes.root} elevation={1}>
+        <Typography variant="h5" color="primary" paragraph>
           Exercise Records
-          <Link to="/user/record/add">
-            <button
-              type="button"
-              className="btn btn-sm btn-default float-right mr-2"
-            >
-              + Record
-            </button>
-          </Link>
-        </h5>
-        <div className="card-body">
-          <p className="card-text">
-            <Line width={400} height={300} data={data} options={chartOptions} />
-          </p>
-          <div className="card-text">
-            <table className="table table-striped">
-              <thead>
-                <tr>
-                  <th scope="col" />
-                  <th scope="col">Date</th>
-                  <th scope="col">Type</th>
-                  <th scope="col">Duraion</th>
-                  <th scope="col">Points</th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentPage.map(record => {
-                  return (
-                    <tr key={record._id}>
-                      <th scope="row" />
-                      <td>{moment(record.date).format('MMM DD')}</td>
-                      <td>{record.type}</td>
-                      <td>{record.duration}</td>
-                      <td>{record.points}</td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
-            <Pagination
-              pagination={pagination}
-              pageItem={pageItem}
-              prevClick={this.prevClick}
-              nextClick={this.nextClick}
-              currentPage={currentPage}
-              totalNumber={records.length}
-            />
-          </div>
-        </div>
-      </div>
+          <Button
+            component={RouterLink}
+            to="/user/record/add"
+            className={classes.backBtn}
+            variant="contained"
+            color="primary"
+          >
+            + Record
+          </Button>
+        </Typography>
+        <p>
+          <Line width={400} height={300} data={data} options={chartOptions} />
+        </p>
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
+              <TableCell>Date</TableCell>
+              <TableCell align="right">Type</TableCell>
+              <TableCell align="right">Duration</TableCell>
+              <TableCell align="right">Points</TableCell>
+            </TableRow>
+          </TableHead>
+
+          <TableBody>
+            {records.length === 0 && (
+              <TableRow color="secondary">
+                <TableCell>No record yet</TableCell>
+              </TableRow>
+            )}
+            {records
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map(record => (
+                <TableRow key={record._id}>
+                  <TableCell component="th" scope="row">
+                    {moment(record.date).format('MMM Do')}
+                  </TableCell>
+                  <TableCell align="right">{record.type}</TableCell>
+                  <TableCell align="right">{record.duration}</TableCell>
+                  <TableCell align="right">{record.points}</TableCell>
+                </TableRow>
+              ))}
+            {emptyRows > 0 && (
+              <TableRow style={{ height: 48 * emptyRows }}>
+                <TableCell colSpan={6} />
+              </TableRow>
+            )}
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TablePagination
+                rowsPerPageOptions={[5]}
+                colSpan={3}
+                count={records.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                SelectProps={{
+                  native: true
+                }}
+                onChangePage={this.handleChangePage}
+                onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                ActionsComponent={TablePaginationActionsWrapped}
+              />
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </Paper>
     )
   }
 }
@@ -136,4 +173,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 })
 
-export default connect(mapStateToProps)(Record)
+export default connect(mapStateToProps)(withStyles(styles)(Record))

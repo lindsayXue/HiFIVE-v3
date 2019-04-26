@@ -1,26 +1,54 @@
 import React, { Component } from 'react'
 import Personal from './Personal'
 import Team from './Team'
-// import { Link } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import { Grid, Button } from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
 
-export default class Contribution extends Component {
+const styles = theme => ({
+  root: {
+    marginTop: 20
+  },
+  backBtn: {
+    float: 'right',
+    marginTop: 20
+  }
+})
+
+class Contribution extends Component {
   render() {
+    const { classes } = this.props
     return (
-      <div>
-        <div className="row d-flex justify-content-around">
-          <div className="card col-md-6 px-0 mt-2">
-            <Personal />
-          </div>
-          <div className="card col-md-5 px-0 mt-2">
-            <Team />
-          </div>
-        </div>
-        {/* <Link to="/user/home">
-          <button type="button" className="btn btn-md btn-info float-right m-4">
+      <Grid
+        className={classes.root}
+        container
+        justify="center"
+        alignItems="flex-start"
+        spacing={40}
+      >
+        <Grid item md={5}>
+          <Personal />
+        </Grid>
+        <Grid item md={5}>
+          <Team />
+          <Button
+            className={classes.backBtn}
+            component={RouterLink}
+            to="/user/home"
+            variant="contained"
+            color="primary"
+          >
             Back
-          </button>
-        </Link> */}
-      </div>
+          </Button>
+        </Grid>
+      </Grid>
     )
   }
 }
+
+Contribution.propTypes = {
+  classes: PropTypes.object.isRequired
+}
+
+export default withStyles(styles)(Contribution)
