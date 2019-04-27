@@ -22,7 +22,7 @@ module.exports = async function(req, res, next) {
     req.body.email = email
     next()
   } catch (err) {
-    errors.unauthoriseuser = 'Unauthorised user'
+    errors.unauthoriseuser = 'Unauthorised user, please login first'
     return res.status(401).json(errors)
   }
 }

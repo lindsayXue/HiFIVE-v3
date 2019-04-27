@@ -13,7 +13,7 @@ const styles = theme => ({
     margin: theme.spacing.unit,
     width: '100%',
     height: '50px',
-    fontSize: '1.2rem'
+    fontSize: '1rem'
   },
   input: {
     display: 'none'
@@ -36,6 +36,12 @@ class Login extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.auth.isAuthenticated) {
+      this.props.history.push('/user/home')
+    }
+  }
+
   onSuccessSignin = response => {
     let id_token = response.getAuthResponse().id_token
 
@@ -51,11 +57,11 @@ class Login extends Component {
   }
 
   render() {
-    const { errors, classes } = this.props
+    const { classes } = this.props
     const { error } = this.state
     return (
       <Grid container justify="center" style={{ marginTop: '10rem' }}>
-        <Grid item lg={2} md={3} sm={5}>
+        <Grid item md={3} sm={5}>
           <GoogleLogin
             clientId="909776054271-l3v0sar1i5nqir67jjo0pn9bv252f9i1.apps.googleusercontent.com"
             render={renderProps => (

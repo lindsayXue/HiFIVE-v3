@@ -9,8 +9,8 @@ export default {
       params
     })
   },
-  getUserProfile(params) {
-    return Api().post('users/profile', params)
+  getUserProfile() {
+    return Api().get('users/profile')
   },
   getUserRank(params) {
     return Api().get(`users/rank/${params.points}/${params.hifive}`)

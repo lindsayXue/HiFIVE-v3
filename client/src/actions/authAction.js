@@ -1,6 +1,7 @@
 import AuthService from '../services/user/AuthService'
 import setAuthToken from '../services/setAuthToken'
-import { GET_ERRORS, SET_CURRENT_USER, CLEAR_ERRORS } from './types'
+import { GET_ERRORS, CLEAR_ERRORS, SET_CURRENT_ACTIVITY } from './types'
+import { setCurrentUser } from './userAction'
 
 // Register User
 export const registerUser = (userData, history) => async dispatch => {
@@ -10,6 +11,11 @@ export const registerUser = (userData, history) => async dispatch => {
     dispatch(clearErrors())
     history.push('/user/home')
   } catch (err) {
+    if (err.response.status === 401) {
+      dispatch(logoutUser())
+      history.push('/')
+      return
+    }
     dispatch({
       type: GET_ERRORS,
       payload: err.response.data
@@ -17,28 +23,19 @@ export const registerUser = (userData, history) => async dispatch => {
   }
 }
 
-// Set logged in user
-export const setCurrentUser = user => {
-  return {
-    type: SET_CURRENT_USER,
-    payload: user
-  }
-}
-
 // Log user in
 export const loginUser = (googleToken, history) => async dispatch => {
   try {
-    console.log('1')
     // Set token to Auth header
     setAuthToken(googleToken)
     const res = await AuthService.login()
-    console.log('2')
     // Set token to ls
     localStorage.setItem('googleToken', googleToken)
     dispatch(setCurrentUser(res.data))
     history.push('/user/home')
   } catch (err) {
     if (err.response.status === 404) {
+      localStorage.setItem('googleToken', googleToken)
       history.push('/register')
       return
     }
@@ -53,6 +50,13 @@ export const loginUser = (googleToken, history) => async dispatch => {
 export const logoutUser = () => dispatch => {
   // Set current user to {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}))
+  dispatch(clearErrors())
+  setAuthToken()
+  localStorage.removeItem('googleToken')
+  dispatch({
+    type: SET_CURRENT_ACTIVITY,
+    payload: {}
+  })
 }
 
 // Clear errors

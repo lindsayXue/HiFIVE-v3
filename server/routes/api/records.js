@@ -50,7 +50,7 @@ router.get('/', async (req, res) => {
 // @route   POST api/records/add
 // @desc    Create a record
 // @access  Private
-router.post('/add', async (req, res) => {
+router.post('/add', googleAuth, async (req, res) => {
   try {
     const { errors, isValid } = validateRecordInput(req.body)
 
@@ -108,19 +108,19 @@ router.post('/add', async (req, res) => {
 // @route   GET api/records/user
 // @desc    Get user records
 // @access  Private
-router.get('/user', async (req, res) => {
+router.get('/user', googleAuth, async (req, res) => {
   try {
     let userRecords
     if (!!req.query.number) {
       let skip = !req.query.skip ? 0 : req.query.skip
-      userRecords = await Record.find({ user: req.query.googleId })
+      userRecords = await Record.find({ user: req.body.googleId })
         .sort({
           date: -1
         })
         .skip(Number(skip))
         .limit(Number(req.query.number))
     } else {
-      userRecords = await Record.find({ user: req.query.googleId }).sort({
+      userRecords = await Record.find({ user: req.body.googleId }).sort({
         date: -1
       })
     }

@@ -20,7 +20,6 @@ import {
 
 class Register extends Component {
   state = {
-    googleToken: '',
     name: '',
     ageRange: '',
     gender: '',
@@ -61,7 +60,6 @@ class Register extends Component {
     e.preventDefault()
 
     const newUser = {
-      googleToken: this.state.googleToken,
       name: this.state.name,
       ageRange: this.state.ageRange,
       gender: this.state.gender,
@@ -77,7 +75,6 @@ class Register extends Component {
 
   render() {
     const {
-      googleToken,
       name,
       ageRange,
       gender,
@@ -129,14 +126,6 @@ class Register extends Component {
               Sign up
             </Typography>
             <form onSubmit={this.onSubmit}>
-              <TextField
-                name="googleToken"
-                label="Google Id"
-                value={googleToken}
-                onChange={this.onChange}
-                required
-                fullWidth
-              />
               <TextField
                 placeholder="Name"
                 label="Name"

@@ -21,7 +21,6 @@ const Team = require('../../models/Team')
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const errors = {}
     let users
     if (!!req.query.number) {
       let skip = !req.query.skip ? 0 : req.query.skip
@@ -39,10 +38,10 @@ router.get('/', async (req, res) => {
   }
 })
 
-// @route   POST api/users/profile
+// @route   GET api/users/profile
 // @desc    Get user profile
 // @access  Private
-router.post('/profile', googleAuth, async (req, res) => {
+router.get('/profile', googleAuth, async (req, res) => {
   try {
     const userProfile = await User.findById(req.body.googleId)
 
@@ -140,7 +139,7 @@ router.post('/register', googleAuth, async (req, res) => {
 // @route   PUT api/users/edit
 // @desc    Edit user
 // @access  Admin
-router.put('/edit', async (req, res) => {
+router.put('/edit', googleAuth, async (req, res) => {
   try {
     let editUser = await User.findByIdAndUpdate(req.body.googleId, {
       points: req.body.points,

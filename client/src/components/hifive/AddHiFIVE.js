@@ -45,7 +45,6 @@ class AddHiFIVE extends Component {
     const receiverArray = this.state.receiver.map(e => e.value)
 
     const newHiFIVE = {
-      sender: this.props.auth.user._id,
       receiver: receiverArray,
       reason: this.state.reason
     }

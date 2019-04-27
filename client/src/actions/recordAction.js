@@ -1,31 +1,25 @@
-import { GET_ERRORS, CLEAR_ERRORS, SET_CURRENT_USER } from './types'
+import { GET_ERRORS, CLEAR_ERRORS } from './types'
 import RecordService from '../services/user/RecordService'
-import UserService from '../services/user/UserService'
+import { getUserProfile } from './userAction'
+import { logoutUser } from './authAction'
 
 // Add record
 export const addRecord = (recordData, history) => async dispatch => {
   // dispatch(setContentLoading())
   try {
-    const resRecord = await RecordService.addRecord(recordData)
+    await RecordService.addRecord(recordData)
     dispatch(clearErrors())
-    const resUser = await UserService.getUserProfile({
-      googleToken: resRecord.data.user
-    })
-    dispatch(setCurrentUser(resUser.data))
+    dispatch(getUserProfile())
     history.push('/user/profile')
   } catch (err) {
+    if (err.response.status === 401) {
+      dispatch(logoutUser())
+      return
+    }
     dispatch({
       type: GET_ERRORS,
       payload: err.response.data
     })
-  }
-}
-
-// Set logged in user
-export const setCurrentUser = user => {
-  return {
-    type: SET_CURRENT_USER,
-    payload: user
   }
 }
 

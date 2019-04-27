@@ -1,4 +1,4 @@
-import { SET_CURRENT_ACTIVITY } from './types'
+import { SET_CURRENT_ACTIVITY, GET_ERRORS } from './types'
 import ActivityService from '../services/user/ActivityService'
 
 // GET Activity
@@ -11,6 +11,9 @@ export const getActivity = () => async dispatch => {
       payload: res.data
     })
   } catch (err) {
-    console.log(err)
+    dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data
+    })
   }
 }

@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
+import setAuthToken from './services/setAuthToken'
+import { getUserProfile } from './actions/userAction'
+
 import { Provider } from 'react-redux'
 import store from './store'
 
@@ -18,8 +21,19 @@ import Contribution from './components/contribution/Contribution'
 import AddRecord from './components/record/AddRecord'
 import AddHiFIVE from './components/hifive/AddHiFIVE'
 import { withTheme } from '@material-ui/core/styles'
+import UserService from './services/user/UserService'
 
 import './App.css'
+
+// Check for token
+if (localStorage.googleToken) {
+  // Set auth token header auth
+  setAuthToken(localStorage.googleToken)
+
+  // Get user info
+  // Set user and isAuthenticated
+  store.dispatch(getUserProfile())
+}
 
 class App extends Component {
   render() {

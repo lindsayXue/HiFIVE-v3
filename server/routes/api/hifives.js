@@ -10,6 +10,9 @@ const User = require('../../models/User')
 // Load Validator
 const validateHiFIVEInput = require('../../validation/hifive')
 
+// Middleware
+const googleAuth = require('../../middlewares/googleAuth')
+
 // @route   GET api/hifives
 // @desc    Get all hifives
 // @access  Public
@@ -45,7 +48,7 @@ router.get('/', async (req, res) => {
 // @route   POST api/hifives/add
 // @desc    Add a hifive
 // @access  Private
-router.post('/add', async (req, res) => {
+router.post('/add', googleAuth, async (req, res) => {
   try {
     const { errors, isValid } = validateHiFIVEInput(req.body)
 
@@ -56,7 +59,7 @@ router.post('/add', async (req, res) => {
     }
 
     const newHiFIVE = new HiFIVE({
-      sender: req.body.sender,
+      sender: req.body.googleId,
       receiver: req.body.receiver,
       reason: req.body.reason
     })

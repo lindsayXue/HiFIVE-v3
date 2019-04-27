@@ -1,6 +1,8 @@
 import { GET_ERRORS, CLEAR_ERRORS, SET_CURRENT_USER } from './types'
 import HiFIVEService from '../services/user/HiFIVEService'
 import UserService from '../services/user/UserService'
+import { getActivity } from './activityAction'
+import { logoutUser } from './authAction'
 
 // Add record
 export const addHiFIVE = (hifiveData, history) => async dispatch => {
@@ -14,6 +16,10 @@ export const addHiFIVE = (hifiveData, history) => async dispatch => {
     dispatch(setCurrentUser(resUser.data))
     history.push('/user/home')
   } catch (err) {
+    if (err.response.status === 401) {
+      dispatch(logoutUser())
+      return
+    }
     dispatch({
       type: GET_ERRORS,
       payload: err.response.data
