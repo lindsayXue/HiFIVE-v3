@@ -21,7 +21,7 @@ module.exports = function validateRecordInput(data) {
   if (Validator.isEmpty(data.duration)) {
     errors.duration = 'Exercise duration field is required'
   }
-  if (data.duration >= 300) {
+  if (data.duration > 300) {
     errors.duration =
       'Exercise duration can not be over 300 minutes. Please contact administrator.'
   }

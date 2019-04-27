@@ -29,7 +29,7 @@ class TimeBoard extends Component {
         <hr />
         <Typography component="p">
           <i className="fas fa-clock text-primary" />{' '}
-          <Moment format="DD/MM">{activity.start}</Moment>-
+          <Moment format="DD/MM">{activity.start}</Moment> ——{' '}
           <Moment format="DD/MM">{activity.end}</Moment>{' '}
         </Typography>
         <Typography component="p">

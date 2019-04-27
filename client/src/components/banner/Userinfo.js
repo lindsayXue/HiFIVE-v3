@@ -20,11 +20,13 @@ const Userinfo = props => {
     <div>
       <Paper className={classes.root} elevation={0}>
         <Typography component="p" variant="subtitle1" gutterBottom>
-          <i className="fas fa-user" /> <span>{props.user.name}</span>{' '}
+          <i className="fas fa-user" /> <span>{props.user.name}</span>
+          {'   '}
           <i className="fas fa-flag" style={props.flagStyle} />
         </Typography>
         <Typography component="p" variant="subtitle1" gutterBottom>
-          Points: {props.user.points} <i className="fas fa-hand-paper" />{' '}
+          Points: {props.user.points} <i className="fas fa-hand-paper" />
+          {'   '}
           {props.user.hifive}
         </Typography>
       </Paper>

@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
-import UserService from '../../services/user/UserService'
+import HiFIVEService from '../../services/user/HiFIVEService'
 import TablePaginationActionsWrapped from '../common/TablePaginationActions'
 import EnhancedTableHead from '../common/EnhancedTableHead'
 import {
   Typography,
-  Paper,
   Table,
   TableBody,
   TableCell,
@@ -29,8 +28,8 @@ const styles = theme => ({
 
 class HiFIVERank extends Component {
   state = {
-    users: [],
-    order: 'asc',
+    rank: [],
+    order: 'desc',
     orderBy: 'hifive',
     page: 0,
     rowsPerPage: 5,
@@ -39,8 +38,8 @@ class HiFIVERank extends Component {
 
   async componentDidMount() {
     try {
-      const res = await UserService.getUsers()
-      this.setState({ users: res.data })
+      const res = await HiFIVEService.getRank()
+      this.setState({ rank: res.data })
     } catch (err) {
       this.setState({ error: err.response.data })
     }
@@ -65,11 +64,12 @@ class HiFIVERank extends Component {
   }
 
   render() {
-    const { users, rowsPerPage, page, order, orderBy } = this.state
+    const { rank, rowsPerPage, page, order, orderBy } = this.state
     const { classes } = this.props
     const emptyRows =
-      rowsPerPage - Math.min(rowsPerPage, users.length - page * rowsPerPage)
-    const usersData = users.map(user => {
+      rowsPerPage - Math.min(rowsPerPage, rank.length - page * rowsPerPage)
+
+    const usersData = rank.map(user => {
       return {
         id: user._id,
         name: user.name,

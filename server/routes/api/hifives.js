@@ -80,4 +80,17 @@ router.post('/add', async (req, res) => {
   }
 })
 
+// @route   GET api/hifives/rank
+// @desc    Get all users
+// @access  Public
+router.get('/rank', async (req, res) => {
+  try {
+    let rank = await User.find({ hifive: { $ne: 0 } }).sort({ hifive: -1 })
+    res.json(rank)
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ servererror: 'Server error' })
+  }
+})
+
 module.exports = router

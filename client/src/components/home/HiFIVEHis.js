@@ -51,8 +51,15 @@ class HiFIVEHis extends Component {
   render() {
     const { history, page, rowsPerPage } = this.state
     const { classes } = this.props
+
+    const historyTable = history.map(e => ({
+      ...e,
+      receiver: e.receiver.map(i => i.name).join()
+    }))
+
     const emptyRows =
-      rowsPerPage - Math.min(rowsPerPage, history.length - page * rowsPerPage)
+      rowsPerPage -
+      Math.min(rowsPerPage, historyTable.length - page * rowsPerPage)
 
     let historyBoard = (
       <Table className={classes.table}>
@@ -65,19 +72,19 @@ class HiFIVEHis extends Component {
         </TableHead>
 
         <TableBody>
-          {history.length === 0 && (
+          {historyTable.length === 0 && (
             <TableRow color="secondary">
-              <TableCell>No record yet</TableCell>
+              <TableCell>No one get HiFIVE yet</TableCell>
             </TableRow>
           )}
-          {history
+          {historyTable
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map(his => (
-              <TableRow key={his._id}>
+            .map((his, index) => (
+              <TableRow key={index}>
                 <TableCell component="th" scope="row">
                   {his.sender.name}
                 </TableCell>
-                <TableCell>{his.receiver.name}</TableCell>
+                <TableCell>{his.receiver}</TableCell>
                 <TableCell align="right">{his.reason}</TableCell>
               </TableRow>
             ))}
@@ -109,7 +116,7 @@ class HiFIVEHis extends Component {
 
     return (
       <div>
-        <Typography component="h2" variant="h6">
+        <Typography variant="h5" component="h3" gutterBottom>
           History
         </Typography>
         <List>{historyBoard}</List>

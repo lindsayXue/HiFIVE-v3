@@ -35,7 +35,6 @@ class HiFIVE extends Component {
             Give a HiFIVE
           </Button>
         </Typography>
-        <hr />
         <Grid container spacing={40}>
           <Grid item md={7}>
             <HiFIVEHis />

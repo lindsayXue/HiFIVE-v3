@@ -10,7 +10,7 @@ import AutoComplete from '../common/AutoComplete'
 
 class AddHiFIVE extends Component {
   state = {
-    receiver: '',
+    receiver: [],
     reason: '',
     receiverOptions: [],
     error: null
@@ -35,7 +35,7 @@ class AddHiFIVE extends Component {
 
   onAutoComleteChange = name => value => {
     this.setState({
-      [name]: value
+      [name]: [value]
     })
   }
 
@@ -85,7 +85,7 @@ class AddHiFIVE extends Component {
                 onChange={this.onAutoComleteChange}
                 receiverOptions={receiverOptions}
                 value={receiver}
-                isMulti="true"
+                // isMulti="true"
               />
               {errors.receiver && (
                 <Typography color="error">{errors.receiver}</Typography>
