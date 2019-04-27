@@ -60,7 +60,7 @@ class Record extends Component {
   }
 
   render() {
-    const { classes } = this.props
+    const { classes, style } = this.props
     const { records, rowsPerPage, page } = this.state
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, records.length - page * rowsPerPage)
@@ -92,7 +92,7 @@ class Record extends Component {
       maintainAspectRatio: false
     }
     return (
-      <Paper className={classes.root} elevation={1}>
+      <Paper className={classes.root} elevation={1} style={style}>
         <Typography variant="h5" color="primary" paragraph>
           Exercise Records
           <Button

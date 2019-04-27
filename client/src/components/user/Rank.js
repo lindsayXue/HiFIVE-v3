@@ -44,9 +44,10 @@ class Rank extends Component {
 
   render() {
     const { pointsRank, hifiveRank } = this.state
+    const { style } = this.props
 
     return (
-      <Grid container justify="center" spacing={40}>
+      <Grid container justify="center" spacing={40} style={style}>
         <Grid item md={6}>
           <RankContent title="Exercise Rank" rank={pointsRank} />
         </Grid>

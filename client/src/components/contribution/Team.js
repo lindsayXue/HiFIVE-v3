@@ -27,7 +27,7 @@ class Team extends Component {
   }
   render() {
     const { teams } = this.state
-    const { classes } = this.props
+    const { classes, style } = this.props
 
     const chartData = {
       labels: teams.map(team => team.name),
@@ -54,7 +54,7 @@ class Team extends Component {
     }
 
     return (
-      <Paper className={classes.root} elevation={1}>
+      <Paper className={classes.root} elevation={1} style={style}>
         <Typography variant="h5" component="h3" color="primary">
           Team
         </Typography>

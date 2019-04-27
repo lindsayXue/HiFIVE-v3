@@ -36,7 +36,7 @@ class Journey extends Component {
   }
   ß
   render() {
-    const { activity, classes } = this.props
+    const { activity, classes, style } = this.props
     const { distanceNZ } = this.state
 
     let percent = ((activity.points * 1000) / distanceNZ).toFixed(2)
@@ -63,7 +63,7 @@ class Journey extends Component {
     }
 
     return (
-      <Card className={classes.card}>
+      <Card className={classes.card} style={style}>
         <CardActionArea>
           <CardMedia
             component="img"

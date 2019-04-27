@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Record from './Record'
 import Rank from './Rank'
 import Member from './Member'
-import { Grid } from '@material-ui/core'
+import { Grid, Grow } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 
 const styles = {
@@ -24,11 +24,17 @@ class User extends Component {
         spacing={40}
       >
         <Grid item md={5}>
-          <Record />
+          <Grow in timeout={1000}>
+            <Record />
+          </Grow>
         </Grid>
         <Grid item md={4}>
-          <Rank />
-          <Member />
+          <Grow in timeout={1000}>
+            <Rank />
+          </Grow>
+          <Grow in timeout={1000}>
+            <Member />
+          </Grow>
         </Grid>
       </Grid>
     )

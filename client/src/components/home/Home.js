@@ -3,7 +3,7 @@ import Journey from './Journey'
 import Contribution from './Contribution'
 import HiFIVE from './HiFIVE'
 import PropTypes from 'prop-types'
-import { Grid } from '@material-ui/core'
+import { Grid, Grow } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 
 const styles = theme => ({
@@ -24,13 +24,19 @@ class Home extends Component {
         spacing={40}
       >
         <Grid item lg={4} md={5}>
-          <Journey />
+          <Grow in timeout={1000}>
+            <Journey />
+          </Grow>
         </Grid>
         <Grid item md={4}>
-          <Contribution />
+          <Grow in timeout={1000}>
+            <Contribution />
+          </Grow>
         </Grid>
         <Grid item lg={8} md={9}>
-          <HiFIVE />
+          <Grow in timeout={1000}>
+            <HiFIVE />
+          </Grow>
         </Grid>
       </Grid>
     )

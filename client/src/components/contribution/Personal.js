@@ -66,7 +66,7 @@ class Personal extends Component {
 
   render() {
     const { users, rowsPerPage, page, order, orderBy } = this.state
-    const { classes } = this.props
+    const { classes, style } = this.props
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, users.length - page * rowsPerPage)
     const usersData = users.map(user => {
@@ -121,7 +121,7 @@ class Personal extends Component {
     }
 
     return (
-      <Paper className={classes.root}>
+      <Paper className={classes.root} style={style}>
         <Typography variant="h5" component="h3" gutterBottom color="primary">
           Personal
         </Typography>

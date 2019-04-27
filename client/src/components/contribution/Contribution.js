@@ -3,7 +3,7 @@ import Personal from './Personal'
 import Team from './Team'
 import { Link as RouterLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Grid, Button } from '@material-ui/core'
+import { Grid, Button, Grow } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 
 const styles = theme => ({
@@ -28,10 +28,15 @@ class Contribution extends Component {
         spacing={40}
       >
         <Grid item lg={4} md={5}>
-          <Personal />
+          <Grow in timeout={1000}>
+            <Personal />
+          </Grow>
         </Grid>
         <Grid item lg={4} md={5}>
-          <Team />
+          <Grow in timeout={1000}>
+            <Team />
+          </Grow>
+
           <Button
             className={classes.backBtn}
             component={RouterLink}

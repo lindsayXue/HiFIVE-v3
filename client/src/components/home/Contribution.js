@@ -46,10 +46,10 @@ class Contribution extends Component {
 
   render() {
     const { userWinner, teamWinner } = this.state
-    const { classes } = this.props
+    const { classes, style } = this.props
 
     return (
-      <Paper className={classes.root} elevation={2}>
+      <Paper className={classes.root} elevation={2} style={style}>
         <Typography variant="h5" color="primary" paragraph>
           Contribution
           <Button
