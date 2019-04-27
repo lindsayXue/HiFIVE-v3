@@ -20,6 +20,7 @@ import {
   Paper
 } from '@material-ui/core'
 import DatePicker from '../common/DatePicker'
+import ErrorInfo from '../common/ErrorInfo'
 
 class AddRecord extends Component {
   state = {
@@ -77,8 +78,12 @@ class AddRecord extends Component {
     this.setState({ date: val._d })
   }
 
+  onErrorClose = () => {
+    this.setState({ error: null })
+  }
+
   render() {
-    const { type, typeInput, duration, bonus, bonusOptions } = this.state
+    const { type, typeInput, duration, bonus, bonusOptions, error } = this.state
     const { errors, activity } = this.props
 
     const typeOptions = [
@@ -258,12 +263,12 @@ class AddRecord extends Component {
                 Add
               </Button>
             </form>
-            {!!errors.unregisteruser || errors.servererror ? (
-              <div className="alert alert-danger" role="alert">
-                {errors.unregisteruser || errors.servererror}
-              </div>
-            ) : (
-              ''
+            {error && (
+              <ErrorInfo
+                variant="error"
+                message="Oops!Something wrong with google!"
+                onClose={this.onErrorClose}
+              />
             )}
           </Paper>
         </Grid>

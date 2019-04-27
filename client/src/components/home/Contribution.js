@@ -22,7 +22,7 @@ class Contribution extends Component {
   state = {
     userWinner: [],
     teamWinner: [],
-    error: 'lalal'
+    error: ''
   }
 
   async componentDidMount() {
@@ -45,7 +45,7 @@ class Contribution extends Component {
   }
 
   render() {
-    const { userWinner, teamWinner, error } = this.state
+    const { userWinner, teamWinner } = this.state
     const { classes } = this.props
 
     return (

@@ -88,7 +88,6 @@ class Login extends Component {
           {error && (
             <ErrorInfo
               variant="error"
-              className={classes.margin}
               message="Oops!Something wrong with google!"
               onClose={this.onErrorClose}
             />

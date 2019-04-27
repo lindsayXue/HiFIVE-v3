@@ -21,7 +21,6 @@ import Contribution from './components/contribution/Contribution'
 import AddRecord from './components/record/AddRecord'
 import AddHiFIVE from './components/hifive/AddHiFIVE'
 import { withTheme } from '@material-ui/core/styles'
-import UserService from './services/user/UserService'
 
 import './App.css'
 

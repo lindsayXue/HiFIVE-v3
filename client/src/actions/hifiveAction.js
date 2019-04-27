@@ -1,7 +1,6 @@
 import { GET_ERRORS, CLEAR_ERRORS, SET_CURRENT_USER } from './types'
 import HiFIVEService from '../services/user/HiFIVEService'
 import UserService from '../services/user/UserService'
-import { getActivity } from './activityAction'
 import { logoutUser } from './authAction'
 
 // Add record

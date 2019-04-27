@@ -17,6 +17,7 @@ import {
   Typography,
   Paper
 } from '@material-ui/core'
+import ErrorInfo from '../common/ErrorInfo'
 
 class Register extends Component {
   state = {
@@ -28,24 +29,28 @@ class Register extends Component {
     fitnessLevel: '',
     team: '',
     teamRandom: false,
-    teamOptions: []
+    teamOptions: [],
+    error: null
   }
 
   async componentDidMount() {
-    if (this.props.auth.isAuthenticated) {
-      this.props.history.push('/user/home')
-    }
-    const res = await TeamService.getTeams()
-    const teams = res.data
-    let teamOptions = teams.map(team => {
-      return {
-        id: team._id,
-        label: team.name,
-        value: team._id
+    try {
+      if (this.props.auth.isAuthenticated) {
+        this.props.history.push('/user/home')
       }
-    })
-
-    this.setState({ teamOptions })
+      const res = await TeamService.getTeams()
+      const teams = res.data
+      let teamOptions = teams.map(team => {
+        return {
+          id: team._id,
+          label: team.name,
+          value: team._id
+        }
+      })
+      this.setState({ teamOptions })
+    } catch (err) {
+      this.setState({ error: err.response.data })
+    }
   }
 
   onChange = e => {
@@ -73,6 +78,10 @@ class Register extends Component {
     this.props.registerUser(newUser, this.props.history)
   }
 
+  onErrorClose = () => {
+    this.setState({ error: null })
+  }
+
   render() {
     const {
       name,
@@ -83,7 +92,8 @@ class Register extends Component {
       fitnessLevel,
       team,
       teamRandom,
-      teamOptions
+      teamOptions,
+      error
     } = this.state
     const { errors } = this.props
 
@@ -280,14 +290,14 @@ class Register extends Component {
               >
                 Sign up
               </Button>
+              {error && (
+                <ErrorInfo
+                  variant="error"
+                  message={error}
+                  onClose={this.onErrorClose}
+                />
+              )}
             </form>
-            {!!errors.unregisteruser || errors.servererror ? (
-              <div className="alert alert-danger" role="alert">
-                {errors.unregisteruser || errors.servererror}
-              </div>
-            ) : (
-              ''
-            )}
           </Paper>
         </Grid>
       </Grid>

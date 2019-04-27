@@ -9,7 +9,8 @@ const styles = theme => ({
   //   backgroundColor: green[600],
   // },
   error: {
-    backgroundColor: theme.palette.error.dark
+    backgroundColor: theme.palette.error.dark,
+    margin: '20px'
   },
   // info: {
   //   backgroundColor: theme.palette.primary.dark,

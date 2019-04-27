@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { Grid, TextField, Button, Typography, Paper } from '@material-ui/core'
 import AutoComplete from '../common/AutoComplete'
+import ErrorInfo from '../common/ErrorInfo'
 
 class AddHiFIVE extends Component {
   state = {
@@ -53,8 +54,12 @@ class AddHiFIVE extends Component {
     this.props.addHiFIVE(newHiFIVE, this.props.history)
   }
 
+  onErrorClose = () => {
+    this.setState({ error: null })
+  }
+
   render() {
-    const { receiver, reason, receiverOptions } = this.state
+    const { receiver, reason, receiverOptions, error } = this.state
     const { errors } = this.props
 
     return (
@@ -112,12 +117,12 @@ class AddHiFIVE extends Component {
                 Submit
               </Button>
             </form>
-            {!!errors.unregisteruser || errors.servererror ? (
-              <div className="alert alert-danger" role="alert">
-                {errors.unregisteruser || errors.servererror}
-              </div>
-            ) : (
-              ''
+            {error && (
+              <ErrorInfo
+                variant="error"
+                message={error}
+                onClose={this.onErrorClose}
+              />
             )}
           </Paper>
         </Grid>
