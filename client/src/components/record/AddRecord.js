@@ -137,7 +137,7 @@ class AddRecord extends Component {
 
     return (
       <Grid container justify="center" style={{ marginTop: '20px' }}>
-        <Grid item md={5}>
+        <Grid item lg={4} md={5}>
           <Paper elevation={1} style={{ padding: '20px' }}>
             <Typography
               variant="h5"
@@ -205,9 +205,10 @@ class AddRecord extends Component {
               )}
 
               <TextField
-                placeholder="Duration"
-                label="Duration"
+                placeholder="Minute"
+                label="Exercise duration"
                 name="duration"
+                type="number"
                 value={duration}
                 onChange={this.onChange}
                 error={!!errors.duration ? true : false}

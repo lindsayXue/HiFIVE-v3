@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Journey from './Journey'
 import Contribution from './Contribution'
+import HiFIVE from './HiFIVE'
 import PropTypes from 'prop-types'
 import { Grid } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
@@ -27,6 +28,9 @@ class Home extends Component {
         </Grid>
         <Grid item md={4}>
           <Contribution />
+        </Grid>
+        <Grid item lg={8} md={9}>
+          <HiFIVE />
         </Grid>
       </Grid>
     )

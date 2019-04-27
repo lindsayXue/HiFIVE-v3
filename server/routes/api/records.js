@@ -72,7 +72,8 @@ router.post('/add', async (req, res) => {
       date: req.body.date,
       type,
       duration: req.body.duration,
-      points: req.body.points
+      points: req.body.points,
+      bonus: req.body.bonus
     })
 
     // let bonus = req.body.bonus.split(',')

@@ -118,7 +118,7 @@ class Register extends Component {
 
     return (
       <Grid container justify="center" style={{ marginTop: '20px' }}>
-        <Grid item md={5}>
+        <Grid item lg={4} md={5}>
           <Paper elevation={1} style={{ padding: '20px' }}>
             <Typography
               variant="h5"

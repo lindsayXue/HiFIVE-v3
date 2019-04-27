@@ -48,10 +48,10 @@ class Rank extends Component {
     return (
       <Grid container justify="center" spacing={40}>
         <Grid item md={6}>
-          <RankContent title="Exercise" rank={pointsRank} />
+          <RankContent title="Exercise Rank" rank={pointsRank} />
         </Grid>
         <Grid item md={6}>
-          <RankContent title="HiFIVE" rank={hifiveRank} />
+          <RankContent title="HiFIVE Rank" rank={hifiveRank} />
         </Grid>
       </Grid>
     )

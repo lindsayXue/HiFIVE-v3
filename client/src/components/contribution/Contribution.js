@@ -27,10 +27,10 @@ class Contribution extends Component {
         alignItems="flex-start"
         spacing={40}
       >
-        <Grid item md={5}>
+        <Grid item lg={4} md={5}>
           <Personal />
         </Grid>
-        <Grid item md={5}>
+        <Grid item lg={4} md={5}>
           <Team />
           <Button
             className={classes.backBtn}

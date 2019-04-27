@@ -16,6 +16,7 @@ import User from './components/user/User'
 import Post from './components/post/Post'
 import Contribution from './components/contribution/Contribution'
 import AddRecord from './components/record/AddRecord'
+import AddHiFIVE from './components/hifive/AddHiFIVE'
 import { withTheme } from '@material-ui/core/styles'
 
 import './App.css'
@@ -43,6 +44,11 @@ class App extends Component {
                 exact
                 path="/user/record/add"
                 component={AddRecord}
+              />
+              <PrivateRoute
+                exact
+                path="/user/hifive/add"
+                component={AddHiFIVE}
               />
             </div>
             <Footer />

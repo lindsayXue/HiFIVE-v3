@@ -8,11 +8,13 @@ const HiFIVESchema = new Schema({
     ref: 'users',
     required: true
   },
-  receiver: {
-    type: String,
-    ref: 'users',
-    required: true
-  },
+  receiver: [
+    {
+      type: String,
+      ref: 'users',
+      required: true
+    }
+  ],
   reason: {
     type: String,
     required: true

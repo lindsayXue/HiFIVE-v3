@@ -4,14 +4,9 @@ const isEmpty = require('./is-empty')
 module.exports = function validateHiFIVEInput(data) {
   let errors = {}
 
-  data.sender = !isEmpty(data.sender) ? data.sender : ''
-  data.receiver = !isEmpty(data.receiver) ? data.receiver : ''
   data.reason = !isEmpty(data.reason) ? data.reason : ''
 
-  if (Validator.isEmpty(data.sender)) {
-    errors.sender = 'Sender field is required'
-  }
-  if (Validator.isEmpty(data.receiver)) {
+  if (data.receiver.length === 0) {
     errors.receiver = 'Receiver field is required'
   }
   if (Validator.isEmpty(data.reason)) {
