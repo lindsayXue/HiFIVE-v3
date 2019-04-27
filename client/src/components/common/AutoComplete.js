@@ -228,6 +228,7 @@ class IntegrationReactSelect extends React.Component {
             onChange={onChange(name)}
             placeholder="Receiver"
             isMulti={isMulti}
+            isClearable
           />
         </NoSsr>
       </div>

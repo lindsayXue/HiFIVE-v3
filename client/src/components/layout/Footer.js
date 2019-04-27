@@ -9,8 +9,7 @@ const styles = theme => ({
     bottom: 0,
     width: '100%',
     /* Set the fixed height of the footer here */
-    height: '40px',
-    backgroundColor: theme.palette.secondary.main
+    height: '40px'
   }
 })
 

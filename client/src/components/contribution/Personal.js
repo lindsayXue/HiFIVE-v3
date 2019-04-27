@@ -30,7 +30,7 @@ const styles = theme => ({
 class Personal extends Component {
   state = {
     users: [],
-    order: 'asc',
+    order: 'desc',
     orderBy: 'points',
     page: 0,
     rowsPerPage: 5,

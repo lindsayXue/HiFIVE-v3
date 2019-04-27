@@ -62,7 +62,7 @@ router.post('/add', async (req, res) => {
     })
 
     // Add hifive point to receiver
-    const test = await User.updateMany(
+    await User.updateMany(
       {
         _id: { $in: req.body.receiver }
       },
@@ -70,7 +70,6 @@ router.post('/add', async (req, res) => {
         $inc: { hifive: 1 }
       }
     )
-    console.log(test)
 
     await newHiFIVE.save()
     res.json(newHiFIVE)
