@@ -27,6 +27,21 @@ class Rank extends Component {
     }
   }
 
+  async componentWillReceiveProps(nextProps) {
+    try {
+      const res = await UserService.getUserRank({
+        points: nextProps.auth.user.points,
+        hifive: nextProps.auth.user.hifive
+      })
+      this.setState({
+        pointsRank: res.data.pointsRank,
+        hifiveRank: res.data.hifiveRank
+      })
+    } catch (err) {
+      this.setState({ error: err.response.data })
+    }
+  }
+
   render() {
     const { pointsRank, hifiveRank } = this.state
 

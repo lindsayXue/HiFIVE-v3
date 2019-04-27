@@ -39,6 +39,20 @@ router.get('/', async (req, res) => {
   }
 })
 
+// @route   POST api/users/profile
+// @desc    Get all users
+// @access  Private
+router.post('/profile', googleAuth, async (req, res) => {
+  try {
+    const userProfile = await User.findById(req.body.googleId)
+
+    res.json(userProfile)
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ servererror: 'Server error' })
+  }
+})
+
 // @route   POST api/users/login
 // @desc    Login user
 // @access  Public
