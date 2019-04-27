@@ -1,4 +1,5 @@
 import AuthService from '../services/user/AuthService'
+import setAuthToken from '../services/setAuthToken'
 import { GET_ERRORS, SET_CURRENT_USER, CLEAR_ERRORS } from './types'
 
 // Register User
@@ -27,7 +28,13 @@ export const setCurrentUser = user => {
 // Log user in
 export const loginUser = (googleToken, history) => async dispatch => {
   try {
-    const res = await AuthService.login(googleToken)
+    console.log('1')
+    // Set token to Auth header
+    setAuthToken(googleToken)
+    const res = await AuthService.login()
+    console.log('2')
+    // Set token to ls
+    localStorage.setItem('googleToken', googleToken)
     dispatch(setCurrentUser(res.data))
     history.push('/user/home')
   } catch (err) {

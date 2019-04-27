@@ -2,12 +2,32 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { loginUser } from '../../actions/authAction'
 import PropTypes from 'prop-types'
-import { Grid, TextField, Button, Typography, Paper } from '@material-ui/core'
+import { GoogleLogin } from 'react-google-login'
+import { Grid, Button } from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
+import googleLogo from '../../assets/google-logo.png'
+import ErrorInfo from '../common/ErrorInfo'
+
+const styles = theme => ({
+  button: {
+    margin: theme.spacing.unit,
+    width: '100%',
+    height: '50px',
+    fontSize: '1.2rem'
+  },
+  input: {
+    display: 'none'
+  },
+  googleLogo: {
+    maxWidth: '100%',
+    height: '30px',
+    marginRight: '10px'
+  }
+})
 
 class Login extends Component {
   state = {
-    googleToken: '',
-    inputError: false
+    error: null
   }
 
   componentDidMount() {
@@ -16,62 +36,57 @@ class Login extends Component {
     }
   }
 
-  onChange = e => {
-    this.setState({ [e.target.name]: e.target.value })
+  onSuccessSignin = response => {
+    let id_token = response.getAuthResponse().id_token
+
+    this.props.loginUser(id_token, this.props.history)
   }
 
-  onSubmit = e => {
-    e.preventDefault()
+  onFailSignin = response => {
+    this.setState({ error: response.error })
+  }
 
-    if (!this.state.googleToken) {
-      this.setState({ inputError: true })
-      return
-    }
-
-    this.props.loginUser(
-      { googleToken: this.state.googleToken },
-      this.props.history
-    )
+  onErrorClose = () => {
+    this.setState({ error: null })
   }
 
   render() {
-    const { errors } = this.props
-    const { googleToken } = this.state
-
+    const { errors, classes } = this.props
+    const { error } = this.state
     return (
-      <Grid container justify="center" style={{ marginTop: '20px' }}>
-        <Grid item md={5}>
-          <Paper elevation={1} style={{ padding: '20px' }}>
-            <Typography variant="h5" component="h3" color="primary">
-              Login
-            </Typography>
-            <form onSubmit={this.onSubmit}>
-              <TextField
-                name="googleToken"
-                label="Google Id"
-                value={googleToken}
-                onChange={this.onChange}
-                required
-                fullWidth
-              />
-              {/* <input type="submit" className="btn btn-default btn-block mt-4" /> */}
+      <Grid container justify="center" style={{ marginTop: '10rem' }}>
+        <Grid item lg={2} md={3} sm={5}>
+          <GoogleLogin
+            clientId="909776054271-l3v0sar1i5nqir67jjo0pn9bv252f9i1.apps.googleusercontent.com"
+            render={renderProps => (
               <Button
-                type="submit"
-                variant="contained"
+                variant="outlined"
                 color="primary"
-                style={{ marginTop: '20px' }}
+                className={classes.button}
+                onClick={renderProps.onClick}
+                disabled={renderProps.disabled}
               >
-                Login
+                <img
+                  src={googleLogo}
+                  className={classes.googleLogo}
+                  alt="Google Logo"
+                />
+                Signin with Google
               </Button>
-            </form>
-            {!!errors.unregisteruser || errors.servererror ? (
-              <div className="alert alert-danger" role="alert">
-                {errors.unregisteruser || errors.servererror}
-              </div>
-            ) : (
-              ''
             )}
-          </Paper>
+            buttonText="Signin with Google"
+            onSuccess={this.onSuccessSignin}
+            onFailure={this.onFailSignin}
+            cookiePolicy={'single_host_origin'}
+          />
+          {error && (
+            <ErrorInfo
+              variant="error"
+              className={classes.margin}
+              message="Oops!Something wrong with google!"
+              onClose={this.onErrorClose}
+            />
+          )}
         </Grid>
       </Grid>
     )
@@ -83,11 +98,10 @@ Login.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth,
-  errors: state.errors
+  auth: state.auth
 })
 
 export default connect(
   mapStateToProps,
   { loginUser }
-)(Login)
+)(withStyles(styles)(Login))

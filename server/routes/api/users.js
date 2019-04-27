@@ -40,7 +40,7 @@ router.get('/', async (req, res) => {
 })
 
 // @route   POST api/users/profile
-// @desc    Get all users
+// @desc    Get user profile
 // @access  Private
 router.post('/profile', googleAuth, async (req, res) => {
   try {
@@ -53,10 +53,10 @@ router.post('/profile', googleAuth, async (req, res) => {
   }
 })
 
-// @route   POST api/users/login
+// @route   GET api/users/login
 // @desc    Login user
 // @access  Public
-router.post('/login', googleAuth, async (req, res) => {
+router.get('/login', googleAuth, async (req, res) => {
   try {
     let user = await User.findById(req.body.googleId)
     if (user) {
