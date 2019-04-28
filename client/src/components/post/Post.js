@@ -8,7 +8,8 @@ import {
   Button,
   List,
   ListItem,
-  ListItemText
+  ListItemText,
+  LinearProgress
 } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 
@@ -27,12 +28,13 @@ const styles = theme => ({
 class Post extends Component {
   state = {
     posts: [],
+    isLoading: true,
     error: null
   }
 
   async componentDidMount() {
     const res = await PostService.getPosts()
-    this.setState({ posts: res.data })
+    this.setState({ posts: res.data, isLoading: false })
     try {
     } catch (err) {
       this.setState({ error: err.response.data })
@@ -40,7 +42,7 @@ class Post extends Component {
   }
 
   render() {
-    const { posts } = this.state
+    const { posts, isLoading } = this.state
     const { classes } = this.props
 
     return (
@@ -60,6 +62,7 @@ class Post extends Component {
               </Button>
             </Typography>
             <hr />
+            {isLoading && <LinearProgress color="primary" />}
             {posts.length === 0 && (
               <Typography component="p" variant="subtitle1" color="secondary">
                 No post yet

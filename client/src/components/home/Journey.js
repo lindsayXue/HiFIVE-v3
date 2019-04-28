@@ -154,7 +154,7 @@ Journey.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  activity: state.activity
+  activity: state.activity.activity
 })
 
 export default connect(mapStateToProps)(withStyles(styles)(Journey))

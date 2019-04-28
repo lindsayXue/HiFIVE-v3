@@ -10,7 +10,8 @@ import {
   TableHead,
   TableRow,
   TableFooter,
-  TablePagination
+  TablePagination,
+  LinearProgress
 } from '@material-ui/core'
 import TablePaginationActionsWrapped from '../common/TablePaginationActions'
 import { withStyles } from '@material-ui/core/styles'
@@ -28,13 +29,14 @@ class HiFIVEHis extends Component {
     history: [],
     page: 0,
     rowsPerPage: 5,
+    isLoading: true,
     error: null
   }
 
   async componentDidMount() {
     try {
       const res = await HiFIVEService.getHistory()
-      this.setState({ history: res.data })
+      this.setState({ history: res.data, isLoading: false })
     } catch (err) {
       this.setState({ error: err.response.data })
     }
@@ -49,7 +51,7 @@ class HiFIVEHis extends Component {
   }
 
   render() {
-    const { history, page, rowsPerPage } = this.state
+    const { history, page, rowsPerPage, isLoading } = this.state
     const { classes } = this.props
 
     const historyTable = history.map(e => ({
@@ -119,7 +121,8 @@ class HiFIVEHis extends Component {
         <Typography variant="h5" component="h3" gutterBottom>
           History
         </Typography>
-        <List>{historyBoard}</List>
+        {isLoading && <LinearProgress color="primary" />}
+        {!isLoading && <List>{historyBoard}</List>}
       </div>
     )
   }

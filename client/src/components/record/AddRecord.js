@@ -284,7 +284,7 @@ AddRecord.propTypes = {
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  activity: state.activity,
+  activity: state.activity.activity,
   errors: state.errors
 })
 

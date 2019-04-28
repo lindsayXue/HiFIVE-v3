@@ -1,10 +1,11 @@
-import { SET_CURRENT_ACTIVITY, GET_ERRORS } from './types'
+import { SET_CURRENT_ACTIVITY, ACTIVITY_LOADIND, GET_ERRORS } from './types'
 import ActivityService from '../services/user/ActivityService'
 
 // GET Activity
 export const getActivity = () => async dispatch => {
   // dispatch(setContentLoading())
   try {
+    dispatch(setActivityLoading())
     const res = await ActivityService.getActivity()
     dispatch({
       type: SET_CURRENT_ACTIVITY,
@@ -15,5 +16,12 @@ export const getActivity = () => async dispatch => {
       type: GET_ERRORS,
       payload: err.response.data
     })
+  }
+}
+
+// Set loading state
+export const setActivityLoading = () => {
+  return {
+    type: ACTIVITY_LOADIND
   }
 }

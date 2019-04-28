@@ -10,7 +10,8 @@ import {
   TableCell,
   TableRow,
   TableFooter,
-  TablePagination
+  TablePagination,
+  LinearProgress
 } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 
@@ -34,13 +35,14 @@ class Personal extends Component {
     orderBy: 'points',
     page: 0,
     rowsPerPage: 5,
+    isLoading: true,
     error: null
   }
 
   async componentDidMount() {
     try {
       const res = await UserService.getUsers()
-      this.setState({ users: res.data })
+      this.setState({ users: res.data, isLoading: false })
     } catch (err) {
       this.setState({ error: err.response.data })
     }
@@ -65,7 +67,7 @@ class Personal extends Component {
   }
 
   render() {
-    const { users, rowsPerPage, page, order, orderBy } = this.state
+    const { users, rowsPerPage, page, order, orderBy, isLoading } = this.state
     const { classes, style } = this.props
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, users.length - page * rowsPerPage)
@@ -120,56 +122,60 @@ class Personal extends Component {
         : (a, b) => -desc(a, b, orderBy)
     }
 
+    let personalBoard = (
+      <Table className={classes.table}>
+        <EnhancedTableHead
+          rows={rows}
+          order={order}
+          orderBy={orderBy}
+          onRequestSort={this.handleRequestSort}
+          rowCount={usersData.length}
+        />
+        <TableBody>
+          {stableSort(usersData, getSorting(order, orderBy))
+            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            .map(user => (
+              <TableRow key={user.id}>
+                <TableCell component="th" scope="row">
+                  {user.name}
+                </TableCell>
+                <TableCell align="right">{user.points}</TableCell>
+                <TableCell align="right">{user.hifive}</TableCell>
+              </TableRow>
+            ))}
+          {emptyRows > 0 && (
+            <TableRow style={{ height: 48 * emptyRows }}>
+              <TableCell colSpan={6} />
+            </TableRow>
+          )}
+        </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TablePagination
+              rowsPerPageOptions={[5]}
+              colSpan={3}
+              count={usersData.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              SelectProps={{
+                native: true
+              }}
+              onChangePage={this.handleChangePage}
+              onChangeRowsPerPage={this.handleChangeRowsPerPage}
+              ActionsComponent={TablePaginationActionsWrapped}
+            />
+          </TableRow>
+        </TableFooter>
+      </Table>
+    )
     return (
       <Paper className={classes.root} style={style}>
         <Typography variant="h5" component="h3" gutterBottom color="primary">
           Personal
         </Typography>
         <div className={classes.tableWrapper}>
-          <Table className={classes.table}>
-            <EnhancedTableHead
-              rows={rows}
-              order={order}
-              orderBy={orderBy}
-              onRequestSort={this.handleRequestSort}
-              rowCount={usersData.length}
-            />
-            <TableBody>
-              {stableSort(usersData, getSorting(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map(user => (
-                  <TableRow key={user.id}>
-                    <TableCell component="th" scope="row">
-                      {user.name}
-                    </TableCell>
-                    <TableCell align="right">{user.points}</TableCell>
-                    <TableCell align="right">{user.hifive}</TableCell>
-                  </TableRow>
-                ))}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 48 * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-            <TableFooter>
-              <TableRow>
-                <TablePagination
-                  rowsPerPageOptions={[5]}
-                  colSpan={3}
-                  count={usersData.length}
-                  rowsPerPage={rowsPerPage}
-                  page={page}
-                  SelectProps={{
-                    native: true
-                  }}
-                  onChangePage={this.handleChangePage}
-                  onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                  ActionsComponent={TablePaginationActionsWrapped}
-                />
-              </TableRow>
-            </TableFooter>
-          </Table>
+          {isLoading && <LinearProgress color="primary" />}
+          {!isLoading && personalBoard}
         </div>
       </Paper>
     )

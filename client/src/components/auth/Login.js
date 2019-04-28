@@ -3,12 +3,15 @@ import { connect } from 'react-redux'
 import { loginUser } from '../../actions/authAction'
 import PropTypes from 'prop-types'
 import { GoogleLogin } from 'react-google-login'
-import { Grid, Button } from '@material-ui/core'
+import { Grid, Button, CircularProgress } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import googleLogo from '../../assets/google-logo.png'
 import ErrorInfo from '../common/ErrorInfo'
 
 const styles = theme => ({
+  content: {
+    textAlign: 'center'
+  },
   button: {
     margin: theme.spacing.unit,
     width: '100%',
@@ -22,12 +25,16 @@ const styles = theme => ({
     maxWidth: '100%',
     height: '30px',
     marginRight: '10px'
+  },
+  progress: {
+    margin: theme.spacing.unit * 2
   }
 })
 
 class Login extends Component {
   state = {
-    error: null
+    error: null,
+    isLoading: false
   }
 
   componentDidMount() {
@@ -44,7 +51,7 @@ class Login extends Component {
 
   onSuccessSignin = response => {
     let id_token = response.getAuthResponse().id_token
-
+    this.setState({ isLoading: true })
     this.props.loginUser(id_token, this.props.history)
   }
 
@@ -58,33 +65,38 @@ class Login extends Component {
 
   render() {
     const { classes } = this.props
-    const { error } = this.state
+    const { error, isLoading } = this.state
     return (
       <Grid container justify="center" style={{ marginTop: '10rem' }}>
-        <Grid item md={3} sm={5}>
-          <GoogleLogin
-            clientId="909776054271-l3v0sar1i5nqir67jjo0pn9bv252f9i1.apps.googleusercontent.com"
-            render={renderProps => (
-              <Button
-                variant="outlined"
-                color="primary"
-                className={classes.button}
-                onClick={renderProps.onClick}
-                disabled={renderProps.disabled}
-              >
-                <img
-                  src={googleLogo}
-                  className={classes.googleLogo}
-                  alt="Google Logo"
-                />
-                Signin with Google
-              </Button>
-            )}
-            buttonText="Signin with Google"
-            onSuccess={this.onSuccessSignin}
-            onFailure={this.onFailSignin}
-            cookiePolicy={'single_host_origin'}
-          />
+        <Grid item md={3} sm={5} className={classes.content}>
+          {isLoading && (
+            <CircularProgress className={classes.progress} color="primary" />
+          )}
+          {!isLoading && (
+            <GoogleLogin
+              clientId="909776054271-l3v0sar1i5nqir67jjo0pn9bv252f9i1.apps.googleusercontent.com"
+              render={renderProps => (
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  className={classes.button}
+                  onClick={renderProps.onClick}
+                  disabled={renderProps.disabled}
+                >
+                  <img
+                    src={googleLogo}
+                    className={classes.googleLogo}
+                    alt="Google Logo"
+                  />
+                  Signin with Google
+                </Button>
+              )}
+              buttonText="Signin with Google"
+              onSuccess={this.onSuccessSignin}
+              onFailure={this.onFailSignin}
+              cookiePolicy={'single_host_origin'}
+            />
+          )}
           {error && (
             <ErrorInfo
               variant="error"

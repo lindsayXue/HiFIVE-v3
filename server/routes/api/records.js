@@ -76,9 +76,6 @@ router.post('/add', googleAuth, async (req, res) => {
       bonus: req.body.bonus
     })
 
-    // let bonus = req.body.bonus.split(',')
-    // newRecord.bonus = bonus
-
     // Add points to user
     const updateUser = await User.findByIdAndUpdate(req.body.googleId, {
       $inc: { points: req.body.points }
