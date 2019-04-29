@@ -17,7 +17,7 @@ const RankContent = props => {
 
   return (
     <Paper className={classes.root} elevation={1}>
-      <Typography variant="h5" component="h3" color="primary">
+      <Typography variant="h6" component="h3" color="primary">
         {title}
       </Typography>
       <Typography component="p">

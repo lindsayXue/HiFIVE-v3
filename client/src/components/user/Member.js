@@ -5,23 +5,18 @@ import { connect } from 'react-redux'
 import {
   Typography,
   Paper,
-  Table,
-  TableHead,
-  TableBody,
-  TableCell,
-  TableRow,
-  TableFooter,
-  TablePagination
+  List,
+  ListItem,
+  ListItemText
 } from '@material-ui/core'
-import TablePaginationActionsWrapped from '../common/TablePaginationActions'
 import { withStyles } from '@material-ui/core/styles'
+import Pagination from '../common/Pagination'
 
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
-    textAlign: 'center',
     marginTop: '20px'
   }
 })
@@ -47,24 +42,47 @@ class Member extends Component {
     }
   }
 
-  handleChangePage = (event, page) => {
+  handleChangePage = (e, page) => {
     this.setState({ page })
-  }
-
-  handleChangeRowsPerPage = event => {
-    this.setState({ page: 0, rowsPerPage: event.target.value })
   }
 
   render() {
     const { classes, style } = this.props
     const { members, rowsPerPage, page } = this.state
 
-    const emptyRows =
-      rowsPerPage - Math.min(rowsPerPage, members.length - page * rowsPerPage)
+    // const emptyRows =
+    //   rowsPerPage - Math.min(rowsPerPage, members.length - page * rowsPerPage)
+
+    const maxPage = Math.ceil(members.length / rowsPerPage)
 
     return (
       <Paper className={classes.root} elevation={1} style={style}>
-        <Typography variant="h5" component="h3" color="primary">
+        <Typography variant="h5" color="primary" gutterBottom>
+          Team members
+        </Typography>
+        <div className={classes.demo}>
+          <List>
+            {members.length === 0 && (
+              <ListItem>
+                <ListItemText secondary="No team member yet" />
+              </ListItem>
+            )}
+            {members
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map(member => (
+                <ListItem key={member._id}>
+                  <ListItemText primary={member.name} />
+                  <ListItemText secondary={`${member.points} points`} />
+                </ListItem>
+              ))}
+          </List>
+          <Pagination
+            page={page}
+            handleChangePage={this.handleChangePage}
+            maxPage={maxPage}
+          />
+        </div>
+        {/* <Typography variant="h5" component="h3" color="primary">
           Team members
         </Typography>
         <Table className={classes.table}>
@@ -113,7 +131,7 @@ class Member extends Component {
               />
             </TableRow>
           </TableFooter>
-        </Table>
+        </Table> */}
       </Paper>
     )
   }
