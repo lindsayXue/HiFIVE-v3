@@ -15,13 +15,17 @@ const validateActivityInput = require('../../validation/activity')
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const errors = {}
-    let activity = await Activity.find()
-    if (activity.length == 0) {
-      errors.noactivity = 'No activity'
-      return res.status(400).json(errors)
+    let activity = await Activity.findOne()
+
+    // if (!activity) {
+    //   return res.status(400).json({ noactivity: 'No activity' })
+    // }
+
+    if (!activity) {
+      return res.json({})
     }
-    res.json(activity[0])
+
+    res.json(activity)
   } catch (err) {
     console.log(err)
     res.status(500).json({ servererror: 'Server error' })

@@ -7,16 +7,21 @@ export const getActivity = () => async dispatch => {
   try {
     dispatch(setActivityLoading())
     const res = await ActivityService.getActivity()
-    dispatch({
-      type: SET_CURRENT_ACTIVITY,
-      payload: res.data
-    })
+    dispatch(setActivity(res.data))
   } catch (err) {
     dispatch({
       type: GET_ERRORS,
       payload: err.response.data
     })
   }
+}
+
+// Set Activity
+export const setActivity = activity => dispatch => {
+  dispatch({
+    type: SET_CURRENT_ACTIVITY,
+    payload: activity
+  })
 }
 
 // Set loading state

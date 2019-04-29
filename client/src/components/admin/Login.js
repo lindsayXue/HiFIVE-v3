@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { loginUser } from '../../actions/authAction'
 import PropTypes from 'prop-types'
-import { Grid, TextField, Button, Typography } from '@material-ui/core'
-import { withStyles } from '@material-ui/core/styles'
+import { withRouter } from 'react-router-dom'
+import { loginAdmin } from '../../actions/adminAction'
+import { Grid, TextField, Button, Typography, Paper } from '@material-ui/core'
 import ErrorInfo from '../common/ErrorInfo'
 
 class Login extends Component {
@@ -14,13 +14,13 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    if (this.props.auth.isAdmin) {
+    if (this.props.admin.isAdmin) {
       this.props.history.push('/admin/home')
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.auth.isAdmin) {
+    if (nextProps.admin.isAdmin) {
       this.props.history.push('/admin/home')
     }
   }
@@ -32,12 +32,12 @@ class Login extends Component {
   onSubmit = e => {
     e.preventDefault()
 
-    const adminLogin = {
+    const loginData = {
       username: this.state.username,
       password: this.state.password
     }
 
-    console.log(adminLogin)
+    this.props.loginAdmin(loginData, this.props.history)
   }
 
   onErrorClose = () => {
@@ -45,29 +45,78 @@ class Login extends Component {
   }
 
   render() {
-    const { classes } = this.props
-    const { error } = this.state
+    const { errors } = this.props
+    const { error, username, password } = this.state
     return (
       <Grid container justify="center" style={{ marginTop: '10rem' }}>
         <Grid item md={3} sm={5}>
-          {error && (
-            <ErrorInfo
-              variant="error"
-              message="Oops!Something wrong with google!"
-              onClose={this.onErrorClose}
-            />
-          )}
+          <Paper elevation={1} style={{ padding: '20px' }}>
+            <Typography
+              variant="h5"
+              component="h3"
+              color="primary"
+              style={{ marginBottom: '10px' }}
+            >
+              Admin
+            </Typography>
+            <form onSubmit={this.onSubmit}>
+              <TextField
+                label="Username"
+                name="username"
+                value={username}
+                onChange={this.onChange}
+                error={!!errors.username ? true : false}
+                fullWidth
+              />
+              {errors.username && (
+                <Typography color="error">{errors.username}</Typography>
+              )}
+              <TextField
+                label="Password"
+                name="password"
+                type="password"
+                value={password}
+                onChange={this.onChange}
+                error={!!errors.password ? true : false}
+                fullWidth
+              />
+              {errors.password && (
+                <Typography color="error">{errors.password}</Typography>
+              )}
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                style={{ marginTop: '20px' }}
+              >
+                Login
+              </Button>
+              {error && (
+                <ErrorInfo
+                  variant="error"
+                  message="Oops!Something wrong with google!"
+                  onClose={this.onErrorClose}
+                />
+              )}
+            </form>
+          </Paper>
         </Grid>
       </Grid>
     )
   }
 }
 
+Login.propTypes = {
+  admin: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+}
+
 const mapStateToProps = state => ({
-  auth: state.auth
+  admin: state.admin,
+  errors: state.errors
 })
 
 export default connect(
   mapStateToProps,
-  { loginUser }
-)(withStyles(styles)(Login))
+  { loginAdmin }
+)(withRouter(Login))

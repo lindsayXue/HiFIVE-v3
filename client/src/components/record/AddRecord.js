@@ -74,8 +74,8 @@ class AddRecord extends Component {
     this.props.addRecord(newRecord, this.props.history)
   }
 
-  handleDateChange = val => {
-    this.setState({ date: val._d })
+  handleDateChange = value => {
+    this.setState({ date: value })
   }
 
   onErrorClose = () => {
@@ -163,6 +163,7 @@ class AddRecord extends Component {
             </Typography>
             <form onSubmit={this.onSubmit}>
               <DatePicker
+                label="Exercise date"
                 start={activity.start}
                 end={activity.end}
                 handleChangeTo={this.handleDateChange}

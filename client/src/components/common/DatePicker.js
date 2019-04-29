@@ -1,33 +1,44 @@
 import React, { Fragment, useState } from 'react'
-import MomentUtils from '@date-io/moment'
+import DateFnsUtils from '@date-io/date-fns'
 import { DatePicker, MuiPickersUtilsProvider } from 'material-ui-pickers'
+import PropTypes from 'prop-types'
 
 function BasicDatePicker(props) {
   const [selectedDate, handleDateChange] = useState(new Date())
-  const { handleChangeTo, start, end, error } = props
+  const { label, handleChangeTo, start, end, error, disableFuture } = props
 
   return (
     <Fragment>
-      <MuiPickersUtilsProvider utils={MomentUtils}>
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <DatePicker
           autoOk
-          id="date"
-          label="Exercise date"
-          clearable
-          disableFuture
-          minDate={new Date(start)}
-          maxDate={new Date(end)}
+          label={label}
+          minDate={start}
+          maxDate={end}
+          disableFuture={disableFuture}
           value={selectedDate}
           onChange={val => {
             handleDateChange(val)
             handleChangeTo(val)
           }}
-          error={!!error ? true : false}
           fullWidth
+          error={!!error ? true : false}
         />
       </MuiPickersUtilsProvider>
     </Fragment>
   )
+}
+
+BasicDatePicker.defaultProps = {
+  disableFuture: true
+}
+
+BasicDatePicker.propTypes = {
+  label: PropTypes.string.isRequired,
+  start: PropTypes.instanceOf(Date),
+  end: PropTypes.instanceOf(Date),
+  handleChangeTo: PropTypes.func.isRequired,
+  disableFuture: PropTypes.bool
 }
 
 export default BasicDatePicker

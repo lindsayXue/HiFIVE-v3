@@ -38,8 +38,8 @@ class TimeBoard extends Component {
           <div>
             <Typography component="p">
               <i className="fas fa-clock text-primary" />{' '}
-              <Moment format="DD/MM">{activity.start}</Moment> ——{' '}
-              <Moment format="DD/MM">{activity.end}</Moment>{' '}
+              <Moment format="DD/MM/YYYY">{activity.start}</Moment> —{' '}
+              <Moment format="DD/MM/YYYY">{activity.end}</Moment>{' '}
             </Typography>
             <Typography component="p">
               <i className="fas fa-users text-primary" />{' '}
@@ -58,7 +58,8 @@ class TimeBoard extends Component {
 }
 
 TimeBoard.propTypes = {
-  activity: PropTypes.object.isRequired
+  activity: PropTypes.object.isRequired,
+  isLoading: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = state => ({

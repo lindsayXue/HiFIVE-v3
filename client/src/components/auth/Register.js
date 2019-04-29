@@ -137,7 +137,6 @@ class Register extends Component {
             </Typography>
             <form onSubmit={this.onSubmit}>
               <TextField
-                placeholder="Name"
                 label="Name"
                 name="name"
                 value={name}
@@ -195,7 +194,6 @@ class Register extends Component {
                 <Typography color="error">{errors.gender}</Typography>
               )}
               <TextField
-                placeholder="Department"
                 label="Department"
                 name="department"
                 value={department}
@@ -207,7 +205,6 @@ class Register extends Component {
                 <Typography color="error">{errors.department}</Typography>
               )}
               <TextField
-                placeholder="Job description"
                 label="Job description"
                 name="jobDesc"
                 value={jobDesc}

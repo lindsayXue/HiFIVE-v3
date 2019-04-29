@@ -13,6 +13,9 @@ module.exports = function validateActivityInput(data) {
   if (Validator.isEmpty(data.end)) {
     errors.end = 'Activity end field is required'
   }
+  if (data.duration <= 0 || Validator.isEmpty(data.duration)) {
+    errors.duration = 'Activity duration days can not be less than 0 or empty'
+  }
 
   return {
     errors,
