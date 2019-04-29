@@ -65,7 +65,9 @@ router.get('/:id', async (req, res) => {
 // @access  Public
 router.get('/members/:id', async (req, res) => {
   try {
-    const members = await User.find({ team: req.params.id })
+    const members = await User.find({ team: req.params.id }).sort({
+      points: -1
+    })
 
     res.json(members)
   } catch (err) {
