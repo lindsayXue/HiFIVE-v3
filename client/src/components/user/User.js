@@ -4,6 +4,7 @@ import Rank from './Rank'
 import Member from './Member'
 import { Grid, Grow } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
+import HiFIVE from './HiFIVE'
 
 const styles = {
   root: {
@@ -34,6 +35,9 @@ class User extends Component {
           </Grow>
           <Grow in timeout={1000}>
             <Member />
+          </Grow>
+          <Grow in timeout={1000}>
+            <HiFIVE />
           </Grow>
         </Grid>
       </Grid>

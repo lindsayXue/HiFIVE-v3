@@ -24,7 +24,7 @@ const Pagination = props => {
       <Button
         color="primary"
         className={classes.button}
-        disabled={page === maxPage - 1}
+        disabled={maxPage === 0 || page === maxPage - 1}
         onClick={e => handleChangePage(e, page + 1)}
       >
         <i className="fas fa-arrow-circle-right fa-2x" />

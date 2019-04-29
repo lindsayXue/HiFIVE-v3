@@ -45,6 +45,22 @@ router.get('/', async (req, res) => {
   }
 })
 
+// @route   GET api/hifives/user
+// @desc    Get user hifives
+// @access  Private
+router.get('/user', googleAuth, async (req, res) => {
+  try {
+    let hifives = await HiFIVE.find({ receiver: req.body.googleId })
+      .sort({ createdAt: -1 })
+      .populate({ path: 'sender', select: 'name' })
+
+    res.json(hifives)
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ servererror: 'Server error' })
+  }
+})
+
 // @route   POST api/hifives/add
 // @desc    Add a hifive
 // @access  Private
