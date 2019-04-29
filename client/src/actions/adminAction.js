@@ -7,7 +7,11 @@ import {
 import AuthService from '../services/admin/AuthService'
 import setAuthToken from '../services/setAuthToken'
 import ActivityService from '../services/admin/ActivityService'
-import { setActivity } from './activityAction'
+import {
+  setActivity,
+  setActivityLoading,
+  setActivityUnloading
+} from './activityAction'
 
 // Login admin
 export const loginAdmin = (loginData, history) => async dispatch => {
@@ -48,9 +52,11 @@ export const logoutAdmin = () => dispatch => {
 // Add Activity
 export const addActivity = newActivity => async dispatch => {
   try {
+    dispatch(setActivityLoading())
     const res = await ActivityService.addActivity(newActivity)
     dispatch(setActivity(res.data))
   } catch (err) {
+    dispatch(setActivityUnloading())
     dispatch({
       type: GET_ERRORS,
       payload: err.response.data

@@ -1,4 +1,9 @@
-import { SET_CURRENT_ACTIVITY, ACTIVITY_LOADIND, GET_ERRORS } from './types'
+import {
+  SET_CURRENT_ACTIVITY,
+  ACTIVITY_LOADIND,
+  GET_ERRORS,
+  ACTIVITY_UNLOADIND
+} from './types'
 import ActivityService from '../services/user/ActivityService'
 
 // GET Activity
@@ -28,5 +33,12 @@ export const setActivity = activity => dispatch => {
 export const setActivityLoading = () => {
   return {
     type: ACTIVITY_LOADIND
+  }
+}
+
+// Set unloading state
+export const setActivityUnloading = () => {
+  return {
+    type: ACTIVITY_UNLOADIND
   }
 }

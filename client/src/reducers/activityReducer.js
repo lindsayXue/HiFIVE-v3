@@ -1,4 +1,8 @@
-import { SET_CURRENT_ACTIVITY, ACTIVITY_LOADIND } from '../actions/types'
+import {
+  SET_CURRENT_ACTIVITY,
+  ACTIVITY_LOADIND,
+  ACTIVITY_UNLOADIND
+} from '../actions/types'
 
 const initialState = {
   isLoading: false,
@@ -11,6 +15,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         isLoading: true
+      }
+    case ACTIVITY_UNLOADIND:
+      return {
+        ...state,
+        isLoading: false
       }
     case SET_CURRENT_ACTIVITY:
       return {
