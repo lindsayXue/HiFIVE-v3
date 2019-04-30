@@ -7,10 +7,6 @@ const AdminPost = require('../../models/AdminPost')
 // User model
 const User = require('../../models/User')
 
-// Validation
-const validateAdminPostInput = require('../../validation/adminpost')
-const validateAdminPostComment = require('../../validation/adminpostcomment')
-
 // @route   GET api/adminposts
 // @desc    Get admin posts
 // @access  Public
@@ -23,7 +19,7 @@ router.get('/', async (req, res) => {
     res.json(posts)
   } catch (err) {
     console.log(err)
-    res.status(500).json({ servererror: 'Server error' })
+    res.status(500).send('Server error')
   }
 })
 
@@ -40,7 +36,7 @@ router.get('/:id', async (req, res) => {
     }
   } catch (err) {
     console.log(err)
-    res.status(500).json({ servererror: 'Server error' })
+    res.status(500).send('Server error')
   }
 })
 
@@ -66,7 +62,7 @@ router.post('/add', async (req, res) => {
     res.json(newPost)
   } catch (err) {
     console.log(err)
-    res.status(500).json({ servererror: 'Server error' })
+    res.status(500).send('Server error')
   }
 })
 
@@ -79,7 +75,7 @@ router.delete('/:id', async (req, res) => {
     res.json({ success: true })
   } catch (err) {
     console.log(err)
-    res.status(500).json({ servererror: 'Server error' })
+    res.status(500).send('Server error')
   }
 })
 

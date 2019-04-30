@@ -2,13 +2,9 @@ const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const keys = require('../../config/keys')
 
 // Load Admin model
 const Admin = require('../../models/Admin')
-
-// Load Input Validation
-const validateAdminLogin = require('../../validation/adminlogin')
 
 // @route   POST api/admin/register
 // @desc    Register admin
@@ -38,7 +34,7 @@ router.post('/register', async (req, res) => {
     res.json(newAdmin)
   } catch (err) {
     console.log(err)
-    res.status(500).json({ servererror: 'Server error' })
+    res.status(500).send('Server error')
   }
 })
 
@@ -77,7 +73,7 @@ router.post('/login', async (req, res) => {
     res.json({ succedd: true, token })
   } catch (err) {
     console.log(err)
-    res.status(500).json({ servererror: 'Server error' })
+    res.status(500).send('Server error')
   }
 })
 

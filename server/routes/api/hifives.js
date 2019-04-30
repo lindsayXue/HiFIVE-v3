@@ -7,11 +7,10 @@ const HiFIVE = require('../../models/HiFIVE')
 // Load User model
 const User = require('../../models/User')
 
-// Load Validator
-const validateHiFIVEInput = require('../../validation/hifive')
-
 // Middleware
 const googleAuth = require('../../middlewares/googleAuth')
+
+const { check, oneOf, validationResult } = require('express-validator/check')
 
 // @route   GET api/hifives
 // @desc    Get all hifives
@@ -34,14 +33,14 @@ router.get('/', async (req, res) => {
         .populate({ path: 'sender', select: 'name' })
         .populate({ path: 'receiver', select: 'name' })
     }
-    if (hifives.length == 0) {
-      errors.nohifivesfound = 'No hifives found'
-      return res.status(404).json(errors)
-    }
+    // if (hifives.length == 0) {
+    //   errors.nohifivesfound = 'No hifives found'
+    //   return res.status(404).json(errors)
+    // }
     res.json(hifives)
   } catch (err) {
     console.log(err)
-    res.status(500).json({ servererror: 'Server error' })
+    res.status(500).send('Server error')
   }
 })
 
@@ -57,57 +56,70 @@ router.get('/user', googleAuth, async (req, res) => {
     res.json(hifives)
   } catch (err) {
     console.log(err)
-    res.status(500).json({ servererror: 'Server error' })
+    res.status(500).send('Server error')
   }
 })
 
 // @route   POST api/hifives/add
 // @desc    Add a hifive
 // @access  Private
-router.post('/add', googleAuth, async (req, res) => {
-  try {
-    const { errors, isValid } = validateHiFIVEInput(req.body)
+router.post(
+  '/add',
+  googleAuth,
+  [
+    check('receiver', 'Receiver is required')
+      .not()
+      .isEmpty(),
+    check('reason', 'HiFIVE reason is required')
+      .not()
+      .isEmpty()
+  ],
+  async (req, res) => {
+    const errors = validationResult(req)
 
-    // Check Validation
-    if (!isValid) {
-      // If any errors, send 400 with errors object
-      return res.status(400).json(errors)
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() })
     }
 
-    const newHiFIVE = new HiFIVE({
-      sender: req.body.googleId,
-      receiver: req.body.receiver,
-      reason: req.body.reason
-    })
+    const { sender, receiver, reason } = req.body
+    try {
+      const newHiFIVE = new HiFIVE({
+        sender,
+        receiver,
+        reason
+      })
 
-    // Add hifive point to receiver
-    await User.updateMany(
-      {
-        _id: { $in: req.body.receiver }
-      },
-      {
-        $inc: { hifive: 1 }
-      }
-    )
+      // Add hifive point to receiver
+      await User.updateMany(
+        {
+          _id: { $in: receiver }
+        },
+        {
+          $inc: { hifive: 1 }
+        }
+      )
 
-    await newHiFIVE.save()
-    res.json(newHiFIVE)
-  } catch (err) {
-    console.log(err)
-    res.status(500).json({ servererror: 'Server error' })
+      await newHiFIVE.save()
+      res.json(newHiFIVE)
+    } catch (err) {
+      console.log(err)
+      res.status(500).send('Server error')
+    }
   }
-})
+)
 
 // @route   GET api/hifives/rank
 // @desc    Get all users
 // @access  Public
 router.get('/rank', async (req, res) => {
   try {
-    let rank = await User.find({ hifive: { $ne: 0 } }).sort({ hifive: -1 })
+    let rank = await User.find({ hifive: { $ne: 0 } })
+      .sort({ hifive: -1 })
+      .select('-googleId')
     res.json(rank)
   } catch (err) {
     console.log(err)
-    res.status(500).json({ servererror: 'Server error' })
+    res.status(500).send('Server error')
   }
 })
 

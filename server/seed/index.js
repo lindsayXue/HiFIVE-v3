@@ -4,12 +4,17 @@ const Promise = require('bluebird')
 const teams = require('./teams.json')
 const admins = require('./admins.json')
 const mongoose = require('mongoose')
+const config = require('config')
 
 // DB Config
-const db = require('../config/keys').mongoURI
+const db = config.mongoURI
 
 mongoose
-  .connect(db, { useNewUrlParser: true, useFindAndModify: false })
+  .connect(db, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false
+  })
   .then(async () => {
     await Promise.all(
       teams.map(team => {

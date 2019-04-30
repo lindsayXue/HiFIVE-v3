@@ -32,13 +32,11 @@ class Activity extends Component {
           <Grow in timeout={1000}>
             <InfoBoard />
           </Grow>
-        </Grid>
-        <Grid item md={4}>
           <Grow in timeout={1000}>
             <Bonus />
           </Grow>
         </Grid>
-        <Grid item lg={8} md={9}>
+        <Grid item lg={7} md={9}>
           <Grow in timeout={1000}>
             <Users />
           </Grow>

@@ -10,7 +10,9 @@ const styles = theme => ({
 })
 
 const Pagination = props => {
-  const { classes, page, handleChangePage, maxPage } = props
+  const { classes, data, page, handleChangePage, rowsPerPage } = props
+
+  const maxPage = Math.ceil(data.length / rowsPerPage)
   return (
     <div>
       <Button
@@ -34,9 +36,10 @@ const Pagination = props => {
 }
 
 Pagination.propTypes = {
+  data: PropTypes.array.isRequired,
   page: PropTypes.number.isRequired,
   handleChangePage: PropTypes.func.isRequired,
-  maxPage: PropTypes.number.isRequired
+  rowsPerPage: PropTypes.number.isRequired
 }
 
 export default withStyles(styles)(Pagination)

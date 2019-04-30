@@ -4,13 +4,13 @@ const Schema = mongoose.Schema
 // Create Schema
 const HiFIVESchema = new Schema({
   sender: {
-    type: String,
+    type: Schema.Types.ObjectId,
     ref: 'users',
     required: true
   },
   receiver: [
     {
-      type: String,
+      type: Schema.Types.ObjectId,
       ref: 'users',
       required: true
     }

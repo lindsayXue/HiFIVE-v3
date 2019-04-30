@@ -1,7 +1,6 @@
 const { OAuth2Client } = require('google-auth-library')
-const clientId =
-  '909776054271-l3v0sar1i5nqir67jjo0pn9bv252f9i1.apps.googleusercontent.com'
-const client = new OAuth2Client(clientId)
+const config = require('config')
+const client = new OAuth2Client(config.googleClientId)
 
 module.exports = async function(req, res, next) {
   const errors = {}

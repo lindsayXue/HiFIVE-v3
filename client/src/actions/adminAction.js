@@ -7,6 +7,7 @@ import {
 import AuthService from '../services/admin/AuthService'
 import setAuthToken from '../services/setAuthToken'
 import ActivityService from '../services/admin/ActivityService'
+import BonusService from '../services/admin/BonusService'
 import {
   setActivity,
   setActivityLoading,
@@ -57,6 +58,18 @@ export const addActivity = newActivity => async dispatch => {
     dispatch(setActivity(res.data))
   } catch (err) {
     dispatch(setActivityUnloading())
+    dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data
+    })
+  }
+}
+
+// Add Bonus
+export const addBonus = newBonus => async dispatch => {
+  try {
+    await BonusService.addBonus(newBonus)
+  } catch (err) {
     dispatch({
       type: GET_ERRORS,
       payload: err.response.data

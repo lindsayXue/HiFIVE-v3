@@ -4,9 +4,6 @@ const router = express.Router()
 // Middleware
 const googleAuth = require('../../middlewares/googleAuth')
 
-// Load Input Validation
-const validateRegisterInput = require('../../validation/register')
-
 // Load User model
 const User = require('../../models/User')
 
@@ -16,144 +13,196 @@ const Activity = require('../../models/Activity')
 // Load Team model
 const Team = require('../../models/Team')
 
-// @route   GET api/users
-// @desc    Get all users
-// @access  Public
-router.get('/', async (req, res) => {
-  try {
-    let users
-    if (!!req.query.number) {
-      let skip = !req.query.skip ? 0 : req.query.skip
-      users = await User.find()
-        .sort({ points: -1 })
-        .skip(Number(skip))
-        .limit(Number(req.query.number))
-    } else {
-      users = await User.find().sort({ points: -1 })
-    }
-    res.json(users)
-  } catch (err) {
-    console.log(err)
-    res.status(500).json({ servererror: 'Server error' })
-  }
-})
-
-// @route   GET api/users/profile
-// @desc    Get user profile
-// @access  Private
-router.get('/profile', googleAuth, async (req, res) => {
-  try {
-    const userProfile = await User.findById(req.body.googleId)
-
-    res.json(userProfile)
-  } catch (err) {
-    console.log(err)
-    res.status(500).json({ servererror: 'Server error' })
-  }
-})
+const { check, oneOf, validationResult } = require('express-validator/check')
 
 // @route   GET api/users/login
 // @desc    Login user
 // @access  Public
 router.get('/login', googleAuth, async (req, res) => {
+  const { googleId } = req.body
   try {
-    let user = await User.findById(req.body.googleId)
-    if (user) {
-      return res.json(user)
-    } else {
-      return res.status(404).json({ unregisteruser: 'User unregister' })
+    let user = await User.findOne({ googleId }).select('-googleId')
+
+    if (!user || Object.keys(user).length === 0) {
+      return res.status(404).json({ errors: [{ msg: 'User unregistered' }] })
     }
+    res.json(user)
   } catch (err) {
     console.log(err)
-    res.status(500).json({ servererror: 'Server error' })
+    res.status(500).send('Server error')
   }
 })
 
 // @route   POST api/users/register
 // @desc    Register user
 // @access  Public
-router.post('/register', googleAuth, async (req, res) => {
-  try {
-    const { errors, isValid } = validateRegisterInput(req.body)
-
-    // Check Validation
-    if (!isValid) {
-      return res.status(400).json(errors)
-    }
-
-    let user = await User.findById(req.body.googleId)
-    if (user) {
-      errors.userexists = 'User already exists'
-      return res.status(400).json(errors)
-    }
-    const newUser = new User({
-      _id: req.body.googleId,
-      name: req.body.name,
-      email: req.body.email,
-      ageRange: req.body.ageRange,
-      fitnessLevel: req.body.fitnessLevel,
-      gender: req.body.gender,
-      jobDesc: req.body.jobDesc,
-      department: req.body.department
-    })
-    if (!!req.body.teamRandom) {
-      const team = await Team.find()
-        .sort({ member: 1 })
-        .limit(1)
-      newUser.team = team[0]._id
-    } else {
-      if (!req.body.team) {
-        errors.team = 'Team field is required'
-        return res.status(400).json(errors)
-      }
-      newUser.teamRandom = false
-      newUser.team = req.body.team
-    }
-
-    // Add team member
-    const teamUpdate = await Team.findByIdAndUpdate(newUser.team, {
-      $inc: { member: 1 }
-    })
-
-    if (!teamUpdate) {
-      errors.noteamfound = 'No team found'
-      return res.status(400).json(errors)
-    }
-
-    // Add participants to activity
-    await Activity.findOneAndUpdate(
-      {},
-      {
-        $inc: { participants: 1 }
-      }
+router.post(
+  '/register',
+  [
+    check('name', 'Name is required')
+      .not()
+      .isEmpty(),
+    check('ageRange', 'Age is required')
+      .not()
+      .isEmpty(),
+    check('fitnessLevel', 'Fitness level is required')
+      .not()
+      .isEmpty(),
+    check('gender', 'Gender level is required')
+      .not()
+      .isEmpty(),
+    check('jobDesc', 'Job is required')
+      .not()
+      .isEmpty(),
+    check('department', 'Department is required')
+      .not()
+      .isEmpty(),
+    // Check team random? Or team Select?
+    oneOf(
+      [
+        [check('teamMode').equals('random')],
+        [
+          check('team')
+            .not()
+            .isEmpty()
+        ]
+      ],
+      'Team is required'
     )
+  ],
+  async (req, res) => {
+    const errors = validationResult(req)
 
-    await newUser.save()
-    return res.json(newUser)
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() })
+    }
+
+    const {
+      googleId,
+      email,
+      name,
+      ageRange,
+      fitnessLevel,
+      gender,
+      jobDesc,
+      department,
+      teamMode
+    } = req.body
+
+    try {
+      let user = await User.find({ googleId })
+
+      if (user.length !== 0) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'User already exists' }] })
+      }
+      const newUser = new User({
+        googleId,
+        name,
+        email,
+        ageRange,
+        fitnessLevel,
+        gender,
+        jobDesc,
+        department
+      })
+
+      // Random or Select Team
+
+      if (teamMode === 'select') {
+        newUser.teamRandom = false
+        newUser.team = req.body.team
+      } else {
+        const team = await Team.find()
+          .sort({ member: 1 })
+          .limit(1)
+        newUser.team = team[0]._id
+      }
+
+      // Add team member
+      const teamUpdate = await Team.findByIdAndUpdate(newUser.team, {
+        $inc: { member: 1 }
+      })
+
+      if (!teamUpdate) {
+        return res.status(400).json({ errors: [{ msg: 'Team not found' }] })
+      }
+
+      // Add participants to activity
+      await Activity.findOneAndUpdate(
+        {},
+        {
+          $inc: { participants: 1 }
+        }
+      )
+
+      await newUser.save()
+      return res.json({
+        _id: newUser._id,
+        name: newUser.name,
+        email: newUser.email,
+        ageRange: newUser.ageRange,
+        fitnessLevel: newUser.fitnessLevel,
+        gender: newUser.gender,
+        department: newUser.department,
+        teamRandom: newUser.teamRandom,
+        team: newUser.team,
+        points: newUser.points,
+        hifive: newUser.points,
+        accountState: newUser.accountState
+      })
+    } catch (err) {
+      console.log(err)
+      res.status(500).send('Server error')
+    }
+  }
+)
+
+// // @route   GET api/users
+// // @desc    Get all users
+// // @access  Public
+router.get('/', async (req, res) => {
+  try {
+    let users
+    if (!!req.query.number) {
+      let skip = !req.query.skip ? 0 : req.query.skip
+      users = await User.find()
+        .select('-googleId')
+        .sort({ points: -1 })
+        .skip(Number(skip))
+        .limit(Number(req.query.number))
+    } else {
+      users = await User.find()
+        .select('-googleId')
+        .sort({ points: -1 })
+    }
+    res.json(users)
   } catch (err) {
     console.log(err)
-    res.status(500).json({ servererror: 'Server error' })
+    res.status(500).send('Server error')
   }
 })
 
 // @route   PUT api/users/edit
 // @desc    Edit user
 // @access  Admin
-router.put('/edit', googleAuth, async (req, res) => {
+router.put('/edit', async (req, res) => {
+  const { userId, points, hifive, team, accountState } = req.body
   try {
-    let editUser = await User.findByIdAndUpdate(req.body.googleId, {
-      points: req.body.points,
-      hifive: req.body.hifive,
-      team: req.body.team,
-      accountState: req.body.accountState
+    let editUser = await User.findByIdAndUpdate(userId, {
+      points,
+      hifive,
+      team,
+      accountState
     })
 
-    let pointsDiff = req.body.points - editUser.points
+    let pointsDiff = points - editUser.points
 
     // When edit team
-    if (editUser.team !== req.body.team) {
+    if (editUser.team !== team) {
       // Set teamRandom to false
-      await User.findByIdAndUpdate(req.body.googleId, {
+      await User.findByIdAndUpdate(userId, {
         teamRandom: false
       })
 
@@ -162,8 +211,8 @@ router.put('/edit', googleAuth, async (req, res) => {
         $inc: { member: -1, points: -editUser.points }
       })
 
-      await Team.findByIdAndUpdate(req.body.team, {
-        $inc: { member: 1, points: req.body.points }
+      await Team.findByIdAndUpdate(team, {
+        $inc: { member: 1, points: points }
       })
     } else {
       // Edit team points
@@ -180,10 +229,11 @@ router.put('/edit', googleAuth, async (req, res) => {
       }
     )
 
-    res.json(editUser)
+    // PUT user return??
+    res.json({ success: 'success' })
   } catch (err) {
     console.log(err)
-    res.status(500).json({ servererror: 'Server error' })
+    res.status(500).send('Server error')
   }
 })
 
@@ -193,13 +243,14 @@ router.put('/edit', googleAuth, async (req, res) => {
 router.get('/winner', async (req, res) => {
   try {
     const tops = await User.find()
+      .select('-googleId')
       .sort({ points: -1 })
       .limit(3)
     const winner = tops.filter(top => top.points !== 0)
     res.json(winner)
   } catch (err) {
     console.log(err)
-    res.status(500).json({ servererror: 'Server error' })
+    res.status(500).send('Server error')
   }
 })
 

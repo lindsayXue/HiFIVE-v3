@@ -121,10 +121,10 @@ class InfoBoard extends Component {
         ) : (
           <div>
             <Typography variant="h6" color="secondary" gutterBottom>
-              Start: <Moment format="DD/MM/YYYY">{activity.start}</Moment>
+              Start: <Moment format="MMM Do YY">{activity.start}</Moment>
             </Typography>
             <Typography variant="h6" color="secondary" gutterBottom>
-              End: <Moment format="DD/MM/YYYY">{activity.end}</Moment>
+              End: <Moment format="MMM Do YY">{activity.end}</Moment>
             </Typography>
             <Typography variant="h6" color="secondary" gutterBottom>
               Participants: {activity.participants}

@@ -14,14 +14,14 @@ router.get('/', async (req, res) => {
   try {
     const errors = {}
     const teams = await Team.find()
-    if (teams.length == 0) {
-      errors.noteamfound = 'No team found'
-      return res.status(400).json(errors)
-    }
+    // if (teams.length == 0) {
+    //   errors.noteamfound = 'No team found'
+    //   return res.status(400).json(errors)
+    // }
 
     res.json(teams)
   } catch (err) {
-    res.status(500).json({ servererror: 'Server error' })
+    res.status(500).send('Server error')
   }
 })
 
@@ -37,7 +37,7 @@ router.get('/winner', async (req, res) => {
     res.json(winner)
   } catch (err) {
     console.log(err)
-    res.status(500).json({ servererror: 'Server error' })
+    res.status(500).send('Server error')
   }
 })
 
@@ -56,7 +56,7 @@ router.get('/:id', async (req, res) => {
     res.json(team)
   } catch (err) {
     console.log(err)
-    res.status(500).json({ servererror: 'Server error' })
+    res.status(500).send('Server error')
   }
 })
 
@@ -65,14 +65,16 @@ router.get('/:id', async (req, res) => {
 // @access  Public
 router.get('/members/:id', async (req, res) => {
   try {
-    const members = await User.find({ team: req.params.id }).sort({
-      points: -1
-    })
+    const members = await User.find({ team: req.params.id })
+      .select('-googldId')
+      .sort({
+        points: -1
+      })
 
     res.json(members)
   } catch (err) {
     console.log(err)
-    res.status(500).json({ servererror: 'Server error' })
+    res.status(500).send('Server error')
   }
 })
 module.exports = router

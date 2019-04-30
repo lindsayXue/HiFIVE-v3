@@ -7,8 +7,7 @@ const Activity = require('../../models/Activity')
 // Load User model
 const User = require('../../models/User')
 
-// Load Validator
-const validateActivityInput = require('../../validation/activity')
+const { check, oneOf, validationResult } = require('express-validator/check')
 
 // @route   GET api/activity
 // @desc    Get activity
@@ -34,31 +33,44 @@ router.get('/', async (req, res) => {
 
 // @route   POST api/activity
 // @desc    Add an activity
-// @access  Private
-router.post('/', async (req, res) => {
-  try {
-    const { errors, isValid } = validateActivityInput(req.body)
+// @access  Admin
+router.post(
+  '/',
+  [
+    check('start', 'Start date is required')
+      .not()
+      .isEmpty(),
+    check('duration', 'Duration days is required')
+      .not()
+      .isEmpty(),
+    check('duration', 'Duration days must be more than 0').isInt({ min: 1 }),
+    check('end', 'End date is required')
+      .not()
+      .isEmpty()
+  ],
+  async (req, res) => {
+    const errors = validationResult(req)
 
-    // Check Validation
-    if (!isValid) {
-      // If any errors, send 400 with errors object
-      return res.status(400).json(errors)
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() })
     }
 
-    const users = await User.find()
-    const participants = users.length
+    try {
+      const users = await User.find()
+      const participants = users.length
 
-    const newActivity = new Activity({
-      start: req.body.start,
-      end: req.body.end,
-      participants
-    })
-    await newActivity.save()
-    res.json(newActivity)
-  } catch (err) {
-    console.log(err)
-    res.status(500).json({ servererror: 'Server error' })
+      const newActivity = new Activity({
+        start: req.body.start,
+        end: req.body.end,
+        participants
+      })
+      await newActivity.save()
+      res.json(newActivity)
+    } catch (err) {
+      console.log(err)
+      res.status(500).json({ servererror: 'Server error' })
+    }
   }
-})
+)
 
 module.exports = router

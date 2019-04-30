@@ -50,38 +50,32 @@ class Member extends Component {
     const { classes, style } = this.props
     const { members, rowsPerPage, page } = this.state
 
-    // const emptyRows =
-    //   rowsPerPage - Math.min(rowsPerPage, members.length - page * rowsPerPage)
-
-    const maxPage = Math.ceil(members.length / rowsPerPage)
-
     return (
       <Paper className={classes.root} elevation={1} style={style}>
         <Typography variant="h5" color="primary" gutterBottom>
           Team members
         </Typography>
-        <div className={classes.demo}>
-          <List>
-            {members.length === 0 && (
-              <ListItem>
-                <ListItemText secondary="No team member yet" />
+        <List>
+          {members.length === 0 && (
+            <ListItem>
+              <ListItemText secondary="No team member yet" />
+            </ListItem>
+          )}
+          {members
+            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            .map(member => (
+              <ListItem key={member._id}>
+                <ListItemText primary={member.name} />
+                <ListItemText secondary={`${member.points} points`} />
               </ListItem>
-            )}
-            {members
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map(member => (
-                <ListItem key={member._id}>
-                  <ListItemText primary={member.name} />
-                  <ListItemText secondary={`${member.points} points`} />
-                </ListItem>
-              ))}
-          </List>
-          <Pagination
-            page={page}
-            handleChangePage={this.handleChangePage}
-            maxPage={maxPage}
-          />
-        </div>
+            ))}
+        </List>
+        <Pagination
+          data={members}
+          page={page}
+          rowsPerPage={rowsPerPage}
+          handleChangePage={this.handleChangePage}
+        />
         {/* <Typography variant="h5" component="h3" color="primary">
           Team members
         </Typography>
