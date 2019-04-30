@@ -12,7 +12,6 @@ import { withStyles } from '@material-ui/core/styles'
 import Moment from 'react-moment'
 import moment from 'moment'
 import DatePicker from '../../common/DatePicker'
-import { addActivity } from '../../../actions/adminAction'
 
 const styles = theme => ({
   root: {
@@ -150,5 +149,5 @@ const mapStatetToProps = state => ({
 
 export default connect(
   mapStatetToProps,
-  { addActivity }
+  {}
 )(withStyles(styles)(InfoBoard))

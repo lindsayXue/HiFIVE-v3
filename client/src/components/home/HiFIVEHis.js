@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import HiFIVEService from '../../services/user/HiFIVEService'
+import HiFIVEService from '../../services/user/HiFIVE'
 import {
   Typography,
   List,

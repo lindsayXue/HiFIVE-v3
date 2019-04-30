@@ -1,12 +1,13 @@
 const { OAuth2Client } = require('google-auth-library')
 const config = require('config')
-const client = new OAuth2Client(config.googleClientId)
+const clientId = config.get('googleClientId')
+const client = new OAuth2Client(clientId)
 
 module.exports = async function(req, res, next) {
   const errors = {}
   try {
     const ticket = await client.verifyIdToken({
-      idToken: req.headers.authorization.split(' ')[1],
+      idToken: req.header('x-auth-token'),
       audience: clientId
       // Specify the CLIENT_ID of the app that accesses the backend
       // Or, if multiple clients access the backend:
@@ -21,7 +22,8 @@ module.exports = async function(req, res, next) {
     req.body.email = email
     next()
   } catch (err) {
-    errors.unauthoriseuser = 'Unauthorised user, please login first'
-    return res.status(401).json(errors)
+    return res
+      .status(401)
+      .json({ msg: 'Unauthorised user, please login first' })
   }
 }

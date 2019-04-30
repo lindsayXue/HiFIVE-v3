@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import TeamService from '../../services/user/TeamService'
+import TeamService from '../../services/user/Team'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {

@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { logoutUser } from '../../actions/authAction'
-import { logoutAdmin } from '../../actions/adminAction'
+import { logout } from '../../actions/auth'
 import Logo from '../../assets/hifive.png'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
@@ -59,26 +58,26 @@ class Navbar extends Component {
     })
   }
 
-  toggleAdminDrawer = open => () => {
-    this.setState({
-      adminDrawers: open
-    })
-  }
+  // toggleAdminDrawer = open => () => {
+  //   this.setState({
+  //     adminDrawers: open
+  //   })
+  // }
 
-  onAdminLogoutClick = e => {
-    e.preventDefault()
+  // onAdminLogoutClick = e => {
+  //   e.preventDefault()
 
-    this.props.logoutAdmin()
-  }
+  //   this.props.logoutAdmin()
+  // }
 
   render() {
     const { isAuthenticated } = this.props.auth
-    const { isAdmin } = this.props.admin
+
     const {
       classes,
       location: { pathname }
     } = this.props
-    const { navDrawers, adminDrawers } = this.state
+    const { navDrawers } = this.state
 
     const authLinks = (
       <Hidden smDown>
@@ -131,59 +130,59 @@ class Navbar extends Component {
         </MenuList>
       </div>
     )
-    const adminLinks = (
-      <Hidden smDown>
-        <MenuList className={classes.pageNav}>
-          <MenuItem
-            className={classes.pageNavItem}
-            component={RouterLink}
-            to="/admin/activity"
-            selected={'/admin/activity' === pathname}
-          >
-            Activity
-          </MenuItem>
-          <MenuItem
-            className={classes.pageNavItem}
-            component={RouterLink}
-            to="/admin/users"
-            selected={'/admin/users' === pathname}
-          >
-            Users
-          </MenuItem>
-        </MenuList>
-      </Hidden>
-    )
+    // const adminLinks = (
+    //   <Hidden smDown>
+    //     <MenuList className={classes.pageNav}>
+    //       <MenuItem
+    //         className={classes.pageNavItem}
+    //         component={RouterLink}
+    //         to="/admin/activity"
+    //         selected={'/admin/activity' === pathname}
+    //       >
+    //         Activity
+    //       </MenuItem>
+    //       <MenuItem
+    //         className={classes.pageNavItem}
+    //         component={RouterLink}
+    //         to="/admin/users"
+    //         selected={'/admin/users' === pathname}
+    //       >
+    //         Users
+    //       </MenuItem>
+    //     </MenuList>
+    //   </Hidden>
+    // )
 
-    const adminLinksMobile = (
-      <div>
-        <MenuList>
-          <MenuItem
-            component={RouterLink}
-            to="/admin/activity"
-            selected={'/admin/activity' === pathname}
-          >
-            Activity
-          </MenuItem>
-          <MenuItem
-            component={RouterLink}
-            to="/admin/users"
-            selected={'/admin/users' === pathname}
-          >
-            Users
-          </MenuItem>
-        </MenuList>
-      </div>
-    )
+    // const adminLinksMobile = (
+    //   <div>
+    //     <MenuList>
+    //       <MenuItem
+    //         component={RouterLink}
+    //         to="/admin/activity"
+    //         selected={'/admin/activity' === pathname}
+    //       >
+    //         Activity
+    //       </MenuItem>
+    //       <MenuItem
+    //         component={RouterLink}
+    //         to="/admin/users"
+    //         selected={'/admin/users' === pathname}
+    //       >
+    //         Users
+    //       </MenuItem>
+    //     </MenuList>
+    //   </div>
+    // )
 
-    const adminLogout = (
-      <Button
-        className={classes.link}
-        color="inherit"
-        onClick={this.onAdminLogoutClick}
-      >
-        Logout
-      </Button>
-    )
+    // const adminLogout = (
+    //   <Button
+    //     className={classes.link}
+    //     color="inherit"
+    //     onClick={this.onAdminLogoutClick}
+    //   >
+    //     Logout
+    //   </Button>
+    // )
     return (
       <div className={classes.root}>
         <AppBar position="static" color="secondary">
@@ -200,7 +199,7 @@ class Navbar extends Component {
                 </IconButton>
               </Hidden>
             )}
-            {isAdmin && (
+            {/* {isAdmin && (
               <Hidden smUp>
                 <IconButton
                   className={classes.menuButton}
@@ -211,7 +210,7 @@ class Navbar extends Component {
                   <MenuIcon />
                 </IconButton>
               </Hidden>
-            )}
+            )} */}
             <Drawer
               anchor="top"
               open={navDrawers}
@@ -226,7 +225,7 @@ class Navbar extends Component {
                 {authLinksMobile}
               </div>
             </Drawer>
-            <Drawer
+            {/* <Drawer
               anchor="top"
               open={adminDrawers}
               onClose={this.toggleAdminDrawer(false)}
@@ -239,12 +238,8 @@ class Navbar extends Component {
               >
                 {adminLinksMobile}
               </div>
-            </Drawer>
-            <Link
-              component={RouterLink}
-              to={isAdmin ? '/admin/activity' : '/user/home'}
-              color="inherit"
-            >
+            </Drawer> */}
+            <Link component={RouterLink} to="/user/home" color="inherit">
               <img src={Logo} width="40" height="40" alt="Logo" />
             </Link>
             <Typography
@@ -256,8 +251,8 @@ class Navbar extends Component {
             </Typography>
             {isAuthenticated && authLinks}
             {isAuthenticated && logoutLink}
-            {isAdmin && adminLinks}
-            {isAdmin && adminLogout}
+            {/* {isAdmin && adminLinks}
+            {isAdmin && adminLogout} */}
           </Toolbar>
         </AppBar>
       </div>
@@ -266,18 +261,16 @@ class Navbar extends Component {
 }
 
 Navbar.propTypes = {
-  logoutUser: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  admin: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth,
-  admin: state.admin
+  auth: state.auth // admin: state.admin
 })
 
 export default connect(
   mapStateToProps,
-  { logoutUser, logoutAdmin }
+  { logout }
 )(withRouter(withStyles(styles)(Navbar)))

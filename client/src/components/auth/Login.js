@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { loginUser } from '../../actions/authAction'
+import { login } from '../../actions/auth'
 import PropTypes from 'prop-types'
 import { GoogleLogin } from 'react-google-login'
 import { Grid, Button, CircularProgress } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import googleLogo from '../../assets/google-logo.png'
 import ErrorInfo from '../common/ErrorInfo'
+import { Redirect } from 'react-router-dom'
 
 const styles = theme => ({
   content: {
@@ -38,21 +39,15 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    if (this.props.auth.isAuthenticated) {
-      this.props.history.push('/user/home')
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.auth.isAuthenticated) {
-      this.props.history.push('/user/home')
+    if (this.props.isAuthenticated) {
+      return <Redirect to="/user/home" />
     }
   }
 
   onSuccessSignin = response => {
     let id_token = response.getAuthResponse().id_token
     this.setState({ isLoading: true })
-    this.props.loginUser(id_token, this.props.history)
+    this.props.login(id_token, this.props.history)
   }
 
   onFailSignin = response => {
@@ -66,6 +61,7 @@ class Login extends Component {
   render() {
     const { classes } = this.props
     const { error, isLoading } = this.state
+
     return (
       <Grid container justify="center" style={{ marginTop: '10rem' }}>
         <Grid item md={3} sm={5} className={classes.content}>
@@ -111,14 +107,15 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  loginUser: PropTypes.func.isRequired
+  login: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  isAuthenticated: state.auth.isAuthenticated
 })
 
 export default connect(
   mapStateToProps,
-  { loginUser }
+  { login }
 )(withStyles(styles)(Login))

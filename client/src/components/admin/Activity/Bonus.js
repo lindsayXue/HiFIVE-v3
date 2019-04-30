@@ -14,8 +14,7 @@ import {
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import BonusService from '../../../services/user/BonusService'
-import { addBonus } from '../../../actions/adminAction'
+import BonusService from '../../../services/user/Bonus'
 import Pagination from '../../common/Pagination'
 import DeleteIcon from '@material-ui/icons/Delete'
 
@@ -167,5 +166,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { addBonus }
+  {}
 )(withStyles(styles)(Bonus))

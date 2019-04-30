@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import RankContent from './RankContent'
-import UserService from '../../services/user/UserService'
+import UserService from '../../services/user/User'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Grid } from '@material-ui/core'

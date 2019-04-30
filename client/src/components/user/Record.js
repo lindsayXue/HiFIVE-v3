@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import RecordService from '../../services/user/RecordService'
+import RecordService from '../../services/user/Record'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link as RouterLink } from 'react-router-dom'

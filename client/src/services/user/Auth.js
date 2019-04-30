@@ -6,5 +6,8 @@ export default {
   },
   login() {
     return Api().get('users/login')
+  },
+  getUserAuth() {
+    return Api().get('auth')
   }
 }

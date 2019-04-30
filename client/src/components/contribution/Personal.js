@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import UserService from '../../services/user/UserService'
+import UserService from '../../services/user/User'
 import TablePaginationActionsWrapped from '../common/TablePaginationActions'
 import EnhancedTableHead from '../common/EnhancedTableHead'
 import {

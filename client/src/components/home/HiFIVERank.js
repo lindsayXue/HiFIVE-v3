@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import HiFIVEService from '../../services/user/HiFIVEService'
+import HiFIVEService from '../../services/user/HiFIVE'
 import TablePaginationActionsWrapped from '../common/TablePaginationActions'
 import EnhancedTableHead from '../common/EnhancedTableHead'
 import {

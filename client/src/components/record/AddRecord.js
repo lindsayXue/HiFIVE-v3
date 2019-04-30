@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
-import BonusService from '../../services/user/BonusService'
-import { addRecord } from '../../actions/recordAction'
+import BonusService from '../../services/user/Bonus'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
@@ -291,5 +290,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { addRecord }
+  {}
 )(withRouter(AddRecord))

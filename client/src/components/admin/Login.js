@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
-import { loginAdmin } from '../../actions/adminAction'
 import { Grid, TextField, Button, Typography, Paper } from '@material-ui/core'
 import ErrorInfo from '../common/ErrorInfo'
 
@@ -107,16 +106,14 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  admin: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
-  admin: state.admin,
   errors: state.errors
 })
 
 export default connect(
   mapStateToProps,
-  { loginAdmin }
+  {}
 )(withRouter(Login))

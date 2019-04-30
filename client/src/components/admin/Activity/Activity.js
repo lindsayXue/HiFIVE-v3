@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { getActivity } from '../../../actions/activityAction'
+import { getActivity } from '../../../actions/activity'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import { Grid, Grow } from '@material-ui/core'

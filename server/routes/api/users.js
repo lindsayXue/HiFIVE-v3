@@ -38,6 +38,7 @@ router.get('/login', googleAuth, async (req, res) => {
 // @access  Public
 router.post(
   '/register',
+  googleAuth,
   [
     check('name', 'Name is required')
       .not()

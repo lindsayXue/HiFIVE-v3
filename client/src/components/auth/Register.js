@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import TeamService from '../../services/user/TeamService'
-import { registerUser } from '../../actions/authAction'
+import TeamService from '../../services/user/Team'
+import { register } from '../../actions/auth'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
@@ -305,7 +305,7 @@ class Register extends Component {
 Register.propTypes = {
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
-  registerUser: PropTypes.func.isRequired
+  register: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -315,5 +315,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { registerUser }
+  { register }
 )(withRouter(Register))

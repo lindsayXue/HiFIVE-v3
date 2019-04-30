@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import Rank from './Rank'
 import { Link as RouterLink } from 'react-router-dom'
-import UserService from '../../services/user/UserService'
-import TeamService from '../../services/user/TeamService'
+import UserService from '../../services/user/User'
+import TeamService from '../../services/user/Team'
 import { Typography, Paper, Button } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 

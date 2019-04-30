@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import UserService from '../../services/user/UserService'
+import UserService from '../../services/user/User'
 import { Link as RouterLink } from 'react-router-dom'
-import { addHiFIVE } from '../../actions/hifiveAction'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
@@ -143,5 +142,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { addHiFIVE }
+  {}
 )(withRouter(AddHiFIVE))

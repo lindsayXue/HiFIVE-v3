@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Bar } from 'react-chartjs-2'
-import TeamService from '../../services/user/TeamService'
+import TeamService from '../../services/user/Team'
 import { withStyles } from '@material-ui/core/styles'
 import { Typography, Paper } from '@material-ui/core'
 

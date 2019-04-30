@@ -49,7 +49,7 @@ router.get('/', async (req, res) => {
 // @access  Private
 router.get('/user', googleAuth, async (req, res) => {
   try {
-    let hifives = await HiFIVE.find({ receiver: req.body.googleId })
+    let hifives = await HiFIVE.find({ receiver: req.query.userId })
       .sort({ createdAt: -1 })
       .populate({ path: 'sender', select: 'name' })
 

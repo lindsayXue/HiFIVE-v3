@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import PostService from '../../services/user/PostService'
+import PostService from '../../services/user/Post'
 import { Link as RouterLink } from 'react-router-dom'
 import {
   Grid,

@@ -15,6 +15,10 @@ router.get('/', googleAuth, async (req, res) => {
   try {
     const userProfile = await User.findOne({ googleId }).select('-googleId')
 
+    if (!userProfile) {
+      return res.status(404).json({ errors: [{ msg: 'User unregistered' }] })
+    }
+
     res.json(userProfile)
   } catch (err) {
     console.log(err)
