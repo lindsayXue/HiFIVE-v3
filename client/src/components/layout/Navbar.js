@@ -49,7 +49,7 @@ class Navbar extends Component {
   onLogoutClick = e => {
     e.preventDefault()
 
-    this.props.logoutUser()
+    this.props.logout()
   }
 
   toggleUserDrawer = open => () => {
@@ -188,7 +188,7 @@ class Navbar extends Component {
         <AppBar position="static" color="secondary">
           <Toolbar>
             {isAuthenticated && (
-              <Hidden smUp>
+              <Hidden mdUp>
                 <IconButton
                   className={classes.menuButton}
                   color="inherit"

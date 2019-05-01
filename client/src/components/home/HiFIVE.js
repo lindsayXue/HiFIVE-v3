@@ -35,11 +35,11 @@ class HiFIVE extends Component {
             Give a HiFIVE
           </Button>
         </Typography>
-        <Grid container spacing={40}>
-          <Grid item md={7}>
+        <Grid container spacing={16}>
+          <Grid item md={7} xs={11}>
             <HiFIVEHis />
           </Grid>
-          <Grid item md={5}>
+          <Grid item md={5} xs={11}>
             <HiFIVERank />
           </Grid>
         </Grid>

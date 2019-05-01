@@ -25,14 +25,14 @@ class Contribution extends Component {
         container
         justify="center"
         alignItems="flex-start"
-        spacing={40}
+        spacing={16}
       >
-        <Grid item lg={4} md={5}>
+        <Grid item lg={4} md={5} xs={11}>
           <Grow in timeout={1000}>
             <Personal />
           </Grow>
         </Grid>
-        <Grid item lg={4} md={5}>
+        <Grid item lg={4} md={5} xs={11}>
           <Grow in timeout={1000}>
             <Team />
           </Grow>

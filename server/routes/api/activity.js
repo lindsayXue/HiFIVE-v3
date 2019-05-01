@@ -15,15 +15,6 @@ const { check, oneOf, validationResult } = require('express-validator/check')
 router.get('/', async (req, res) => {
   try {
     let activity = await Activity.findOne()
-
-    // if (!activity) {
-    //   return res.status(400).json({ noactivity: 'No activity' })
-    // }
-
-    if (!activity) {
-      return res.json({})
-    }
-
     res.json(activity)
   } catch (err) {
     console.log(err)
@@ -52,7 +43,7 @@ router.post(
     const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() })
+      return res.status(400).json({ errors: errors.mapped() })
     }
 
     try {

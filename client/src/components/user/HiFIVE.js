@@ -47,11 +47,6 @@ class HiFIVE extends Component {
     const { classes, style } = this.props
     const { hifives, rowsPerPage, page } = this.state
 
-    // const emptyRows =
-    //   rowsPerPage - Math.min(rowsPerPage, members.length - page * rowsPerPage)
-
-    let maxPage = Math.ceil(hifives.length / rowsPerPage)
-
     return (
       <Paper className={classes.root} elevation={1} style={style}>
         <Typography variant="h5" color="primary" gutterBottom>
@@ -74,9 +69,10 @@ class HiFIVE extends Component {
               ))}
           </List>
           <Pagination
+            data={hifives}
             page={page}
+            rowsPerPage={rowsPerPage}
             handleChangePage={this.handleChangePage}
-            maxPage={maxPage}
           />
         </div>
       </Paper>

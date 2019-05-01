@@ -40,7 +40,7 @@ router.get('/', async (req, res) => {
     res.json(hifives)
   } catch (err) {
     console.log(err)
-    res.status(500).send('Server error')
+    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
 
@@ -56,7 +56,7 @@ router.get('/user', googleAuth, async (req, res) => {
     res.json(hifives)
   } catch (err) {
     console.log(err)
-    res.status(500).send('Server error')
+    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
 
@@ -78,7 +78,7 @@ router.post(
     const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() })
+      return res.status(400).json({ errors: errors.mapped() })
     }
 
     const { sender, receiver, reason } = req.body
@@ -103,7 +103,7 @@ router.post(
       res.json(newHiFIVE)
     } catch (err) {
       console.log(err)
-      res.status(500).send('Server error')
+      re.status(500).json({ errors: { server: { msg: 'Server error' } } })
     }
   }
 )
@@ -119,7 +119,7 @@ router.get('/rank', async (req, res) => {
     res.json(rank)
   } catch (err) {
     console.log(err)
-    res.status(500).send('Server error')
+    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
 

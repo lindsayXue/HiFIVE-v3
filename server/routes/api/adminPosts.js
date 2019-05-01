@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
     res.json(posts)
   } catch (err) {
     console.log(err)
-    res.status(500).send('Server error')
+    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
 
@@ -36,7 +36,7 @@ router.get('/:id', async (req, res) => {
     }
   } catch (err) {
     console.log(err)
-    res.status(500).send('Server error')
+    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
 
@@ -62,7 +62,7 @@ router.post('/add', async (req, res) => {
     res.json(newPost)
   } catch (err) {
     console.log(err)
-    res.status(500).send('Server error')
+    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
 
@@ -75,7 +75,7 @@ router.delete('/:id', async (req, res) => {
     res.json({ success: true })
   } catch (err) {
     console.log(err)
-    res.status(500).send('Server error')
+    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
 

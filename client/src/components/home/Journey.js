@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import capeReinga from '../../assets/capeReinga1.jpg'
@@ -36,12 +36,18 @@ class Journey extends Component {
   }
   ß
   render() {
-    const { activity, classes, style } = this.props
+    const { classes, style } = this.props
     const { distanceNZ } = this.state
+    const { activity } = this.props.activity
 
-    let percent = ((activity.points * 1000) / distanceNZ).toFixed(2)
-    if (percent > 100) {
-      percent = 100
+    let percent
+    if (!activity || Object.keys(activity).length === 0) {
+      percent = 0
+    } else {
+      percent = ((activity.points * 1000) / distanceNZ).toFixed(2)
+      if (percent > 100) {
+        percent = 100
+      }
     }
 
     let journeyImg = capeReinga
@@ -73,14 +79,32 @@ class Journey extends Component {
             alt="Journey image"
           />
           <CardContent>
-            <Typography gutterBottom variant="h6">
-              <Typography component="span" inline variant="h6" color="primary">
-                {activity.points * 10}{' '}
-              </Typography>
-              meters NOW!
-              <Typography inline color="secondary" style={{ float: 'right' }}>
-                One point = Ten meters
-              </Typography>
+            <Typography gutterBottom variant="subtitle2">
+              {!activity || Object.keys(activity).length === 0 ? (
+                <Typography color="secondary">
+                  The journey has not start yet
+                </Typography>
+              ) : (
+                <Fragment>
+                  <Typography
+                    component="span"
+                    inline
+                    variant="subtitle2"
+                    color="primary"
+                  >
+                    {activity.points * 10}{' '}
+                  </Typography>
+                  meters NOW!
+                  <Typography
+                    inline
+                    variant="body2"
+                    color="secondary"
+                    style={{ float: 'right' }}
+                  >
+                    One point = Ten meters
+                  </Typography>
+                </Fragment>
+              )}
             </Typography>
             <hr />
             <Grid container justify="space-around">
@@ -150,11 +174,11 @@ class Journey extends Component {
 }
 
 Journey.propTypes = {
-  activity: PropTypes.object.isRequired
+  activity: PropTypes.PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
-  activity: state.activity.activity
+  activity: state.activity
 })
 
 export default connect(mapStateToProps)(withStyles(styles)(Journey))

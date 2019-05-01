@@ -34,7 +34,7 @@ router.post('/register', async (req, res) => {
     res.json(newAdmin)
   } catch (err) {
     console.log(err)
-    res.status(500).send('Server error')
+    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
 
@@ -73,7 +73,7 @@ router.post('/login', async (req, res) => {
     res.json({ succedd: true, token })
   } catch (err) {
     console.log(err)
-    res.status(500).send('Server error')
+    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
 

@@ -21,19 +21,19 @@ class Home extends Component {
         container
         justify="center"
         alignItems="flex-start"
-        spacing={40}
+        spacing={16}
       >
-        <Grid item lg={4} md={5}>
+        <Grid item lg={4} md={5} xs={11}>
           <Grow in timeout={1000}>
             <Journey />
           </Grow>
         </Grid>
-        <Grid item md={4}>
+        <Grid item md={4} xs={11}>
           <Grow in timeout={1000}>
             <Contribution />
           </Grow>
         </Grid>
-        <Grid item lg={8} md={9}>
+        <Grid item lg={8} md={9} xs={11}>
           <Grow in timeout={1000}>
             <HiFIVE />
           </Grow>

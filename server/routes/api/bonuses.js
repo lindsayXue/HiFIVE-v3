@@ -25,7 +25,7 @@ router.get('/', async (req, res) => {
     res.json(bonuses)
   } catch (err) {
     console.log(err)
-    res.status(500).send('Server error')
+    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
 
@@ -47,7 +47,7 @@ router.post(
     const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() })
+      return res.status(400).json({ errors: errors.mapped() })
     }
     const { name, points } = req.body
     try {
@@ -59,7 +59,7 @@ router.post(
       res.json(newBonus)
     } catch (err) {
       console.log(err)
-      res.status(500).send('Server error')
+      re.status(500).json({ errors: { server: { msg: 'Server error' } } })
     }
   }
 )

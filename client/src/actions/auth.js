@@ -20,7 +20,6 @@ export const loadUser = () => async dispatch => {
 
   try {
     const res = await AuthService.getUserAuth()
-
     dispatch({
       type: USER_LOADED,
       payload: res.data
@@ -37,6 +36,10 @@ export const login = (token, history) => async dispatch => {
   try {
     setAuthToken(token)
     const res = await AuthService.login()
+    dispatch({
+      type: LOGIN_SUCCESS,
+      payload: token
+    })
     dispatch({
       type: REGISTER_SUCCESS,
       payload: res.data
@@ -73,23 +76,13 @@ export const register = (newUser, history) => async dispatch => {
     history.push('/user/home')
   } catch (err) {
     if (err.response.status === 401) {
-      return history.push('/')
+      history.push('/')
     }
     const errors = err.response.data.errors
-    console.log(errors)
+
     if (errors) {
       dispatch(setErrors(errors))
     }
-    // if (errors) {
-    //   errors.forEach(error =>
-    //     dispatch(
-    //       setErrors({
-    //         param: error.param,
-    //         msg: error.msg
-    //       })
-    //     )
-    //   )
-    // }
 
     dispatch({
       type: REGISTER_FAIL

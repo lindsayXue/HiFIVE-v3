@@ -22,7 +22,8 @@ const styles = theme => ({
 
 class TimeBoard extends Component {
   render() {
-    const { activity, isLoading, classes } = this.props
+    const { activity, loading } = this.props.activity
+    const { classes } = this.props
 
     return (
       <Paper className={classes.root} elevation={2}>
@@ -30,10 +31,11 @@ class TimeBoard extends Component {
           Activity
         </Typography>
         <hr />
-        {activity === null ||
-        isLoading ||
-        Object.keys(activity).length === 0 ? (
+        {loading && (
           <CircularProgress className={classes.progress} color="primary" />
+        )}
+        {activity === null || Object.keys(activity).length === 0 ? (
+          <Typography>No activity now</Typography>
         ) : (
           <div>
             <Typography component="p">
@@ -58,13 +60,11 @@ class TimeBoard extends Component {
 }
 
 TimeBoard.propTypes = {
-  activity: PropTypes.object.isRequired,
-  isLoading: PropTypes.bool.isRequired
+  activity: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
-  activity: state.activity.activity,
-  isLoading: state.activity.isLoading
+  activity: state.activity
 })
 
 export default connect(mapStateToProps)(withStyles(styles)(TimeBoard))

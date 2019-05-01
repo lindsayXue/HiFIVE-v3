@@ -24,6 +24,9 @@ module.exports = async function(req, res, next) {
   } catch (err) {
     return res
       .status(401)
-      .json({ msg: 'Unauthorised user, please login first' })
+      .json({
+        param: 'unauthorised',
+        msg: 'Unauthorised user, please login first'
+      })
   }
 }

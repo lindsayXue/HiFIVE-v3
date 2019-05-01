@@ -76,56 +76,6 @@ class Member extends Component {
           rowsPerPage={rowsPerPage}
           handleChangePage={this.handleChangePage}
         />
-        {/* <Typography variant="h5" component="h3" color="primary">
-          Team members
-        </Typography>
-        <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell align="right">Points</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {members.length === 0 && (
-              <TableRow color="secondary">
-                <TableCell>No team member yet</TableCell>
-              </TableRow>
-            )}
-            {members
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map(member => (
-                <TableRow key={member._id}>
-                  <TableCell component="th" scope="row">
-                    {member.name}
-                  </TableCell>
-                  <TableCell align="right">{member.points}</TableCell>
-                </TableRow>
-              ))}
-            {emptyRows > 0 && (
-              <TableRow style={{ height: 48 * emptyRows }}>
-                <TableCell colSpan={6} />
-              </TableRow>
-            )}
-          </TableBody>
-          <TableFooter>
-            <TableRow>
-              <TablePagination
-                rowsPerPageOptions={[5]}
-                colSpan={3}
-                count={members.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                SelectProps={{
-                  native: true
-                }}
-                onChangePage={this.handleChangePage}
-                onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                ActionsComponent={TablePaginationActionsWrapped}
-              />
-            </TableRow>
-          </TableFooter>
-        </Table> */}
       </Paper>
     )
   }

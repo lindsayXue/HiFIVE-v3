@@ -125,6 +125,11 @@ class HiFIVERank extends Component {
           rowCount={usersData.length}
         />
         <TableBody>
+          {usersData.length === 0 && (
+            <TableRow color="secondary">
+              <TableCell>No one get HiFIVE yet</TableCell>
+            </TableRow>
+          )}
           {stableSort(usersData, getSorting(order, orderBy))
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map(user => (

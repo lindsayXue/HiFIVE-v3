@@ -29,6 +29,9 @@ const styles = theme => ({
   },
   backBtn: {
     float: 'right'
+  },
+  tableWrapper: {
+    overflowX: 'auto'
   }
 })
 
@@ -167,7 +170,7 @@ class Record extends Component {
           <Line width={400} height={300} data={data} options={chartOptions} />
         </p>
         {isLoading && <LinearProgress color="primary" />}
-        {!isLoading && recordBoard}
+        <div className={classes.tableWrapper}>{!isLoading && recordBoard}</div>
       </Paper>
     )
   }

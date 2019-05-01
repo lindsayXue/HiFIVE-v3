@@ -23,7 +23,6 @@ const { check, oneOf, validationResult } = require('express-validator/check')
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const errors = {}
     let records
     if (!!req.body.number) {
       let skip = !req.body.skip ? 0 : req.body.skip
@@ -41,7 +40,7 @@ router.get('/', async (req, res) => {
     res.json(records)
   } catch (err) {
     console.log(err)
-    res.status(500).send('Server error')
+    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
 
@@ -85,7 +84,7 @@ router.post(
     const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() })
+      return res.status(400).json({ errors: errors.mapped() })
     }
 
     const { userId, date, duration, points, bonus } = req.body
@@ -129,7 +128,7 @@ router.post(
       res.json(newRecord)
     } catch (err) {
       console.log(err)
-      res.status(500).send('Server error')
+      re.status(500).json({ errors: { server: { msg: 'Server error' } } })
     }
   }
 )
@@ -156,7 +155,7 @@ router.get('/user', googleAuth, async (req, res) => {
     res.json(userRecords)
   } catch (err) {
     console.log(err)
-    res.status(500).send('Server error')
+    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
 

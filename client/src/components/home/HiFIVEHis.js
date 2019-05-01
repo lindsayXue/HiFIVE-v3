@@ -21,6 +21,9 @@ const styles = theme => ({
     ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2
+  },
+  tableWrapper: {
+    overflowX: 'auto'
   }
 })
 
@@ -72,7 +75,6 @@ class HiFIVEHis extends Component {
             <TableCell align="right">Reason</TableCell>
           </TableRow>
         </TableHead>
-
         <TableBody>
           {historyTable.length === 0 && (
             <TableRow color="secondary">
@@ -121,8 +123,11 @@ class HiFIVEHis extends Component {
         <Typography variant="h5" component="h3" gutterBottom>
           History
         </Typography>
-        {isLoading && <LinearProgress color="primary" />}
-        {!isLoading && <List>{historyBoard}</List>}
+
+        <div className={classes.tableWrapper}>
+          {isLoading && <LinearProgress color="primary" />}
+          {!isLoading && <List>{historyBoard}</List>}
+        </div>
       </div>
     )
   }

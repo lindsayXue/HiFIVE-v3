@@ -22,6 +22,7 @@ export default function(state = initialState, action) {
     case USER_LOADED: {
       return {
         ...state,
+        token: localStorage.getItem('token'),
         isAuthenticated: true,
         loading: false,
         user: payload
@@ -31,7 +32,7 @@ export default function(state = initialState, action) {
       localStorage.setItem('token', payload)
       return {
         ...state,
-        token: payload,
+        token: localStorage.getItem('token'),
         user: null,
         isAuthenticated: false,
         loading: false

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
 import { login } from '../../actions/auth'
 import PropTypes from 'prop-types'
 import { GoogleLogin } from 'react-google-login'
@@ -8,6 +9,7 @@ import { withStyles } from '@material-ui/core/styles'
 import googleLogo from '../../assets/google-logo.png'
 import ErrorInfo from '../common/ErrorInfo'
 import { Redirect } from 'react-router-dom'
+import { setErrors, clearError } from '../../actions/error'
 
 const styles = theme => ({
   content: {
@@ -34,13 +36,18 @@ const styles = theme => ({
 
 class Login extends Component {
   state = {
-    error: null,
     isLoading: false
   }
 
   componentDidMount() {
     if (this.props.isAuthenticated) {
       return <Redirect to="/user/home" />
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.isAuthenticated) {
+      this.props.history.push('/user/home')
     }
   }
 
@@ -51,16 +58,20 @@ class Login extends Component {
   }
 
   onFailSignin = response => {
-    this.setState({ error: response.error })
+    this.props.setErrors({
+      googleServer: {
+        msg: 'Something wrong with Google'
+      }
+    })
   }
 
   onErrorClose = () => {
-    this.setState({ error: null })
+    this.props.clearError('googleServer')
   }
 
   render() {
-    const { classes } = this.props
-    const { error, isLoading } = this.state
+    const { classes, errors } = this.props
+    const { isLoading } = this.state
 
     return (
       <Grid container justify="center" style={{ marginTop: '10rem' }}>
@@ -93,10 +104,10 @@ class Login extends Component {
               cookiePolicy={'single_host_origin'}
             />
           )}
-          {error && (
+          {errors.googleServer && (
             <ErrorInfo
               variant="error"
-              message="Oops!Something wrong with google!"
+              message={errors.googleServer.msg}
               onClose={this.onErrorClose}
             />
           )}
@@ -108,14 +119,20 @@ class Login extends Component {
 
 Login.propTypes = {
   login: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired
+  setErrors: PropTypes.func.isRequired,
+  clearError: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  errors: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  errors: state.errors
 })
 
-export default connect(
-  mapStateToProps,
-  { login }
-)(withStyles(styles)(Login))
+export default withRouter(
+  connect(
+    mapStateToProps,
+    { login, setErrors, clearError }
+  )(withStyles(styles)(Login))
+)

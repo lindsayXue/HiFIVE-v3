@@ -5,7 +5,7 @@ import TeamService from '../../services/user/Team'
 import TimeBoard from './TimeBoard'
 import Userinfo from './Userinfo'
 import PropTypes from 'prop-types'
-import { Grid, Typography } from '@material-ui/core'
+import { Grid, Typography, Hidden } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 
 const styles = theme => ({
@@ -29,11 +29,15 @@ class Banner extends Component {
   }
 
   async componentDidMount() {
-    const teamRes = await TeamService.getUserTeam(this.props.auth.user.team)
-
-    this.setState({ team: teamRes.data })
-
-    this.props.getActivity()
+    try {
+      if (this.props.auth.user) {
+        const teamRes = await TeamService.getUserTeam(this.props.auth.user.team)
+        this.setState({ team: teamRes.data })
+      }
+      this.props.getActivity()
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   render() {
@@ -45,6 +49,26 @@ class Banner extends Component {
       color: !team.color ? '' : team.color
     }
 
+    const lgmdTitle = (
+      <Typography variant="h4">
+        Welcome to{' '}
+        <Typography inline component="span" variant="h4" color="primary">
+          HiFIVE
+        </Typography>{' '}
+        Community
+      </Typography>
+    )
+
+    const smTitle = (
+      <Typography variant="h5">
+        Welcome to{' '}
+        <Typography inline component="span" variant="h5" color="primary">
+          HiFIVE
+        </Typography>{' '}
+        Community
+      </Typography>
+    )
+
     return (
       <Grid
         className={classes.banner}
@@ -54,13 +78,8 @@ class Banner extends Component {
         spacing={8}
       >
         <Grid item md={7} className={classes.welcome}>
-          <Typography variant="h4">
-            Welcome to{' '}
-            <Typography inline component="span" variant="h4" color="primary">
-              HiFIVE
-            </Typography>{' '}
-            Community
-          </Typography>
+          <Hidden smDown>{lgmdTitle}</Hidden>
+          <Hidden mdUp>{smTitle}</Hidden>
           <Userinfo user={user} flagStyle={flagStyle} />
         </Grid>
         <Grid item md={4}>

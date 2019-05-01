@@ -29,7 +29,7 @@ router.get('/login', googleAuth, async (req, res) => {
     res.json(user)
   } catch (err) {
     console.log(err)
-    res.status(500).send('Server error')
+    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
 
@@ -38,6 +38,7 @@ router.get('/login', googleAuth, async (req, res) => {
 // @access  Public
 router.post(
   '/register',
+  googleAuth,
   [
     check('name', 'Name is required')
       .not()
@@ -79,17 +80,14 @@ router.post(
       fitnessLevel,
       gender,
       jobDesc,
-      department,
-      teamMode
+      department
     } = req.body
 
     try {
       let user = await User.find({ googleId })
 
       if (user.length !== 0) {
-        return res
-          .status(400)
-          .json({ errors: [{ msg: 'User already exists' }] })
+        return res.status(400).json({ errors: { msg: 'User already exists' } })
       }
       const newUser = new User({
         googleId,
@@ -104,7 +102,7 @@ router.post(
 
       // Random or Select Team
 
-      if (teamMode === 'select') {
+      if (!req.body.teamRandom) {
         newUser.teamRandom = false
         newUser.team = req.body.team
       } else {
@@ -120,7 +118,7 @@ router.post(
       })
 
       if (!teamUpdate) {
-        return res.status(400).json({ errors: [{ msg: 'Team not found' }] })
+        return res.status(400).json({ errors: { msg: 'Team not found' } })
       }
 
       // Add participants to activity
@@ -148,7 +146,7 @@ router.post(
       })
     } catch (err) {
       console.log(err)
-      res.status(500).send('Server error')
+      re.status(500).json({ errors: { server: { msg: 'Server error' } } })
     }
   }
 )
@@ -174,7 +172,7 @@ router.get('/', async (req, res) => {
     res.json(users)
   } catch (err) {
     console.log(err)
-    res.status(500).send('Server error')
+    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
 
@@ -227,7 +225,7 @@ router.put('/edit', async (req, res) => {
     res.json({ success: 'success' })
   } catch (err) {
     console.log(err)
-    res.status(500).send('Server error')
+    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
 
@@ -244,7 +242,7 @@ router.get('/winner', async (req, res) => {
     res.json(winner)
   } catch (err) {
     console.log(err)
-    res.status(500).send('Server error')
+    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
 

@@ -18,6 +18,7 @@ import {
   Paper
 } from '@material-ui/core'
 import ErrorInfo from '../common/ErrorInfo'
+import { clearError } from '../../actions/error'
 
 class Register extends Component {
   state = {
@@ -55,6 +56,7 @@ class Register extends Component {
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value })
+    this.props.clearError(e.target.name)
   }
 
   onTeamRandomChange = e => {
@@ -315,5 +317,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { register }
+  { register, clearError }
 )(withRouter(Register))

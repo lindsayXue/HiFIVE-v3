@@ -22,14 +22,14 @@ class User extends Component {
         container
         justify="center"
         alignItems="flex-start"
-        spacing={40}
+        spacing={16}
       >
-        <Grid item md={5}>
+        <Grid item md={5} xs={11}>
           <Grow in timeout={1000}>
             <Record />
           </Grow>
         </Grid>
-        <Grid item md={4}>
+        <Grid item md={4} xs={11}>
           <Grow in timeout={1000}>
             <Rank />
           </Grow>
