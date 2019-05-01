@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
+import FooterService from '../../services/user/Footer'
 
 const styles = theme => ({
   footer: {
@@ -13,22 +14,41 @@ const styles = theme => ({
   }
 })
 
-const Footer = props => {
-  const { classes } = props
-  return (
-    <Grid
-      container
-      className={classes.footer}
-      component="footer"
-      justify="center"
-      alignItems="center"
-    >
-      <Grid item>
-        <Typography>
-          Copyright &copy; {new Date().getFullYear()} HiFIVE
-        </Typography>
+class Footer extends Component {
+  state = {
+    footer: null
+  }
+  async componentDidMount() {
+    try {
+      const res = await FooterService.getFooter()
+      this.setState({ footer: res.data })
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  render() {
+    const { classes } = this.props
+    const { footer } = this.state
+    return (
+      <Grid
+        container
+        className={classes.footer}
+        component="footer"
+        justify="center"
+        alignItems="center"
+      >
+        <Grid item>
+          {!footer ? (
+            <Typography>
+              Copyright &copy; {new Date().getFullYear()} HiFIVE
+            </Typography>
+          ) : (
+            <Typography>{footer.content}</Typography>
+          )}
+        </Grid>
       </Grid>
-    </Grid>
-  )
+    )
+  }
 }
+
 export default withStyles(styles)(Footer)

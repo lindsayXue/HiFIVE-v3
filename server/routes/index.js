@@ -9,6 +9,7 @@ const teams = require('./api/teams')
 const hifives = require('./api/hifives')
 const adminPosts = require('./api/adminPosts')
 const adminAuth = require('./api/adminAuth')
+const footer = require('./api/footer')
 
 // Auth Routes
 router.use('/auth', auth)
@@ -36,5 +37,8 @@ router.use('/adminposts', adminPosts)
 
 // Admin auth Routes
 router.use('/admin', adminAuth)
+
+// Footer Routes
+router.use('/footer', footer)
 
 module.exports = router
