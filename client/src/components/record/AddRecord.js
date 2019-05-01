@@ -224,37 +224,40 @@ class AddRecord extends Component {
               {errors.duration && (
                 <Typography color="error">{errors.duration.msg}</Typography>
               )}
-
-              <FormControl fullWidth>
-                <InputLabel htmlFor="select-multiple-checkbox">
-                  Bonus
-                </InputLabel>
-                <Select
-                  multiple
-                  value={bonus}
-                  name="bonus"
-                  onChange={this.onChange}
-                  input={<Input id="select-multiple-checkbox" />}
-                  renderValue={selected => {
-                    let displaySelected = []
-                    for (let i = 0; i < selected.length; i++) {
-                      const selectedBonus = bonusOptions.filter(
-                        bonus => bonus._id === selected[i]
-                      )
-                      displaySelected.push(selectedBonus[0].name)
-                    }
-                    return displaySelected.join(',')
-                  }}
-                  MenuProps={MenuProps}
-                >
-                  {bonusOptions.map(element => (
-                    <MenuItem key={element._id} value={element._id}>
-                      <Checkbox checked={bonus.indexOf(element._id) > -1} />
-                      <ListItemText primary={element.name} />
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              {bonusOptions.length !== 0 ? (
+                <FormControl fullWidth>
+                  <InputLabel htmlFor="select-multiple-checkbox">
+                    Bonus
+                  </InputLabel>
+                  <Select
+                    multiple
+                    value={bonus}
+                    name="bonus"
+                    onChange={this.onChange}
+                    input={<Input id="select-multiple-checkbox" />}
+                    renderValue={selected => {
+                      let displaySelected = []
+                      for (let i = 0; i < selected.length; i++) {
+                        const selectedBonus = bonusOptions.filter(
+                          bonus => bonus._id === selected[i]
+                        )
+                        displaySelected.push(selectedBonus[0].name)
+                      }
+                      return displaySelected.join(',')
+                    }}
+                    MenuProps={MenuProps}
+                  >
+                    {bonusOptions.map(element => (
+                      <MenuItem key={element._id} value={element._id}>
+                        <Checkbox checked={bonus.indexOf(element._id) > -1} />
+                        <ListItemText primary={element.name} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              ) : (
+                ''
+              )}
 
               <Button
                 type="submit"

@@ -54,6 +54,12 @@ class Register extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.auth.isAuthenticated) {
+      return this.props.history.push('/user/home')
+    }
+  }
+
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value })
     this.props.clearError(e.target.name)

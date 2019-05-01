@@ -45,13 +45,13 @@ router.get('/:id', async (req, res) => {
 // @access  Admin
 router.post('/add', async (req, res) => {
   try {
-    const { errors, isValid } = validateAdminPostInput(req.body)
+    // const { errors, isValid } = validateAdminPostInput(req.body)
 
-    // Check Validation
-    if (!isValid) {
-      // If any errors, send 400 with errors object
-      return res.status(400).json(errors)
-    }
+    // // Check Validation
+    // if (!isValid) {
+    //   // If any errors, send 400 with errors object
+    //   return res.status(400).json(errors)
+    // }
 
     const newPost = new AdminPost({
       title: req.body.title,
