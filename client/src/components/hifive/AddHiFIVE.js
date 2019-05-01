@@ -7,13 +7,14 @@ import PropTypes from 'prop-types'
 import { Grid, TextField, Button, Typography, Paper } from '@material-ui/core'
 import AutoComplete from '../common/AutoComplete'
 import ErrorInfo from '../common/ErrorInfo'
+import { addHiFIVE } from '../../actions/hifive'
+import { clearError } from '../../actions/error'
 
 class AddHiFIVE extends Component {
   state = {
     receiver: [],
     reason: '',
-    receiverOptions: [],
-    error: null
+    receiverOptions: []
   }
 
   async componentDidMount() {
@@ -25,18 +26,20 @@ class AddHiFIVE extends Component {
         )
       })
     } catch (err) {
-      this.setState({ error: err.reponse.data })
+      console.log(err)
     }
   }
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value })
+    this.props.clearError(e.target.name)
   }
 
   onAutoComleteChange = name => value => {
     this.setState({
       [name]: [value]
     })
+    this.props.clearError('receiver')
   }
 
   onSubmit = e => {
@@ -45,6 +48,7 @@ class AddHiFIVE extends Component {
     const receiverArray = this.state.receiver.map(e => e.value)
 
     const newHiFIVE = {
+      sender: this.props.auth.user._id,
       receiver: receiverArray,
       reason: this.state.reason
     }
@@ -58,7 +62,7 @@ class AddHiFIVE extends Component {
   }
 
   render() {
-    const { receiver, reason, receiverOptions, error } = this.state
+    const { receiver, reason, receiverOptions } = this.state
     const { errors } = this.props
 
     return (
@@ -91,7 +95,7 @@ class AddHiFIVE extends Component {
                 // isMulti="true"
               />
               {errors.receiver && (
-                <Typography color="error">{errors.receiver}</Typography>
+                <Typography color="error">{errors.receiver.msg}</Typography>
               )}
 
               <TextField
@@ -104,7 +108,7 @@ class AddHiFIVE extends Component {
                 fullWidth
               />
               {errors.reason && (
-                <Typography color="error">{errors.reason}</Typography>
+                <Typography color="error">{errors.reason.msg}</Typography>
               )}
 
               <Button
@@ -116,10 +120,10 @@ class AddHiFIVE extends Component {
                 Submit
               </Button>
             </form>
-            {error && (
+            {errors.server && (
               <ErrorInfo
                 variant="error"
-                message={error}
+                message={errors.server.msg}
                 onClose={this.onErrorClose}
               />
             )}
@@ -142,5 +146,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  {}
+  { addHiFIVE, clearError }
 )(withRouter(AddHiFIVE))

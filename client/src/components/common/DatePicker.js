@@ -3,9 +3,15 @@ import DateFnsUtils from '@date-io/date-fns'
 import { DatePicker, MuiPickersUtilsProvider } from 'material-ui-pickers'
 import PropTypes from 'prop-types'
 
-function BasicDatePicker(props) {
-  const [selectedDate, handleDateChange] = useState(new Date())
-  const { label, handleChangeTo, start, end, error, disableFuture } = props
+function BasicDatePicker({
+  label,
+  handleChangeTo,
+  start,
+  end,
+  error,
+  disableFuture
+}) {
+  const [selectedDate, handleDateChange] = useState(null)
 
   return (
     <Fragment>
@@ -35,8 +41,8 @@ BasicDatePicker.defaultProps = {
 
 BasicDatePicker.propTypes = {
   label: PropTypes.string.isRequired,
-  start: PropTypes.instanceOf(Date),
-  end: PropTypes.instanceOf(Date),
+  start: PropTypes.string,
+  end: PropTypes.string,
   handleChangeTo: PropTypes.func.isRequired,
   disableFuture: PropTypes.bool
 }

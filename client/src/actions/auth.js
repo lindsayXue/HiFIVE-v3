@@ -54,7 +54,7 @@ export const login = (token, history) => async dispatch => {
     }
     const errors = err.response.data.errors
     if (errors) {
-      errors.forEach(error => dispatch(setErrors(error.msg)))
+      dispatch(setErrors(errors))
     }
 
     dispatch({

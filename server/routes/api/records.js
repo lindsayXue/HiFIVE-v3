@@ -57,20 +57,13 @@ router.post(
     check('type', 'Exercise type is required')
       .not()
       .isEmpty(),
-    oneOf(
-      [
-        [
-          check('typeInput')
-            .not()
-            .isEmpty()
-        ],
-        [
-          check('type')
-            .not()
-            .equals('Other')
-        ]
-      ],
-      'Please input exercise type'
+    check('typeInput', 'Pleaase input exercise type').custom(
+      (value, { req }) => {
+        if (req.body.type === 'Other' && !value) {
+          return false
+        }
+        return true
+      }
     ),
     check(
       'duration',
@@ -107,7 +100,7 @@ router.post(
       })
 
       // Add points to user
-      const updateUser = await User.findByIdAndUpdate(req.body.googleId, {
+      const updateUser = await User.findByIdAndUpdate(userId, {
         $inc: { points: req.body.points }
       })
 
@@ -128,7 +121,7 @@ router.post(
       res.json(newRecord)
     } catch (err) {
       console.log(err)
-      re.status(500).json({ errors: { server: { msg: 'Server error' } } })
+      res.status(500).json({ errors: { server: { msg: 'Server error' } } })
     }
   }
 )

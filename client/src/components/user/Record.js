@@ -47,7 +47,7 @@ class Record extends Component {
   async componentDidMount() {
     try {
       const res = await RecordService.getUserRecord({
-        googleId: this.props.auth.user._id,
+        userId: this.props.auth.user._id,
         number: 10
       })
       this.setState({ records: res.data, isLoading: false })
@@ -65,7 +65,7 @@ class Record extends Component {
   }
 
   render() {
-    const { classes, style } = this.props
+    const { classes, style, activity } = this.props
     const { records, rowsPerPage, page, isLoading } = this.state
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, records.length - page * rowsPerPage)
@@ -162,6 +162,11 @@ class Record extends Component {
             className={classes.backBtn}
             variant="contained"
             color="primary"
+            disabled={
+              !activity.activity || Object.keys(activity.activity).length === 0
+                ? true
+                : false
+            }
           >
             + Record
           </Button>
@@ -177,11 +182,13 @@ class Record extends Component {
 }
 
 Record.propTypes = {
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  activity: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  activity: state.activity
 })
 
 export default connect(mapStateToProps)(withStyles(styles)(Record))

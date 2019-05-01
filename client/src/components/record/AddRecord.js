@@ -20,16 +20,17 @@ import {
 } from '@material-ui/core'
 import DatePicker from '../common/DatePicker'
 import ErrorInfo from '../common/ErrorInfo'
+import { addRecord } from '../../actions/record'
+import { clearError } from '../../actions/error'
 
 class AddRecord extends Component {
   state = {
-    date: new Date(),
+    date: '',
     type: '',
     typeInput: '',
     duration: '',
     bonus: [],
-    bonusOptions: [],
-    error: null
+    bonusOptions: []
   }
 
   async componentDidMount() {
@@ -43,6 +44,7 @@ class AddRecord extends Component {
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value })
+    this.props.clearError(e.target.name)
   }
 
   onSubmit = e => {
@@ -60,7 +62,7 @@ class AddRecord extends Component {
     })
 
     const newRecord = {
-      googleId: this.props.auth.user._id,
+      userId: this.props.auth.user._id,
       date: this.state.date,
       type: this.state.type,
       typeInput: this.state.typeInput,
@@ -68,13 +70,13 @@ class AddRecord extends Component {
       bonus: bonusGet,
       points
     }
-    console.log(newRecord)
 
     this.props.addRecord(newRecord, this.props.history)
   }
 
   handleDateChange = value => {
     this.setState({ date: value })
+    this.props.clearError('date')
   }
 
   onErrorClose = () => {
@@ -82,7 +84,7 @@ class AddRecord extends Component {
   }
 
   render() {
-    const { type, typeInput, duration, bonus, bonusOptions, error } = this.state
+    const { type, typeInput, duration, bonus, bonusOptions } = this.state
     const { errors, activity } = this.props
 
     const typeOptions = [
@@ -169,7 +171,7 @@ class AddRecord extends Component {
                 error={errors.date}
               />
               {errors.date && (
-                <Typography color="error">{errors.date}</Typography>
+                <Typography color="error">{errors.date.msg}</Typography>
               )}
               <FormControl fullWidth error={!!errors.type ? true : false}>
                 <InputLabel htmlFor="type">Exercise type</InputLabel>
@@ -192,7 +194,7 @@ class AddRecord extends Component {
                 </Select>
               </FormControl>
               {errors.type && (
-                <Typography color="error">{errors.type}</Typography>
+                <Typography color="error">{errors.type.msg}</Typography>
               )}
               {type === 'Other' && (
                 <TextField
@@ -206,7 +208,7 @@ class AddRecord extends Component {
                 />
               )}
               {errors.typeInput && (
-                <Typography color="error">{errors.typeInput}</Typography>
+                <Typography color="error">{errors.typeInput.msg}</Typography>
               )}
 
               <TextField
@@ -220,7 +222,7 @@ class AddRecord extends Component {
                 fullWidth
               />
               {errors.duration && (
-                <Typography color="error">{errors.duration}</Typography>
+                <Typography color="error">{errors.duration.msg}</Typography>
               )}
 
               <FormControl fullWidth>
@@ -263,10 +265,10 @@ class AddRecord extends Component {
                 Add
               </Button>
             </form>
-            {error && (
+            {errors.server && (
               <ErrorInfo
                 variant="error"
-                message="Oops!Something wrong with google!"
+                message={errors.server.msg}
                 onClose={this.onErrorClose}
               />
             )}
@@ -279,7 +281,9 @@ class AddRecord extends Component {
 
 AddRecord.propTypes = {
   auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
+  addRecord: PropTypes.func.isRequired,
+  clearError: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -290,5 +294,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  {}
+  { addRecord, clearError }
 )(withRouter(AddRecord))
