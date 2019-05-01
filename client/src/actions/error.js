@@ -1,8 +1,8 @@
 import { SET_ERRORS } from './types'
 
-export const setErrors = msg => dispatch => {
+export const setErrors = errors => dispatch => {
   dispatch({
     type: SET_ERRORS,
-    payload: { msg }
+    payload: errors
   })
 }

@@ -28,16 +28,16 @@ class Register extends Component {
     jobDesc: '',
     fitnessLevel: '',
     team: '',
-    teamRandom: false,
+    teamRandom: true,
     teamOptions: [],
     error: null
   }
 
   async componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      return this.props.history.push('/user/home')
+    }
     try {
-      if (this.props.auth.isAuthenticated) {
-        this.props.history.push('/user/home')
-      }
       const res = await TeamService.getTeams()
       const teams = res.data
       let teamOptions = teams.map(team => {
@@ -75,7 +75,7 @@ class Register extends Component {
       team: this.state.team
     }
 
-    this.props.registerUser(newUser, this.props.history)
+    this.props.register(newUser, this.props.history)
   }
 
   onErrorClose = () => {
@@ -145,7 +145,7 @@ class Register extends Component {
                 fullWidth
               />
               {errors.name && (
-                <Typography color="error">{errors.name}</Typography>
+                <Typography color="error">{errors.name.msg}</Typography>
               )}
               <FormControl fullWidth error={!!errors.ageRange ? true : false}>
                 <InputLabel htmlFor="ageRange">Age</InputLabel>
@@ -168,7 +168,7 @@ class Register extends Component {
                 </Select>
               </FormControl>
               {errors.ageRange && (
-                <Typography color="error">{errors.ageRange}</Typography>
+                <Typography color="error">{errors.ageRange.msg}</Typography>
               )}
               <FormControl fullWidth error={!!errors.gender ? true : false}>
                 <InputLabel htmlFor="gender">Gender</InputLabel>
@@ -191,7 +191,7 @@ class Register extends Component {
                 </Select>
               </FormControl>
               {errors.gender && (
-                <Typography color="error">{errors.gender}</Typography>
+                <Typography color="error">{errors.gender.msg}</Typography>
               )}
               <TextField
                 label="Department"
@@ -202,7 +202,7 @@ class Register extends Component {
                 fullWidth
               />
               {errors.department && (
-                <Typography color="error">{errors.department}</Typography>
+                <Typography color="error">{errors.department.msg}</Typography>
               )}
               <TextField
                 label="Job description"
@@ -213,7 +213,7 @@ class Register extends Component {
                 fullWidth
               />
               {errors.jobDesc && (
-                <Typography color="error">{errors.jobDesc}</Typography>
+                <Typography color="error">{errors.jobDesc.msg}</Typography>
               )}
               <FormControl
                 fullWidth
@@ -239,7 +239,7 @@ class Register extends Component {
                 </Select>
               </FormControl>
               {errors.fitnessLevel && (
-                <Typography color="error">{errors.fitnessLevel}</Typography>
+                <Typography color="error">{errors.fitnessLevel.msg}</Typography>
               )}
               <FormControlLabel
                 control={
@@ -277,7 +277,7 @@ class Register extends Component {
                 </Select>
               </FormControl>
               {errors.team && (
-                <Typography color="error">{errors.team}</Typography>
+                <Typography color="error">{errors.team.msg}</Typography>
               )}
               <Button
                 type="submit"

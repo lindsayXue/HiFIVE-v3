@@ -38,7 +38,6 @@ router.get('/login', googleAuth, async (req, res) => {
 // @access  Public
 router.post(
   '/register',
-  googleAuth,
   [
     check('name', 'Name is required')
       .not()
@@ -58,24 +57,18 @@ router.post(
     check('department', 'Department is required')
       .not()
       .isEmpty(),
-    // Check team random? Or team Select?
-    oneOf(
-      [
-        [check('teamMode').equals('random')],
-        [
-          check('team')
-            .not()
-            .isEmpty()
-        ]
-      ],
-      'Team is required'
-    )
+    check('team', 'Team is required').custom((value, { req }) => {
+      if (!req.body.teamRandom && !value) {
+        return false
+      }
+      return true
+    })
   ],
   async (req, res) => {
     const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() })
+      return res.status(400).json({ errors: errors.mapped() })
     }
 
     const {

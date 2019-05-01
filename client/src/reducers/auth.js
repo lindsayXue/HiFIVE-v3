@@ -27,9 +27,16 @@ export default function(state = initialState, action) {
         user: payload
       }
     }
+    case LOGIN_SUCCESS: // Just Login but no Register
+      localStorage.setItem('token', payload)
+      return {
+        ...state,
+        token: payload,
+        user: null,
+        isAuthenticated: false,
+        loading: false
+      }
     case REGISTER_SUCCESS:
-    case LOGIN_SUCCESS:
-      localStorage.setItem('token', payload.token)
       return {
         ...state,
         user: payload,
@@ -43,6 +50,7 @@ export default function(state = initialState, action) {
       localStorage.removeItem('token')
       return {
         ...state,
+        user: null,
         token: null,
         isAuthenticated: false,
         loading: false
