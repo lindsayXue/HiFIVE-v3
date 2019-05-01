@@ -29,7 +29,7 @@ class User extends Component {
             <Record />
           </Grow>
         </Grid>
-        <Grid item md={4} xs={11}>
+        <Grid item lg={3} md={4} xs={11}>
           <Grow in timeout={1000}>
             <Rank />
           </Grow>

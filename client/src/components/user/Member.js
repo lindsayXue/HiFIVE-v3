@@ -52,9 +52,10 @@ class Member extends Component {
 
     return (
       <Paper className={classes.root} elevation={1} style={style}>
-        <Typography variant="h5" color="primary" gutterBottom>
+        <Typography variant="h6" color="primary" gutterBottom>
           Team members
         </Typography>
+        <hr />
         <List>
           {members.length === 0 && (
             <ListItem>

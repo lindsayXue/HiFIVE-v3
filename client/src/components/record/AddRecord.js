@@ -85,7 +85,7 @@ class AddRecord extends Component {
 
   render() {
     const { type, typeInput, duration, bonus, bonusOptions } = this.state
-    const { errors, activity } = this.props
+    const { errors, activity, auth } = this.props
 
     const typeOptions = [
       {
@@ -261,6 +261,11 @@ class AddRecord extends Component {
                 variant="contained"
                 color="primary"
                 style={{ marginTop: '20px' }}
+                disabled={
+                  !auth.user.accountState ||
+                  !activity ||
+                  Object.keys(activity).length === 0
+                }
               >
                 Add
               </Button>

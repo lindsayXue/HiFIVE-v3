@@ -47,9 +47,9 @@ router.get('/', async (req, res) => {
 // @route   GET api/hifives/user
 // @desc    Get user hifives
 // @access  Private
-router.get('/user', googleAuth, async (req, res) => {
+router.get('/user/:userId', googleAuth, async (req, res) => {
   try {
-    let hifives = await HiFIVE.find({ receiver: req.query.userId })
+    let hifives = await HiFIVE.find({ receiver: req.params.userId })
       .sort({ createdAt: -1 })
       .populate({ path: 'sender', select: 'name' })
 

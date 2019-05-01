@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import Pagination from '../common/Pagination'
+import { connect } from 'react-redux'
 
 const styles = theme => ({
   root: {
@@ -30,7 +31,7 @@ class HiFIVE extends Component {
 
   async componentDidMount() {
     try {
-      const res = await HiFIVEService.getUserHiFIVE()
+      const res = await HiFIVEService.getUserHiFIVE(this.props.auth.user._id)
       this.setState({
         hifives: res.data
       })
@@ -49,7 +50,7 @@ class HiFIVE extends Component {
 
     return (
       <Paper className={classes.root} elevation={1} style={style}>
-        <Typography variant="h5" color="primary" gutterBottom>
+        <Typography variant="h6" color="primary" gutterBottom>
           Guess who gived you a HiFIVE
         </Typography>
         <div className={classes.demo}>
@@ -81,7 +82,12 @@ class HiFIVE extends Component {
 }
 
 HiFIVE.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(HiFIVE)
+const mapStateToProps = state => ({
+  auth: state.auth
+})
+
+export default connect(mapStateToProps)(withStyles(styles)(HiFIVE))

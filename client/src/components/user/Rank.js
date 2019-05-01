@@ -47,11 +47,11 @@ class Rank extends Component {
     const { style } = this.props
 
     return (
-      <Grid container justify="center" spacing={40} style={style}>
-        <Grid item md={6}>
+      <Grid container justify="center" spacing={16} style={style}>
+        <Grid item xs={6}>
           <RankContent title="Exercise Rank" rank={pointsRank} />
         </Grid>
-        <Grid item md={6}>
+        <Grid item xs={6}>
           <RankContent title="HiFIVE Rank" rank={hifiveRank} />
         </Grid>
       </Grid>

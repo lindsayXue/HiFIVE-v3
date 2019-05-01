@@ -5,6 +5,7 @@ import { Grid, Button, Paper, Typography } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import HiFIVEHis from './HiFIVEHis'
 import HiFIVERank from './HiFIVERank'
+import { connect } from 'react-redux'
 
 const styles = theme => ({
   root: {
@@ -20,7 +21,7 @@ const styles = theme => ({
 
 class HiFIVE extends Component {
   render() {
-    const { classes, style } = this.props
+    const { classes, style, auth } = this.props
     return (
       <Paper className={classes.root} elevation={2} style={style}>
         <Typography variant="h5" color="primary" paragraph>
@@ -31,6 +32,7 @@ class HiFIVE extends Component {
             to="/user/hifive/add"
             variant="contained"
             color="primary"
+            disabled={!auth.user.accountState}
           >
             Give a HiFIVE
           </Button>
@@ -49,7 +51,12 @@ class HiFIVE extends Component {
 }
 
 HiFIVE.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(HiFIVE)
+const mapStateToProps = state => ({
+  auth: state.auth
+})
+
+export default connect(mapStateToProps)(withStyles(styles)(HiFIVE))

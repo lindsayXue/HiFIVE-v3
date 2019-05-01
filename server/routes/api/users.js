@@ -251,12 +251,12 @@ router.get('/winner', async (req, res) => {
 // @access  Public
 router.get('/rank/:points/:hifive', async (req, res) => {
   try {
-    const pointsLess = await User.count({
+    const pointsLess = await User.countDocuments({
       points: {
         $gt: req.params.points
       }
     })
-    const hifiveLess = await User.count({
+    const hifiveLess = await User.countDocuments({
       hifive: {
         $gt: req.params.hifive
       }

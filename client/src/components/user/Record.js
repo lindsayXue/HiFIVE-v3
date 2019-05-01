@@ -65,7 +65,7 @@ class Record extends Component {
   }
 
   render() {
-    const { classes, style, activity } = this.props
+    const { classes, style, activity, auth } = this.props
     const { records, rowsPerPage, page, isLoading } = this.state
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, records.length - page * rowsPerPage)
@@ -163,9 +163,9 @@ class Record extends Component {
             variant="contained"
             color="primary"
             disabled={
-              !activity.activity || Object.keys(activity.activity).length === 0
-                ? true
-                : false
+              !auth.user.accountState ||
+              !activity.activity ||
+              Object.keys(activity.activity).length === 0
             }
           >
             + Record

@@ -52,7 +52,6 @@ class AddHiFIVE extends Component {
       receiver: receiverArray,
       reason: this.state.reason
     }
-    console.log(newHiFIVE)
 
     this.props.addHiFIVE(newHiFIVE, this.props.history)
   }
@@ -63,7 +62,7 @@ class AddHiFIVE extends Component {
 
   render() {
     const { receiver, reason, receiverOptions } = this.state
-    const { errors } = this.props
+    const { auth, errors } = this.props
 
     return (
       <Grid container justify="center" style={{ marginTop: '20px' }}>
@@ -116,6 +115,7 @@ class AddHiFIVE extends Component {
                 variant="contained"
                 color="primary"
                 style={{ marginTop: '20px' }}
+                disabled={!auth.user.accountState}
               >
                 Submit
               </Button>
