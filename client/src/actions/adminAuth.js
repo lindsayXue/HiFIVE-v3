@@ -1,4 +1,5 @@
 import {
+  ADMIN_LOADED,
   ADMIN_LOGIN_SUCCESS,
   ADMIN_LOGIN_FAIL,
   ADMIN_AUTH_ERROR,
@@ -13,10 +14,9 @@ export const loadAdmin = () => async dispatch => {
     setAuthToken(localStorage.adminToken)
   }
   try {
-    const res = await AuthService.getUserAuth()
+    await AuthService.getAdminAuth()
     dispatch({
-      type: ADMIN_LOGIN_SUCCESS,
-      payload: res.data.token
+      type: ADMIN_LOADED
     })
   } catch (err) {
     dispatch({
@@ -28,7 +28,7 @@ export const loadAdmin = () => async dispatch => {
 export const adminLogin = (data, history) => async dispatch => {
   try {
     const res = await AuthService.login(data)
-
+    setAuthToken(res.data.token)
     dispatch({
       type: ADMIN_LOGIN_SUCCESS,
       payload: res.data.token

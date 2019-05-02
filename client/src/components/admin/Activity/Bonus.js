@@ -17,6 +17,8 @@ import { withStyles } from '@material-ui/core/styles'
 import BonusService from '../../../services/user/Bonus'
 import Pagination from '../../common/Pagination'
 import DeleteIcon from '@material-ui/icons/Delete'
+import { addBonus, deleteBonus } from '../../../actions/bonus'
+import { setErrors, clearError } from '../../../actions/error'
 
 const styles = theme => ({
   root: {
@@ -37,8 +39,7 @@ class Bonus extends Component {
     points: '',
     bonuses: [],
     rowsPerPage: 5,
-    page: 0,
-    error: null
+    page: 0
   }
 
   async componentDidMount() {
@@ -46,7 +47,7 @@ class Bonus extends Component {
       const res = await BonusService.getBonuses()
       this.setState({ bonuses: res.data })
     } catch (err) {
-      this.setState({ error: err.response.data })
+      this.props.setErrors(err.response.data)
     }
   }
 
@@ -55,7 +56,7 @@ class Bonus extends Component {
       const res = await BonusService.getBonuses()
       this.setState({ bonuses: res.data })
     } catch (err) {
-      this.setState({ error: err.response.data })
+      this.props.setErrors(err.response.data)
     }
   }
 
@@ -65,6 +66,8 @@ class Bonus extends Component {
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value })
+
+    this.props.clearError([e.target.name])
   }
 
   onSubmit = e => {
@@ -76,10 +79,11 @@ class Bonus extends Component {
     }
 
     this.props.addBonus(newBonus)
-    this.setState({
-      name: '',
-      points: ''
-    })
+    this.setState({ name: '', points: '' })
+  }
+
+  onDelete = id => {
+    this.props.deleteBonus(id)
   }
 
   render() {
@@ -104,7 +108,10 @@ class Bonus extends Component {
                 <ListItemText primary={bonus.name} />
                 <ListItemText secondary={`${bonus.points} points`} />
                 <ListItemSecondaryAction>
-                  <IconButton aria-label="Delete">
+                  <IconButton
+                    aria-label="Delete"
+                    onClick={this.onDelete.bind(this, bonus._id)}
+                  >
                     <DeleteIcon />
                   </IconButton>
                 </ListItemSecondaryAction>
@@ -127,7 +134,9 @@ class Bonus extends Component {
             error={!!errors.name ? true : false}
             fullWidth
           />
-          {errors.name && <Typography color="error">{errors.name}</Typography>}
+          {errors.name && (
+            <Typography color="error">{errors.name.msg}</Typography>
+          )}
 
           <TextField
             label="Bonus points"
@@ -139,7 +148,7 @@ class Bonus extends Component {
             fullWidth
           />
           {errors.points && (
-            <Typography color="error">{errors.points}</Typography>
+            <Typography color="error">{errors.points.msg}</Typography>
           )}
 
           <Button
@@ -157,6 +166,10 @@ class Bonus extends Component {
 }
 
 Bonus.propTypes = {
+  addBonus: PropTypes.func.isRequired,
+  deleteBonus: PropTypes.func.isRequired,
+  clearError: PropTypes.func.isRequired,
+  setErrors: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired
 }
 
@@ -166,5 +179,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  {}
+  { addBonus, deleteBonus, setErrors, clearError }
 )(withStyles(styles)(Bonus))

@@ -4,6 +4,9 @@ const router = express.Router()
 // Load Bonus model
 const Bonus = require('../../models/Bonus')
 
+// Middlewares
+const adminAuth = require('../../middlewares/adminAuth')
+
 const { check, oneOf, validationResult } = require('express-validator/check')
 
 // @route   GET api/bonuses
@@ -29,11 +32,12 @@ router.get('/', async (req, res) => {
   }
 })
 
-// @route   POST api/bonuses/add
+// @route   POST api/bonuses
 // @desc    Add a bonuse
-// @access  Private
+// @access  Admin
 router.post(
-  '/add',
+  '/',
+  adminAuth,
   [
     check('name', 'Bonus name is required')
       .not()
@@ -63,5 +67,23 @@ router.post(
     }
   }
 )
+
+// @route   DELETE api/bonuses/:id
+// @desc    Delete a bonuse
+// @access  Admin
+router.delete('/:id', adminAuth, async (req, res) => {
+  try {
+    const bonus = await Bonus.findByIdAndDelete(req.params.id)
+
+    if (!bonus) {
+      return res.status(404).json({ msg: 'Bonus not found' })
+    }
+
+    res.json({ msg: 'Bonus removed' })
+  } catch (err) {
+    console.log(err)
+    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
+  }
+})
 
 module.exports = router

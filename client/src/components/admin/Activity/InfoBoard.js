@@ -12,6 +12,8 @@ import { withStyles } from '@material-ui/core/styles'
 import Moment from 'react-moment'
 import moment from 'moment'
 import DatePicker from '../../common/DatePicker'
+import { addActivity } from '../../../actions/activity'
+import { clearActivityError } from '../../../actions/activity'
 
 const styles = theme => ({
   root: {
@@ -27,7 +29,7 @@ const styles = theme => ({
 
 class InfoBoard extends Component {
   state = {
-    start: new Date(),
+    start: '',
     duration: 0,
     end: '',
     disableFuture: false
@@ -52,20 +54,29 @@ class InfoBoard extends Component {
         .add(this.state.duration, 'days')
         .format('YYYY-MM-DD')
     })
+
+    this.props.clearActivityError('start')
   }
 
   onDurationChange = e => {
+    if (!this.state.start) {
+      return this.setState({
+        duration: e.target.value,
+        end: ''
+      })
+    }
     this.setState({
       duration: e.target.value,
       end: moment(this.state.start)
         .add(e.target.value, 'days')
         .format('YYYY-MM-DD')
     })
+    this.props.clearActivityError('duration')
   }
 
   render() {
-    const { activity, isLoading, classes, style, errors } = this.props
-    const { disableFuture, duration, end, error } = this.state
+    const { activity, classes, style, errors } = this.props
+    const { disableFuture, duration, end } = this.state
 
     return (
       <Paper className={classes.root} elevation={2} style={style}>
@@ -73,10 +84,11 @@ class InfoBoard extends Component {
           Activity
         </Typography>
         <hr />
-        {isLoading && (
+        {activity.loading && (
           <CircularProgress className={classes.progress} color="primary" />
         )}
-        {activity === null || Object.keys(activity).length === 0 ? (
+        {activity.activity === null ||
+        Object.keys(activity.activity).length === 0 ? (
           <div>
             <Typography variant="h6" color="secondary">
               No activity yet
@@ -89,7 +101,7 @@ class InfoBoard extends Component {
                 error={errors.start}
               />
               {errors.start && (
-                <Typography color="error">{errors.start}</Typography>
+                <Typography color="error">{errors.start.msg}</Typography>
               )}
 
               <TextField
@@ -102,7 +114,7 @@ class InfoBoard extends Component {
                 fullWidth
               />
               {errors.duration && (
-                <Typography color="error">{errors.duration}</Typography>
+                <Typography color="error">{errors.duration.msg}</Typography>
               )}
               <Typography variant="caption">
                 End : {!end ? '' : <Moment format="MMM Do YY">{end}</Moment>}
@@ -120,13 +132,14 @@ class InfoBoard extends Component {
         ) : (
           <div>
             <Typography variant="h6" color="secondary" gutterBottom>
-              Start: <Moment format="MMM Do YY">{activity.start}</Moment>
+              Start:{' '}
+              <Moment format="MMM Do YY">{activity.activity.start}</Moment>
             </Typography>
             <Typography variant="h6" color="secondary" gutterBottom>
-              End: <Moment format="MMM Do YY">{activity.end}</Moment>
+              End: <Moment format="MMM Do YY">{activity.activity.end}</Moment>
             </Typography>
             <Typography variant="h6" color="secondary" gutterBottom>
-              Participants: {activity.participants}
+              Participants: {activity.activity.participants}
             </Typography>
           </div>
         )}
@@ -137,17 +150,17 @@ class InfoBoard extends Component {
 
 InfoBoard.propTypes = {
   activity: PropTypes.object.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  addActivity: PropTypes.func.isRequired
+  errors: PropTypes.object.isRequired,
+  addActivity: PropTypes.func.isRequired,
+  clearActivityError: PropTypes.func.isRequired
 }
 
 const mapStatetToProps = state => ({
-  activity: state.activity.activity,
-  isLoading: state.activity.isLoading,
-  errors: state.errors
+  activity: state.activity,
+  errors: state.activity.errors
 })
 
 export default connect(
   mapStatetToProps,
-  {}
+  { addActivity, clearActivityError }
 )(withStyles(styles)(InfoBoard))

@@ -1,9 +1,14 @@
-import { GET_ACTIVITY, ACTIVITY_ERROR, CLEAR_ACTIVITY } from '../actions/types'
+import {
+  GET_ACTIVITY,
+  ACTIVITY_ERROR,
+  CLEAR_ACTIVITY,
+  CLEAR_ACTIVITY_ERROR
+} from '../actions/types'
 
 const initialState = {
   loading: false,
   activity: null,
-  error: {}
+  errors: {}
 }
 
 export default function(state = initialState, action) {
@@ -25,9 +30,12 @@ export default function(state = initialState, action) {
     case ACTIVITY_ERROR:
       return {
         ...state,
-        error: payload,
+        errors: payload,
         loading: false
       }
+    case CLEAR_ACTIVITY_ERROR:
+      delete state.errors[payload]
+      return { ...state }
     default:
       return state
   }

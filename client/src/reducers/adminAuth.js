@@ -1,4 +1,5 @@
 import {
+  ADMIN_LOADED,
   ADMIN_LOGIN_SUCCESS,
   ADMIN_LOGIN_FAIL,
   ADMIN_AUTH_ERROR,
@@ -15,6 +16,13 @@ export default function(state = initialState, action) {
   const { type, payload } = action
 
   switch (type) {
+    case ADMIN_LOADED:
+      return {
+        ...state,
+        adminToken: localStorage.getItem('adminToken'),
+        isAdmin: true,
+        loading: false
+      }
     case ADMIN_LOGIN_SUCCESS:
       localStorage.setItem('adminToken', payload)
       return {

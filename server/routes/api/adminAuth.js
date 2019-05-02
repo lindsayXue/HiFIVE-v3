@@ -6,7 +6,23 @@ const { check, validationResult } = require('express-validator/check')
 // Load Admin model
 const Admin = require('../../models/Admin')
 
+// Middleware
+const adminAuth = require('../../middlewares/adminAuth')
+
 const config = require('config')
+
+// @route   GET api/admin/auth
+// @desc    Get admin auth
+// @access  Public
+router.get('/auth', adminAuth, async (req, res) => {
+  try {
+    const admin = await User.findById(req.user.id).select('-password')
+    res.json(admin)
+  } catch (err) {
+    console.log(err)
+    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
+  }
+})
 
 // @route   POST api/admin/register
 // @desc    Register admin
@@ -81,7 +97,11 @@ router.post(
       }
 
       // Sign JWT Token
-      const payload = { username }
+      const payload = {
+        user: {
+          id: admin._id
+        }
+      }
       const token = jwt.sign(payload, config.get('jwtSecret'), {
         expiresIn: 3600
       })
