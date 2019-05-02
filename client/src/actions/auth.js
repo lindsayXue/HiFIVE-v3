@@ -31,6 +31,19 @@ export const loadUser = () => async dispatch => {
   }
 }
 
+// Signin Google
+export const signinGoogle = () => async dispatch => {
+  try {
+    const res = await AuthService.signinGoogle()
+    console.log(res)
+  } catch (err) {
+    const errors = err.response.data.errors
+    if (errors) {
+      dispatch(setErrors(errors))
+    }
+  }
+}
+
 // Login User
 export const login = (token, history) => async dispatch => {
   try {

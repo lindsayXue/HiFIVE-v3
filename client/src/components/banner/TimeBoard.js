@@ -29,13 +29,22 @@ class TimeBoard extends Component {
       <Paper className={classes.root} elevation={2}>
         <Typography variant="h5" color="primary">
           Activity
+          {activity === null || Object.keys(activity).length === 0 ? (
+            ''
+          ) : (
+            <Typography color="secondary" style={{ float: 'right' }}>
+              {activity.state}
+            </Typography>
+          )}
         </Typography>
         <hr />
         {loading && (
           <CircularProgress className={classes.progress} color="primary" />
         )}
         {activity === null || Object.keys(activity).length === 0 ? (
-          <Typography>No activity now</Typography>
+          <Typography color="secondary">
+            No activity created yet, please be patient.
+          </Typography>
         ) : (
           <div>
             <Typography component="p">

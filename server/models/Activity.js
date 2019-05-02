@@ -19,6 +19,10 @@ const ActivitySchema = new Schema({
     type: Number,
     default: 0
   },
+  state: {
+    type: String,
+    default: 'running'
+  },
   createdAt: {
     type: Date,
     default: Date.now

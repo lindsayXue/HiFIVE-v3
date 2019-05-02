@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
-import { login } from '../../actions/auth'
+import { login, signinGoogle } from '../../actions/auth'
 import PropTypes from 'prop-types'
 import { GoogleLogin } from 'react-google-login'
 import { Grid, Button, CircularProgress, Typography } from '@material-ui/core'
@@ -11,6 +11,9 @@ import ErrorInfo from '../common/ErrorInfo'
 import { Redirect } from 'react-router-dom'
 import { setErrors, clearError } from '../../actions/error'
 import Logo from '../../assets/hifive.png'
+
+const config = require('../../config/config')
+const googleClientId = config.google.clientId
 
 const styles = theme => ({
   root: {
@@ -50,7 +53,8 @@ const Login = ({
   clearError,
   classes,
   errors,
-  loading
+  loading,
+  signinGoogle
 }) => {
   if (isAuthenticated) {
     return <Redirect to="/user/home" />
@@ -65,10 +69,15 @@ const Login = ({
   const onFailSignin = response => {
     setErrors({
       googleServer: {
-        msg: 'Something wrong with Google'
+        msg: 'Something wrong with Google Signin'
       }
     })
   }
+
+  // const onClick = e => {
+  //   console.log('button clicked')
+  //   signinGoogle()
+  // }
 
   const onErrorClose = () => {
     clearError('googleServer')
@@ -94,9 +103,21 @@ const Login = ({
         {loading && (
           <CircularProgress className={classes.progress} color="primary" />
         )}
+        {/* <a href="http://localhost:5000/api/auth/google" target="_blank">
+          <Button variant="outlined" color="primary">
+            {' '}
+            <img
+              src={googleLogo}
+              className={classes.googleLogo}
+              alt="Google Logo"
+            />
+            Signin with Google
+          </Button>
+        </a> */}
+
         {!loading && (
           <GoogleLogin
-            clientId="909776054271-l3v0sar1i5nqir67jjo0pn9bv252f9i1.apps.googleusercontent.com"
+            clientId={googleClientId}
             render={renderProps => (
               <Button
                 variant="outlined"
@@ -148,6 +169,6 @@ const mapStateToProps = state => ({
 export default withRouter(
   connect(
     mapStateToProps,
-    { login, setErrors, clearError }
+    { login, signinGoogle, setErrors, clearError }
   )(withStyles(styles)(Login))
 )

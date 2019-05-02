@@ -210,7 +210,6 @@ class AddRecord extends Component {
               {errors.typeInput && (
                 <Typography color="error">{errors.typeInput.msg}</Typography>
               )}
-
               <TextField
                 placeholder="Minute"
                 label="Exercise duration"
@@ -258,7 +257,6 @@ class AddRecord extends Component {
               ) : (
                 ''
               )}
-
               <Button
                 type="submit"
                 variant="contained"

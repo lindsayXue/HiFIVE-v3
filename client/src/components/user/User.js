@@ -24,12 +24,12 @@ class User extends Component {
         alignItems="flex-start"
         spacing={16}
       >
-        <Grid item md={5} xs={11}>
+        <Grid item lg={4} md={6} xs={11}>
           <Grow in timeout={1000}>
             <Record />
           </Grow>
         </Grid>
-        <Grid item lg={3} md={4} xs={11}>
+        <Grid item lg={3} md={5} xs={11}>
           <Grow in timeout={1000}>
             <Rank />
           </Grow>

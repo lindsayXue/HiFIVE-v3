@@ -1,6 +1,6 @@
 const { OAuth2Client } = require('google-auth-library')
 const config = require('config')
-const clientId = config.get('googleClientId')
+const clientId = config.get('google.clientId')
 const client = new OAuth2Client(clientId)
 
 module.exports = async function(req, res, next) {
@@ -22,11 +22,9 @@ module.exports = async function(req, res, next) {
     req.body.email = email
     next()
   } catch (err) {
-    return res
-      .status(401)
-      .json({
-        param: 'unauthorised',
-        msg: 'Unauthorised user, please login first'
-      })
+    return res.status(401).json({
+      param: 'unauthorised',
+      msg: 'Unauthorised user, please login first'
+    })
   }
 }

@@ -107,7 +107,11 @@ class Journey extends Component {
               )}
             </Typography>
             <hr />
-            <Grid container justify="space-around">
+            <Grid
+              container
+              justify="space-around"
+              style={{ marginTop: '10px' }}
+            >
               <Typography
                 component="p"
                 variant="caption"
@@ -157,7 +161,11 @@ class Journey extends Component {
                 Stirling point
               </Typography>
             </Grid>
-            <LinearProgress value={Number(percent)} variant="determinate" />
+            <LinearProgress
+              value={Number(percent)}
+              variant="determinate"
+              style={{ marginTop: '10px' }}
+            />
             <Typography
               component="p"
               variant="h5"

@@ -1,6 +1,9 @@
 import Api from '../Api'
 
 export default {
+  signinGoogle() {
+    return Api().get('/auth/google')
+  },
   register(credentials) {
     return Api().post('users/register', credentials)
   },

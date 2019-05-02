@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const passport = require('passport')
 
 // Middleware
 const googleAuth = require('../../middlewares/googleAuth')
@@ -25,5 +26,19 @@ router.get('/', googleAuth, async (req, res) => {
     re.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
+
+// @route   GET api/auth/google
+// @desc    Get user google auth
+// @access  Public
+// router.get(
+//   '/google',
+//   passport.authenticate('google', {
+//     scope: ['profile']
+//   })
+// )
+
+// router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
+//   res.send('Success login with google!!!')
+// })
 
 module.exports = router

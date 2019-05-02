@@ -65,13 +65,13 @@ router.post(
         return true
       }
     ),
+    check('duration', 'Exercise duration is reqruied')
+      .not()
+      .isEmpty(),
     check(
       'duration',
-      'Exercise duration is reqruied and can not more than 300 minutes'
-    )
-      .isInt({ min: 1, max: 300 })
-      .not()
-      .isEmpty()
+      'Exercise duration can not be more than 300 minutes'
+    ).isInt({ min: 1, max: 300 })
   ],
   async (req, res) => {
     const errors = validationResult(req)

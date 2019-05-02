@@ -1,8 +1,8 @@
 const express = require('express')
-const mongoose = require('mongoose')
 const connectDB = require('./config/db')
 const cors = require('cors')
 const Routes = require('./routes/index')
+// const passportSetup = require('./config/passport_setup')
 
 const app = express()
 

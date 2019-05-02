@@ -165,7 +165,9 @@ class Record extends Component {
             disabled={
               !auth.user.accountState ||
               !activity.activity ||
-              Object.keys(activity.activity).length === 0
+              Object.keys(activity.activity).length === 0 ||
+              activity.activity.state === 'stop' ||
+              moment(new Date()).isBefore(moment(activity.activity.start))
             }
           >
             + Record

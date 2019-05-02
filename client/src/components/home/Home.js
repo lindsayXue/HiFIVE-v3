@@ -23,17 +23,17 @@ class Home extends Component {
         alignItems="flex-start"
         spacing={16}
       >
-        <Grid item lg={4} md={5} xs={11}>
+        <Grid item lg={4} md={6} xs={11}>
           <Grow in timeout={1000}>
             <Journey />
           </Grow>
         </Grid>
-        <Grid item md={4} xs={11}>
+        <Grid item lg={3} md={5} xs={11}>
           <Grow in timeout={1000}>
             <Contribution />
           </Grow>
         </Grid>
-        <Grid item lg={8} md={9} xs={11}>
+        <Grid item lg={7} md={11} xs={11}>
           <Grow in timeout={1000}>
             <HiFIVE />
           </Grow>
