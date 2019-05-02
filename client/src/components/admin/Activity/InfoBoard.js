@@ -14,6 +14,7 @@ import moment from 'moment'
 import DatePicker from '../../common/DatePicker'
 import { addActivity } from '../../../actions/activity'
 import { clearActivityError } from '../../../actions/activity'
+import ErrorInfo from '../../common/ErrorInfo'
 
 const styles = theme => ({
   root: {
@@ -72,6 +73,10 @@ class InfoBoard extends Component {
         .format('YYYY-MM-DD')
     })
     this.props.clearActivityError('duration')
+  }
+
+  onErrorClose = () => {
+    this.props.clearActivityError('server')
   }
 
   render() {
@@ -142,6 +147,13 @@ class InfoBoard extends Component {
               Participants: {activity.activity.participants}
             </Typography>
           </div>
+        )}
+        {errors.server && (
+          <ErrorInfo
+            variant="error"
+            message={errors.server}
+            onClose={this.onErrorClose}
+          />
         )}
       </Paper>
     )

@@ -19,6 +19,7 @@ import Pagination from '../../common/Pagination'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { addBonus, deleteBonus } from '../../../actions/bonus'
 import { setErrors, clearError } from '../../../actions/error'
+import ErrorInfo from '../../common/ErrorInfo'
 
 const styles = theme => ({
   root: {
@@ -84,6 +85,10 @@ class Bonus extends Component {
 
   onDelete = id => {
     this.props.deleteBonus(id)
+  }
+
+  onErrorClose = () => {
+    this.props.clearError('server')
   }
 
   render() {
@@ -159,6 +164,13 @@ class Bonus extends Component {
           >
             Add bonus
           </Button>
+          {errors.server && (
+            <ErrorInfo
+              variant="error"
+              message={errors.server}
+              onClose={this.onErrorClose}
+            />
+          )}
         </form>
       </Paper>
     )

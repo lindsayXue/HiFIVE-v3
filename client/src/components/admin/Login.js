@@ -7,6 +7,7 @@ import ErrorInfo from '../common/ErrorInfo'
 import { adminLogin } from '../../actions/adminAuth'
 import { clearError } from '../../actions/error'
 import { Redirect } from 'react-router-dom'
+import Logo from '../../assets/hifive.png'
 
 const Login = ({
   isAuthenticated,
@@ -53,15 +54,20 @@ const Login = ({
 
   return (
     <Grid container justify="center" style={{ marginTop: '10rem' }}>
-      <Grid item md={3} sm={5}>
+      <Grid item md={4} sm={8} xs={11} style={{ textAlign: 'center' }}>
         <Paper elevation={1} style={{ padding: '20px' }}>
-          <Typography
-            variant="h5"
-            component="h3"
-            color="primary"
-            style={{ marginBottom: '10px' }}
-          >
-            Admin
+          <img
+            src={Logo}
+            width="50"
+            height="50"
+            alt="Logo"
+            style={{ marginBottom: '20px' }}
+          />
+          <Typography variant="h5" paragraph>
+            <Typography inline component="span" variant="h5" color="primary">
+              HiFIVE
+            </Typography>{' '}
+            Admin System
           </Typography>
           <form onSubmit={onSubmit}>
             <TextField

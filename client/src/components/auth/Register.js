@@ -87,7 +87,7 @@ class Register extends Component {
   }
 
   onErrorClose = () => {
-    this.setState({ error: null })
+    this.props.clearError('server')
   }
 
   render() {

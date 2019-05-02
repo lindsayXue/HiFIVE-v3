@@ -14,7 +14,7 @@ export const addBonus = data => async dispatch => {
 
 export const deleteBonus = id => async dispatch => {
   try {
-    const res = await AdminBonusService.deleteBonus(id)
+    await AdminBonusService.deleteBonus(id)
   } catch (err) {
     const errors = err.response.data.errors
     if (errors) {
