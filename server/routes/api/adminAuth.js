@@ -2,9 +2,11 @@ const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-
+const { check, validationResult } = require('express-validator/check')
 // Load Admin model
 const Admin = require('../../models/Admin')
+
+const config = require('config')
 
 // @route   POST api/admin/register
 // @desc    Register admin
@@ -24,9 +26,9 @@ router.post('/register', async (req, res) => {
       password
     })
 
+    // Hash passpord in DB schema
     // const salt = await bcrypt.genSalt(10)
     // const hash = await bcrypt.hash(password, salt)
-
     // newAdmin.password = hash
 
     await newAdmin.save()
@@ -41,40 +43,54 @@ router.post('/register', async (req, res) => {
 // @route   POST api/admin/login
 // @desc    Login admin
 // @access  Public
-router.post('/login', async (req, res) => {
-  try {
-    const { errors, isValid } = validateAdminLogin(req.body)
+router.post(
+  '/login',
+  [
+    check('username', 'Username is required')
+      .not()
+      .isEmpty(),
+    check('password', 'Password is required')
+      .not()
+      .isEmpty()
+  ],
+  async (req, res) => {
+    const errors = validationResult(req)
 
-    // Check Validation
-    if (!isValid) {
-      return res.status(400).json(errors)
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.mapped() })
     }
 
-    const { username, password } = req.body
+    try {
+      const { username, password } = req.body
+      const admin = await Admin.findOne({ username })
 
-    const admin = await Admin.findOne({ username })
+      if (!admin) {
+        errors.username = 'Username not found'
+        return res
+          .status(404)
+          .json({ errors: { username: { msg: 'Username not found' } } })
+      }
 
-    if (!admin) {
-      errors.username = 'Username not found'
-      return res.status(404).json(errors)
+      // Check Password
+      const isMatch = await bcrypt.compare(password, admin.password)
+
+      if (!isMatch) {
+        return res
+          .status(404)
+          .json({ errors: { password: { msg: 'Password incorrect' } } })
+      }
+
+      // Sign JWT Token
+      const payload = { username }
+      const token = jwt.sign(payload, config.get('jwtSecret'), {
+        expiresIn: 3600
+      })
+      res.json({ succedd: true, token })
+    } catch (err) {
+      console.log(err)
+      re.status(500).json({ errors: { server: { msg: 'Server error' } } })
     }
-
-    // Check Password
-    const isMatch = await bcrypt.compare(password, admin.password)
-
-    if (!isMatch) {
-      errors.password = 'Password incorrect'
-      return res.status(404).json(errors)
-    }
-
-    // Sign JWT Token
-    const payload = { username }
-    const token = jwt.sign(payload, keys.secretOrKey, { expiresIn: 3600 })
-    res.json({ succedd: true, token })
-  } catch (err) {
-    console.log(err)
-    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
-})
+)
 
 module.exports = router

@@ -4,8 +4,10 @@ const router = express.Router()
 // AdminPost model
 const AdminPost = require('../../models/AdminPost')
 
-// User model
-const User = require('../../models/User')
+// Middleware
+const adminAuth = require('../../middlewares/adminAuth')
+
+const { check, validationResult } = require('express-validator/check')
 
 // @route   GET api/adminposts
 // @desc    Get admin posts
@@ -43,33 +45,42 @@ router.get('/:id', async (req, res) => {
 // @route   POST api/adminposts/add
 // @desc    Add a post
 // @access  Admin
-router.post('/add', async (req, res) => {
-  try {
-    // const { errors, isValid } = validateAdminPostInput(req.body)
+router.post(
+  '/add',
+  adminAuth,
+  [
+    check('title', 'Title is required')
+      .not()
+      .isEmpty(),
+    check('url', 'Post url is required')
+      .not()
+      .isEmpty()
+  ],
+  async (req, res) => {
+    const errors = validationResult(req)
 
-    // // Check Validation
-    // if (!isValid) {
-    //   // If any errors, send 400 with errors object
-    //   return res.status(400).json(errors)
-    // }
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.mapped() })
+    }
+    try {
+      const newPost = new AdminPost({
+        title: req.body.title,
+        url: req.body.url
+      })
 
-    const newPost = new AdminPost({
-      title: req.body.title,
-      url: req.body.url
-    })
-
-    await newPost.save()
-    res.json(newPost)
-  } catch (err) {
-    console.log(err)
-    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
+      await newPost.save()
+      res.json(newPost)
+    } catch (err) {
+      console.log(err)
+      re.status(500).json({ errors: { server: { msg: 'Server error' } } })
+    }
   }
-})
+)
 
 // @route   DELETE api/adminposts/:id
 // @desc    Delete post
 // @access  Admin
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', adminAuth, async (req, res) => {
   try {
     await AdminPost.findByIdAndDelete(req.params.id)
     res.json({ success: true })

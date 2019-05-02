@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
-import { login, signinGoogle } from '../../actions/auth'
+import { login } from '../../actions/auth'
 import PropTypes from 'prop-types'
 import { GoogleLogin } from 'react-google-login'
 import { Grid, Button, CircularProgress, Typography } from '@material-ui/core'
@@ -47,17 +47,21 @@ const styles = theme => ({
 
 const Login = ({
   isAuthenticated,
+  isAdmin,
   login,
   history,
   setErrors,
   clearError,
   classes,
   errors,
-  loading,
-  signinGoogle
+  loading
 }) => {
   if (isAuthenticated) {
     return <Redirect to="/user/home" />
+  }
+
+  if (isAdmin) {
+    return <Redirect to="/admin/activity" />
   }
 
   const onSuccessSignin = response => {
@@ -73,11 +77,6 @@ const Login = ({
       }
     })
   }
-
-  // const onClick = e => {
-  //   console.log('button clicked')
-  //   signinGoogle()
-  // }
 
   const onErrorClose = () => {
     clearError('googleServer')
@@ -157,11 +156,13 @@ Login.propTypes = {
   setErrors: PropTypes.func.isRequired,
   clearError: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
   errors: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
+  isAdmin: state.adminAuth.isAdmin,
   errors: state.errors,
   loading: state.auth.loading
 })
@@ -169,6 +170,6 @@ const mapStateToProps = state => ({
 export default withRouter(
   connect(
     mapStateToProps,
-    { login, signinGoogle, setErrors, clearError }
+    { login, setErrors, clearError }
   )(withStyles(styles)(Login))
 )

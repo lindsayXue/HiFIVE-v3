@@ -3,6 +3,7 @@ const router = express.Router()
 
 // Middleware
 const googleAuth = require('../../middlewares/googleAuth')
+const adminAuth = require('../../middlewares/adminAuth')
 
 // Load User model
 const User = require('../../models/User')
@@ -13,7 +14,7 @@ const Activity = require('../../models/Activity')
 // Load Team model
 const Team = require('../../models/Team')
 
-const { check, oneOf, validationResult } = require('express-validator/check')
+const { check, validationResult } = require('express-validator/check')
 
 // @route   GET api/users/login
 // @desc    Login user
@@ -179,7 +180,7 @@ router.get('/', async (req, res) => {
 // @route   PUT api/users/edit
 // @desc    Edit user
 // @access  Admin
-router.put('/edit', async (req, res) => {
+router.put('/edit', adminAuth, async (req, res) => {
   const { userId, points, hifive, team, accountState } = req.body
   try {
     let editUser = await User.findByIdAndUpdate(userId, {

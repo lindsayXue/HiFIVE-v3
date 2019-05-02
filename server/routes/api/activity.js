@@ -7,7 +7,10 @@ const Activity = require('../../models/Activity')
 // Load User model
 const User = require('../../models/User')
 
-const { check, oneOf, validationResult } = require('express-validator/check')
+// Middleware
+const adminAuth = require('../../middlewares/adminAuth')
+
+const { check, validationResult } = require('express-validator/check')
 
 // @route   GET api/activity
 // @desc    Get activity
@@ -27,6 +30,7 @@ router.get('/', async (req, res) => {
 // @access  Admin
 router.post(
   '/',
+  adminAuth,
   [
     check('start', 'Start date is required')
       .not()
@@ -63,5 +67,24 @@ router.post(
     }
   }
 )
+
+// @route   PUT api/activity
+// @desc    PUT an activity
+// @access  Admin
+router.put('/', adminAuth, async (req, res) => {
+  try {
+    const activity = await Activity.findOne()
+    if (activity.state === 'running') {
+      activity.state = 'stop'
+    } else {
+      activity.state === 'running'
+    }
+    await activity.save()
+    res.json(activity)
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ servererror: 'Server error' })
+  }
+})
 
 module.exports = router

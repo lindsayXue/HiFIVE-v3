@@ -1,9 +1,24 @@
-module.exports = async function(req, res, next) {
-  const errors = {}
+const jwt = require('jsonwebtoken')
+const config = require('config')
+
+module.exports = function(req, res, next) {
+  // Get token from header
+  const token = req.header('x-auth-token')
+
+  // Check if not token
+  if (!token) {
+    return res
+      .status(401)
+      .json({ errors: { msg: 'No token, authorization denied' } })
+  }
+
+  // Verify token
   try {
+    const decoded = jwt.verify(token, config.get('jwtSecret'))
+
+    req.user = decoded.user
     next()
   } catch (err) {
-    errors.unauthoriseuser = 'Unauthorised user, please login first'
-    return res.status(401).json(errors)
+    res.status(401).json({ errors: { msg: 'Token is not valid' } })
   }
 }
