@@ -169,7 +169,10 @@ class Bonus extends Component {
             .map(bonus => (
               <ListItem key={bonus._id}>
                 <ListItemText primary={bonus.name} />
-                <ListItemText secondary={`${bonus.points} points`} />
+                <ListItemText
+                  secondary={bonus.points}
+                  style={{ textAlign: 'right' }}
+                />
                 <ListItemSecondaryAction>
                   <IconButton
                     aria-label="Delete"

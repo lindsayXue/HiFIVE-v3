@@ -7,6 +7,7 @@ import InfoBoard from './InfoBoard'
 import Bonus from './Bonus'
 import Post from './Post'
 import Team from './Team'
+import Footer from './Footer'
 import PropTypes from 'prop-types'
 
 const styles = theme => ({
@@ -27,6 +28,9 @@ class Activity extends Component {
         <Grid item lg={3} md={4} xs={11}>
           <Grow in timeout={1000}>
             <InfoBoard />
+          </Grow>
+          <Grow in timeout={1000}>
+            <Footer />
           </Grow>
         </Grid>
         <Grid item lg={3} md={4} xs={11}>

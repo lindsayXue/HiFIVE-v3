@@ -4,6 +4,9 @@ const router = express.Router()
 // Load Footer model
 const Footer = require('../../models/Footer')
 
+// Middleware
+const adminAuth = require('../../middlewares/adminAuth')
+
 // @route   GET api/footer
 // @desc    Get footer
 // @access  Public
@@ -21,7 +24,7 @@ router.get('/', async (req, res) => {
 // @route   add api/footer
 // @desc    Add footer
 // @access  Admin
-router.post('/', async (req, res) => {
+router.post('/', adminAuth, async (req, res) => {
   try {
     const newFooter = new Footer({
       content: req.body.content

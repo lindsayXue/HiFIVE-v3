@@ -7,7 +7,7 @@ const Bonus = require('../../models/Bonus')
 // Middlewares
 const adminAuth = require('../../middlewares/adminAuth')
 
-const { check, oneOf, validationResult } = require('express-validator/check')
+const { check, validationResult } = require('express-validator/check')
 
 // @route   GET api/bonuses
 // @desc    Get all bonuses

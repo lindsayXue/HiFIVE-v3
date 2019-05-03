@@ -1,8 +1,10 @@
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
-import FooterService from '../../services/user/Footer'
+import { getFooter } from '../../actions/footer'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
 const styles = theme => ({
   footer: {
@@ -14,41 +16,41 @@ const styles = theme => ({
   }
 })
 
-class Footer extends Component {
-  state = {
-    footer: null
-  }
-  async componentDidMount() {
-    try {
-      const res = await FooterService.getFooter()
-      this.setState({ footer: res.data })
-    } catch (err) {
-      console.log(err)
-    }
-  }
-  render() {
-    const { classes } = this.props
-    const { footer } = this.state
-    return (
-      <Grid
-        container
-        className={classes.footer}
-        component="footer"
-        justify="center"
-        alignItems="center"
-      >
-        <Grid item>
-          {!footer ? (
-            <Typography>
-              Copyright &copy; {new Date().getFullYear()} HiFIVE
-            </Typography>
-          ) : (
-            <Typography>{footer.content}</Typography>
-          )}
-        </Grid>
+const Footer = ({ classes, footer, getFooter }) => {
+  useEffect(() => {
+    getFooter()
+  }, [])
+
+  return (
+    <Grid
+      container
+      className={classes.footer}
+      component="footer"
+      justify="center"
+      alignItems="center"
+    >
+      <Grid item>
+        {!footer.footer || !footer.footer.content ? (
+          <Typography>
+            Copyright &copy; {new Date().getFullYear()} HiFIVE
+          </Typography>
+        ) : (
+          <Typography>{footer.footer.content}</Typography>
+        )}
       </Grid>
-    )
-  }
+    </Grid>
+  )
+}
+Footer.propTypes = {
+  footer: PropTypes.object.isRequired,
+  getFooter: PropTypes.func.isRequired
 }
 
-export default withStyles(styles)(Footer)
+const mapStateToProps = state => ({
+  footer: state.footer
+})
+
+export default connect(
+  mapStateToProps,
+  { getFooter }
+)(withStyles(styles)(Footer))
