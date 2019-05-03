@@ -7,6 +7,7 @@ import InfoBoard from './InfoBoard'
 import Bonus from './Bonus'
 import Post from './Post'
 import Team from './Team'
+import PropTypes from 'prop-types'
 
 const styles = theme => ({
   root: {
@@ -22,13 +23,7 @@ class Activity extends Component {
   render() {
     const { classes } = this.props
     return (
-      <Grid
-        className={classes.root}
-        container
-        justify="center"
-        alignItems="flex-start"
-        spacing={16}
-      >
+      <Grid className={classes.root} container justify="center" spacing={16}>
         <Grid item lg={3} md={4} xs={11}>
           <Grow in timeout={1000}>
             <InfoBoard />
@@ -52,6 +47,10 @@ class Activity extends Component {
       </Grid>
     )
   }
+}
+
+Activity.propTypes = {
+  getActivity: PropTypes.func.isRequired
 }
 
 export default connect(

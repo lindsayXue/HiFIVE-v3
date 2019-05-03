@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 // Create Schema
 const RecordSchema = new Schema({
   user: {
-    type: String,
+    type: Schema.Types.ObjectId,
     ref: 'users',
     required: true
   },

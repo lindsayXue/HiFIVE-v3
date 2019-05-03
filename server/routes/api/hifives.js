@@ -25,13 +25,13 @@ router.get('/', async (req, res) => {
         .sort({ createdAt: -1 })
         .skip(Number(skip))
         .limit(Number(req.body.number))
-        .populate({ path: 'sender', select: 'name' })
-        .populate({ path: 'receiver', select: 'name' })
+        .populate('sender', 'name')
+        .populate('receiver', 'name')
     } else {
       hifives = await HiFIVE.find()
         .sort({ createdAt: -1 })
-        .populate({ path: 'sender', select: 'name' })
-        .populate({ path: 'receiver', select: 'name' })
+        .populate('sender', 'name')
+        .populate('receiver', 'name')
     }
     // if (hifives.length == 0) {
     //   errors.nohifivesfound = 'No hifives found'
@@ -51,7 +51,7 @@ router.get('/user/:userId', googleAuth, async (req, res) => {
   try {
     let hifives = await HiFIVE.find({ receiver: req.params.userId })
       .sort({ createdAt: -1 })
-      .populate({ path: 'sender', select: 'name' })
+      .populate('sender', ['name'])
 
     res.json(hifives)
   } catch (err) {

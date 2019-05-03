@@ -24,14 +24,18 @@ const { check, oneOf, validationResult } = require('express-validator/check')
 router.get('/', async (req, res) => {
   try {
     let records
-    if (!!req.body.number) {
-      let skip = !req.body.skip ? 0 : req.body.skip
+    if (!!req.params.number) {
+      let skip = !req.params.skip ? 0 : req.params.skip
       records = await Record.find()
+
         .sort({ date: -1 })
         .skip(Number(skip))
-        .limit(Number(req.body.number))
+        .limit(Number(req.params.number))
+        .populate('user', 'name')
     } else {
-      records = await Record.find().sort({ date: -1 })
+      records = await Record.find()
+        .sort({ createdAt: -1 })
+        .populate('user', 'name')
     }
     // if (records.length == 0) {
     //   errors.norecordsfound = 'No records found'

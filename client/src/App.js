@@ -19,6 +19,7 @@ import AddRecord from './components/record/AddRecord'
 import AddHiFIVE from './components/hifive/AddHiFIVE'
 import AdminLogin from './components/admin/Login'
 import AdminActivity from './components/admin/Activity/Activity'
+import AdminUser from './components/admin/Users/User'
 
 import { withTheme } from '@material-ui/core/styles'
 
@@ -66,6 +67,7 @@ const App = () => {
               path="/admin/activity"
               component={AdminActivity}
             />
+            <AdminRoute exact path="/admin/users" component={AdminUser} />
           </div>
           <Footer />
         </div>

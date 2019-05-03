@@ -8,5 +8,8 @@ export default {
   },
   addRecord(params) {
     return Api().post('records/add', params)
+  },
+  getRecods(params) {
+    return Api().get('records', params)
   }
 }
