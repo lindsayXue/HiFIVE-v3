@@ -12,7 +12,11 @@ import { withStyles } from '@material-ui/core/styles'
 import Moment from 'react-moment'
 import moment from 'moment'
 import DatePicker from '../../common/DatePicker'
-import { addActivity } from '../../../actions/activity'
+import {
+  addActivity,
+  editActivityStatus,
+  getActivity
+} from '../../../actions/activity'
 import { clearActivityError } from '../../../actions/activity'
 import ErrorInfo from '../../common/ErrorInfo'
 
@@ -76,6 +80,12 @@ class InfoBoard extends Component {
     this.props.clearActivityError('duration')
   }
 
+  onEditActivity = e => {
+    this.props.editActivityStatus().then(() => {
+      this.props.getActivity()
+    })
+  }
+
   onErrorClose = () => {
     this.props.clearActivityError('server')
   }
@@ -86,7 +96,7 @@ class InfoBoard extends Component {
 
     return (
       <Paper className={classes.root} elevation={2} style={style}>
-        <Typography variant="h5" color="primary" paragraph>
+        <Typography variant="h5" color="primary" gutterBottom>
           Activity
         </Typography>
         <hr />
@@ -147,6 +157,17 @@ class InfoBoard extends Component {
             <Typography variant="h6" color="secondary" gutterBottom>
               Participants: {activity.activity.participants}
             </Typography>
+            <Typography variant="h6" color="secondary" gutterBottom>
+              Status: {activity.activity.status}
+            </Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={this.onEditActivity}
+            >
+              {activity.activity.status === 'running' && 'Stop activity'}
+              {activity.activity.status === 'stop' && 'Run activity'}
+            </Button>
           </div>
         )}
         {errors.server && (
@@ -165,6 +186,8 @@ InfoBoard.propTypes = {
   activity: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
   addActivity: PropTypes.func.isRequired,
+  getActivity: PropTypes.func.isRequired,
+  editActivityStatus: PropTypes.func.isRequired,
   clearActivityError: PropTypes.func.isRequired
 }
 
@@ -175,5 +198,5 @@ const mapStatetToProps = state => ({
 
 export default connect(
   mapStatetToProps,
-  { addActivity, clearActivityError }
+  { addActivity, editActivityStatus, getActivity, clearActivityError }
 )(withStyles(styles)(InfoBoard))

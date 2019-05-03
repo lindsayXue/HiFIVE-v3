@@ -74,11 +74,12 @@ router.post(
 router.put('/', adminAuth, async (req, res) => {
   try {
     const activity = await Activity.findOne()
-    if (activity.state === 'running') {
-      activity.state = 'stop'
+    if (activity.status === 'running') {
+      activity.status = 'stop'
     } else {
-      activity.state === 'running'
+      activity.status = 'running'
     }
+
     await activity.save()
     res.json(activity)
   } catch (err) {

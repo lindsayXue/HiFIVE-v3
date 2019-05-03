@@ -51,7 +51,7 @@ class HiFIVE extends Component {
     return (
       <Paper className={classes.root} elevation={1} style={style}>
         <Typography variant="h6" color="primary" gutterBottom>
-          Guess who gived you a HiFIVE
+          Guess who gave you a HiFIVE
         </Typography>
         <div className={classes.demo}>
           <List>

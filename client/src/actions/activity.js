@@ -43,6 +43,19 @@ export const addActivity = data => async dispatch => {
   }
 }
 
+// Edit activity status
+export const editActivityStatus = () => async dispatch => {
+  try {
+    await AdminActivityService.editActivityStatus()
+  } catch (err) {
+    const errors = err.response.data.errors
+    dispatch({
+      type: ACTIVITY_ERROR,
+      payload: errors
+    })
+  }
+}
+
 // Clear activity error
 export const clearActivityError = errorName => dispatch => {
   dispatch({

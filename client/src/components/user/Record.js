@@ -72,7 +72,7 @@ class Record extends Component {
     ]
 
     const recordData = records.map(record => ({
-      date: moment(record.date).format('MMM DO YYYY'),
+      date: moment(record.date).format('MMM Do YYYY'),
       type: record.type,
       duration: record.duration,
       points: record.points
@@ -118,29 +118,31 @@ class Record extends Component {
     }
 
     return (
-      <Paper className={classes.root} elevation={1} style={style}>
-        <Typography variant="h5" color="primary" paragraph>
-          Exercise Records
-          <Button
-            component={RouterLink}
-            to="/user/record/add"
-            className={classes.backBtn}
-            variant="contained"
-            color="primary"
-            disabled={
-              !auth.user.accountState ||
-              !activity.activity ||
-              Object.keys(activity.activity).length === 0 ||
-              activity.activity.state === 'stop' ||
-              moment(new Date()).isBefore(moment(activity.activity.start))
-            }
-          >
-            + Record
-          </Button>
-        </Typography>
-        <p>
-          <Line width={400} height={300} data={data} options={chartOptions} />
-        </p>
+      <div style={style}>
+        <Paper className={classes.root} elevation={1}>
+          <Typography variant="h5" color="primary" paragraph>
+            Exercise Records
+            <Button
+              component={RouterLink}
+              to="/user/record/add"
+              className={classes.backBtn}
+              variant="contained"
+              color="primary"
+              disabled={
+                !auth.user.accountState ||
+                !activity.activity ||
+                Object.keys(activity.activity).length === 0 ||
+                activity.activity.state === 'stop' ||
+                moment(new Date()).isBefore(moment(activity.activity.start))
+              }
+            >
+              + Record
+            </Button>
+          </Typography>
+          <p>
+            <Line width={400} height={300} data={data} options={chartOptions} />
+          </p>
+        </Paper>
         {loading && <LinearProgress color="primary" />}
         {!loading && (
           <MUIDataTable
@@ -150,7 +152,7 @@ class Record extends Component {
             options={options}
           />
         )}
-      </Paper>
+      </div>
     )
   }
 }

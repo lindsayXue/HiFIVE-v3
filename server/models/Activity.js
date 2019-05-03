@@ -19,7 +19,7 @@ const ActivitySchema = new Schema({
     type: Number,
     default: 0
   },
-  state: {
+  status: {
     type: String,
     default: 'running'
   },
