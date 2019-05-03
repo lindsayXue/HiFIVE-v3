@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react'
 import { Route } from 'react-router-dom'
-import Footer from '../layout/Footer'
 import Banner from '../banner/Banner'
 import Login from '../auth/Login'
 import Register from '../auth/Register'
@@ -15,6 +14,7 @@ import AdminActivity from '../admin/Activity/Activity'
 import AdminUser from '../admin/Users/User'
 import PrivateRoute from './PrivateRoute'
 import AdminRoute from './AdminRoute'
+import NotFound from '../layout/NotFound'
 
 const Routes = () => {
   return (
@@ -31,7 +31,7 @@ const Routes = () => {
       <Route exact path="/admin" component={AdminLogin} />
       <AdminRoute exact path="/admin/activity" component={AdminActivity} />
       <AdminRoute exact path="/admin/users" component={AdminUser} />
-      <Footer />
+      <Route component={NotFound} />
     </Fragment>
   )
 }

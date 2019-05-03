@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import store from './store'
 import Routes from './components/routing/Routes'
 import Navbar from './components/layout/Navbar'
+import Footer from './components/layout/Footer'
 import { withTheme } from '@material-ui/core/styles'
 
 import './App.css'
@@ -30,6 +31,7 @@ const App = () => {
       <Router>
         <Navbar />
         <Route component={Routes} />
+        <Footer />
       </Router>
     </Provider>
   )
