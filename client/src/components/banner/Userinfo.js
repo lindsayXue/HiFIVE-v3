@@ -14,21 +14,25 @@ const styles = theme => ({
   }
 })
 
-const Userinfo = props => {
-  const { classes } = props
+const Userinfo = ({ classes, user, flagStyle }) => {
   return (
     <div>
       <Paper className={classes.root} elevation={0}>
         <Typography component="p" variant="subtitle1" gutterBottom>
-          <i className="fas fa-user" /> <span>{props.user.name}</span>
+          <i className="fas fa-user" /> <span>{user.name}</span>
           {'   '}
-          <i className="fas fa-flag" style={props.flagStyle} />
+          <i className="fas fa-flag" style={flagStyle} />
         </Typography>
         <Typography component="p" variant="subtitle1" gutterBottom>
-          Points: {props.user.points} <i className="fas fa-hand-paper" />
+          Points: {user.points} <i className="fas fa-hand-paper" />
           {'   '}
-          {props.user.hifive}
+          {user.hifive}
         </Typography>
+        {!user.accountState && (
+          <Typography color="error" variant="caption">
+            Your account has been paused, Please contact administrator!
+          </Typography>
+        )}
       </Paper>
     </div>
   )

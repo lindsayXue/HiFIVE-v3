@@ -74,7 +74,7 @@ class Post extends Component {
                   key={index}
                   button
                   component="a"
-                  href={`http://${post.url}`}
+                  href={post.url}
                   target="_blank"
                   variant="subtitle1"
                   color="secondary"

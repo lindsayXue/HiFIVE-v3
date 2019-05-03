@@ -9,9 +9,9 @@ import { withStyles } from '@material-ui/core/styles'
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
-    width: 200,
+    paddingTop: theme.spacing.unit,
+    paddingBottom: theme.spacing.unit,
+    width: '15rem',
     textAlign: 'center',
     margin: 'auto'
   },
@@ -27,7 +27,7 @@ class TimeBoard extends Component {
 
     return (
       <Paper className={classes.root} elevation={2}>
-        <Typography variant="h5" color="primary">
+        <Typography variant="h6" color="primary">
           Activity
           {activity === null || Object.keys(activity).length === 0 ? (
             ''
@@ -56,13 +56,13 @@ class TimeBoard extends Component {
               <i className="fas fa-users text-primary" />{' '}
               {activity.participants}
             </Typography>
-            <Link variant="body2" component={RouterLink} to="/user/posts">
-              <i className="fas fa-bullhorn" />
-              <Typography inline> Posts Board </Typography>
-              <i className="fas fa-arrow-left" />
-            </Link>
           </div>
         )}
+        <Link variant="body2" component={RouterLink} to="/user/posts">
+          <i className="fas fa-bullhorn" />
+          <Typography inline> Posts Board </Typography>
+          <i className="fas fa-arrow-left" />
+        </Link>
       </Paper>
     )
   }

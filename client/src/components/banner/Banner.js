@@ -49,7 +49,7 @@ class Banner extends Component {
       color: !team.color ? '' : team.color
     }
 
-    const lgmdTitle = (
+    const xllgmdTitle = (
       <Typography variant="h4">
         Welcome to{' '}
         <Typography inline component="span" variant="h4" color="primary">
@@ -59,10 +59,10 @@ class Banner extends Component {
       </Typography>
     )
 
-    const smTitle = (
-      <Typography variant="h5">
+    const xsTitle = (
+      <Typography variant="h6">
         Welcome to{' '}
-        <Typography inline component="span" variant="h5" color="primary">
+        <Typography inline component="span" variant="h6" color="primary">
           HiFIVE
         </Typography>{' '}
         Community
@@ -77,12 +77,12 @@ class Banner extends Component {
         alignItems="center"
         spacing={8}
       >
-        <Grid item md={7} className={classes.welcome}>
-          <Hidden smDown>{lgmdTitle}</Hidden>
-          <Hidden mdUp>{smTitle}</Hidden>
+        <Grid item lg={5} md={6} xs={11} className={classes.welcome}>
+          <Hidden xsDown>{xllgmdTitle}</Hidden>
+          <Hidden smUp>{xsTitle}</Hidden>
           <Userinfo user={user} flagStyle={flagStyle} />
         </Grid>
-        <Grid item md={4}>
+        <Grid item md={4} xs={11}>
           <TimeBoard />
         </Grid>
       </Grid>

@@ -179,6 +179,23 @@ router.get('/', async (req, res) => {
   }
 })
 
+// @route   GET api/users/winner
+// @desc    Get user rank
+// @access  Public
+router.get('/winner', async (req, res) => {
+  try {
+    const tops = await User.find()
+      .select('-googleId')
+      .sort({ points: -1 })
+      .limit(3)
+    const winner = tops.filter(top => top.points !== 0)
+    res.json(winner)
+  } catch (err) {
+    console.log(err)
+    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
+  }
+})
+
 // @route   GET api/users/:id
 // @desc    Get user
 // @access  Public
@@ -190,7 +207,7 @@ router.get('/:id', async (req, res) => {
     res.json(user)
   } catch (err) {
     console.log(err)
-    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
+    res.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
 
@@ -264,23 +281,6 @@ router.put(
     }
   }
 )
-
-// @route   GET api/users/winner
-// @desc    Get user rank
-// @access  Public
-router.get('/winner', async (req, res) => {
-  try {
-    const tops = await User.find()
-      .select('-googleId')
-      .sort({ points: -1 })
-      .limit(3)
-    const winner = tops.filter(top => top.points !== 0)
-    res.json(winner)
-  } catch (err) {
-    console.log(err)
-    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
-  }
-})
 
 // @route   GET api/users/rank/:points/:hifive
 // @desc    Get user rank
