@@ -11,5 +11,8 @@ export default {
   },
   getUserRank(params) {
     return Api().get(`users/rank/${params.points}/${params.hifive}`)
+  },
+  getUserByID(id) {
+    return Api().get(`users/${id}`)
   }
 }

@@ -165,12 +165,29 @@ router.get('/', async (req, res) => {
         .sort({ points: -1 })
         .skip(Number(skip))
         .limit(Number(req.query.number))
+        .populate('team', 'name')
     } else {
       users = await User.find()
         .select('-googleId')
         .sort({ points: -1 })
+        .populate('team', 'name')
     }
     res.json(users)
+  } catch (err) {
+    console.log(err)
+    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
+  }
+})
+
+// @route   GET api/users/:id
+// @desc    Get user
+// @access  Public
+router.get('/:id', async (req, res) => {
+  try {
+    const id = req.params.id
+    const user = await User.findById(id).populate('team', ['_id', 'name'])
+
+    res.json(user)
   } catch (err) {
     console.log(err)
     re.status(500).json({ errors: { server: { msg: 'Server error' } } })
@@ -180,55 +197,73 @@ router.get('/', async (req, res) => {
 // @route   PUT api/users/edit
 // @desc    Edit user
 // @access  Admin
-router.put('/edit', adminAuth, async (req, res) => {
-  const { userId, points, hifive, team, accountState } = req.body
-  try {
-    let editUser = await User.findByIdAndUpdate(userId, {
-      points,
-      hifive,
-      team,
-      accountState
-    })
+router.put(
+  '/edit',
+  [
+    check('points', 'Points is required')
+      .not()
+      .isEmpty(),
+    check('hifive', 'HiFIVE is required')
+      .not()
+      .isEmpty()
+  ],
+  adminAuth,
+  async (req, res) => {
+    const errors = validationResult(req)
 
-    let pointsDiff = points - editUser.points
-
-    // When edit team
-    if (editUser.team !== team) {
-      // Set teamRandom to false
-      await User.findByIdAndUpdate(userId, {
-        teamRandom: false
-      })
-
-      // Edit team member and points
-      await Team.findByIdAndUpdate(editUser.team, {
-        $inc: { member: -1, points: -editUser.points }
-      })
-
-      await Team.findByIdAndUpdate(team, {
-        $inc: { member: 1, points: points }
-      })
-    } else {
-      // Edit team points
-      await Team.findByIdAndUpdate(editUser.team, {
-        $inc: { points: pointsDiff }
-      })
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.mapped() })
     }
 
-    // Edit activity points
-    await Activity.findOneAndUpdate(
-      {},
-      {
-        $inc: { points: pointsDiff }
-      }
-    )
+    const { userId, points, hifive, team, accountState } = req.body
+    try {
+      let editUser = await User.findByIdAndUpdate(userId, {
+        points,
+        hifive,
+        team,
+        accountState
+      })
 
-    // PUT user return??
-    res.json({ success: 'success' })
-  } catch (err) {
-    console.log(err)
-    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
+      let pointsDiff = points - editUser.points
+
+      // When edit team
+      if (editUser.team !== team) {
+        // Set teamRandom to false
+        await User.findByIdAndUpdate(userId, {
+          teamRandom: false
+        })
+
+        // Edit team member and points
+        await Team.findByIdAndUpdate(editUser.team, {
+          $inc: { member: -1, points: -editUser.points }
+        })
+
+        await Team.findByIdAndUpdate(team, {
+          $inc: { member: 1, points: points }
+        })
+      } else {
+        // Edit team points
+        await Team.findByIdAndUpdate(editUser.team, {
+          $inc: { points: pointsDiff }
+        })
+      }
+
+      // Edit activity points
+      await Activity.findOneAndUpdate(
+        {},
+        {
+          $inc: { points: pointsDiff }
+        }
+      )
+
+      // PUT user return??
+      res.json({ success: 'success' })
+    } catch (err) {
+      console.log(err)
+      re.status(500).json({ errors: { server: { msg: 'Server error' } } })
+    }
   }
-})
+)
 
 // @route   GET api/users/winner
 // @desc    Get user rank

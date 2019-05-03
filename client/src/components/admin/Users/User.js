@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import { Grid, Grow } from '@material-ui/core'
-import RecordHistory from './RecordHistory'
+import ExerciseHistory from './ExerciseHistory'
 import HiFIVEHistory from './HiFIVEHistory'
 import UserList from './UserList'
 
@@ -19,7 +19,7 @@ class User extends Component {
       <Grid className={classes.root} container justify="center" spacing={16}>
         <Grid item lg={6} xs={11}>
           <Grow in timeout={1000}>
-            <RecordHistory />
+            <ExerciseHistory />
           </Grow>
         </Grid>
         <Grid item lg={5} xs={11}>

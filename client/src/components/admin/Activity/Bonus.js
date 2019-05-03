@@ -221,9 +221,7 @@ class Bonus extends Component {
                 fullWidth
               />
               {errors.name && (
-                <Typography color="error" style={{ width: '100%' }}>
-                  {errors.name.msg}
-                </Typography>
+                <Typography color="error">{errors.name.msg}</Typography>
               )}
 
               <TextField
@@ -236,9 +234,7 @@ class Bonus extends Component {
                 fullWidth
               />
               {errors.points && (
-                <Typography color="error" style={{ width: '100%' }}>
-                  {errors.points.msg}
-                </Typography>
+                <Typography color="error">{errors.points.msg}</Typography>
               )}
               <Button
                 type="submit"

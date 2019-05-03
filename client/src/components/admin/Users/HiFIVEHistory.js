@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import ErrorInfo from '../../common/ErrorInfo'
-import moment from 'moment'
 import MUIDataTable from 'mui-datatables'
 import HiFIVEService from '../../../services/user/HiFIVE'
 
@@ -14,9 +11,6 @@ const styles = theme => ({
     paddingBottom: theme.spacing.unit * 2,
     textAlign: 'center',
     marginTop: '20px'
-  },
-  createBtn: {
-    float: 'right'
   }
 })
 
@@ -66,11 +60,11 @@ class HiFIVEHistory extends Component {
       print: false,
       filter: false,
       viewColumns: false,
-      filter: false,
       selectableRows: 'none',
       responsive: 'scroll',
       rowsPerPage: 5,
       rowsPerPageOptions: [5],
+      empty: true,
       downloadOptions: {
         filename: 'HiFIVE record history.csv'
       }
@@ -96,15 +90,4 @@ class HiFIVEHistory extends Component {
   }
 }
 
-HiFIVEHistory.propTypes = {
-  errors: PropTypes.object.isRequired
-}
-
-const mapStateToProps = state => ({
-  errors: state.errors
-})
-
-export default connect(
-  mapStateToProps,
-  {}
-)(withStyles(styles)(HiFIVEHistory))
+export default withStyles(styles)(HiFIVEHistory)

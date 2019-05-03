@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import moment from 'moment'
 import ErrorInfo from '../../common/ErrorInfo'
@@ -14,13 +12,10 @@ const styles = theme => ({
     paddingBottom: theme.spacing.unit * 2,
     textAlign: 'center',
     marginTop: '20px'
-  },
-  createBtn: {
-    float: 'right'
   }
 })
 
-class RecordHistory extends Component {
+class ExerciseHistory extends Component {
   state = {
     records: [],
     error: null
@@ -79,20 +74,20 @@ class RecordHistory extends Component {
       print: false,
       filter: false,
       viewColumns: false,
-      filter: false,
       selectableRows: 'none',
       responsive: 'scroll',
       rowsPerPage: 5,
       rowsPerPageOptions: [5],
+      empty: true,
       downloadOptions: {
-        filename: 'Exercise record history.csv'
+        filename: 'Exercise history.csv'
       }
     }
 
     return (
       <div style={style} className={classes.root}>
         <MUIDataTable
-          title={'Exercise record history'}
+          title={'Exercise history'}
           data={data}
           columns={columns}
           options={options}
@@ -109,15 +104,4 @@ class RecordHistory extends Component {
   }
 }
 
-RecordHistory.propTypes = {
-  errors: PropTypes.object.isRequired
-}
-
-const mapStateToProps = state => ({
-  errors: state.errors
-})
-
-export default connect(
-  mapStateToProps,
-  {}
-)(withStyles(styles)(RecordHistory))
+export default withStyles(styles)(ExerciseHistory)
