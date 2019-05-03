@@ -25,11 +25,17 @@ class HiFIVERank extends Component {
     const columns = [
       {
         name: 'name',
-        label: 'Name'
+        label: 'Name',
+        options: {
+          sort: false
+        }
       },
       {
         name: 'hifive',
-        label: 'HiFIVE'
+        label: 'HiFIVE',
+        options: {
+          sort: false
+        }
       }
     ]
 

@@ -164,12 +164,12 @@ class Journey extends Component {
             <LinearProgress
               value={Number(percent)}
               variant="determinate"
-              style={{ marginTop: '10px' }}
+              style={{ marginTop: '20px' }}
             />
             <Typography
               component="p"
               variant="h5"
-              style={{ textAlign: 'center' }}
+              style={{ textAlign: 'center', marginTop: '10px' }}
               color="secondary"
             >
               {percent} %

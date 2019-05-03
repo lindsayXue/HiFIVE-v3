@@ -32,8 +32,11 @@ class TimeBoard extends Component {
           {activity === null || Object.keys(activity).length === 0 ? (
             ''
           ) : (
-            <Typography color="secondary" style={{ float: 'right' }}>
-              {activity.state}
+            <Typography
+              color="secondary"
+              style={{ float: 'right', marginTop: '5px' }}
+            >
+              {activity.status}
             </Typography>
           )}
         </Typography>

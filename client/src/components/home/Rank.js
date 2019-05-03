@@ -28,7 +28,10 @@ class Rank extends Component {
               <i className="fas fa-trophy" style={{ color: '#ffc107' }} />
             </ListItemIcon>
             <ListItemText primary={winner[0].name} />
-            <ListItemText secondary={`${winner[0].points} points`} />
+            <ListItemText
+              secondary={`${winner[0].points} points`}
+              style={{ textAlign: 'right' }}
+            />
           </ListItem>
           <Typography component="p" color="secondary">
             No other winner yet
@@ -43,14 +46,20 @@ class Rank extends Component {
               <i className="fas fa-trophy" style={{ color: '#ffc107' }} />
             </ListItemIcon>
             <ListItemText primary={winner[0].name} />
-            <ListItemText secondary={`${winner[0].points} points`} />
+            <ListItemText
+              secondary={`${winner[0].points} points`}
+              style={{ textAlign: 'right' }}
+            />
           </ListItem>
           <ListItem divider>
             <ListItemIcon>
               <i className="fas fa-trophy" style={{ color: '#C0C0C0' }} />
             </ListItemIcon>
             <ListItemText primary={winner[1].name} />
-            <ListItemText secondary={`${winner[1].points} points`} />
+            <ListItemText
+              secondary={`${winner[1].points} points`}
+              style={{ textAlign: 'right' }}
+            />
           </ListItem>
           <Typography component="p" color="secondary">
             No other winner yet
@@ -65,21 +74,30 @@ class Rank extends Component {
               <i className="fas fa-trophy" style={{ color: '#ffc107' }} />
             </ListItemIcon>
             <ListItemText primary={winner[0].name} />
-            <ListItemText secondary={`${winner[0].points} points`} />
+            <ListItemText
+              secondary={`${winner[0].points} points`}
+              style={{ textAlign: 'right' }}
+            />
           </ListItem>
           <ListItem divider>
             <ListItemIcon>
               <i className="fas fa-trophy" style={{ color: '#C0C0C0' }} />
             </ListItemIcon>
             <ListItemText primary={winner[1].name} />
-            <ListItemText secondary={`${winner[1].points} points`} />
+            <ListItemText
+              secondary={`${winner[1].points} points`}
+              style={{ textAlign: 'right' }}
+            />
           </ListItem>
           <ListItem divider>
             <ListItemIcon>
               <i className="fas fa-trophy" style={{ color: '#964B00' }} />
             </ListItemIcon>
             <ListItemText primary={winner[2].name} />
-            <ListItemText secondary={`${winner[2].points} points`} />
+            <ListItemText
+              secondary={`${winner[2].points} points`}
+              style={{ textAlign: 'right' }}
+            />
           </ListItem>
         </div>
       )

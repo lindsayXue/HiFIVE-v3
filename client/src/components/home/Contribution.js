@@ -62,12 +62,8 @@ class Contribution extends Component {
             More
           </Button>
         </Typography>
-        <Rank title="Personal" winner={userWinner}>
-          Personal
-        </Rank>
-        <Rank title="Team" winner={teamWinner}>
-          Team
-        </Rank>
+        <Rank title="Individual" winner={userWinner} />
+        <Rank title="Team" winner={teamWinner} />
       </Paper>
     )
   }

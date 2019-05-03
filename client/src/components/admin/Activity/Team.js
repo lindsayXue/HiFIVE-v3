@@ -79,24 +79,27 @@ class Team extends Component {
           alignItems="flex-start"
           spacing={16}
         >
-          <Grid item md={5} xs={12}>
+          <Grid item md={3} xs={12}>
             <List>
-              <ListItem>
+              <ListItem className={classes.listItem}>
                 <ListItemText primary="Team" />
-                <ListItemText primary="Members" />
+                <ListItemText
+                  primary="Members"
+                  style={{ textAlign: 'right' }}
+                />
               </ListItem>
               {teams.map(team => (
-                <ListItem key={team._id}>
+                <ListItem key={team._id} className={classes.listItem}>
                   <ListItemText primary={team.name} />
                   <ListItemText
                     secondary={team.member}
-                    style={{ float: 'right' }}
+                    style={{ textAlign: 'right' }}
                   />
                 </ListItem>
               ))}
             </List>
           </Grid>
-          <Grid item md={5} xs={12}>
+          <Grid item md={6} xs={12}>
             <p>
               <Bar
                 data={chartData}

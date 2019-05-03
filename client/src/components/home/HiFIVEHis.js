@@ -25,15 +25,24 @@ class HiFIVEHis extends Component {
     const columns = [
       {
         name: 'sender',
-        label: 'Sender'
+        label: 'Sender',
+        options: {
+          sort: false
+        }
       },
       {
         name: 'receiver',
-        label: 'Receiver'
+        label: 'Receiver',
+        options: {
+          sort: false
+        }
       },
       {
         name: 'reason',
-        label: 'Reason'
+        label: 'Reason',
+        options: {
+          sort: false
+        }
       }
     ]
 

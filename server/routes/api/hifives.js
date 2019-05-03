@@ -72,7 +72,13 @@ router.post(
       .isEmpty(),
     check('reason', 'HiFIVE reason is required')
       .not()
-      .isEmpty()
+      .isEmpty(),
+    check(
+      'reason',
+      'HiFIVE reason can not be more than 50 characters'
+    ).isLength({
+      max: 50
+    })
   ],
   async (req, res) => {
     const errors = validationResult(req)

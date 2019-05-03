@@ -54,10 +54,10 @@ class HiFIVE extends Component {
           Guess who gave you a HiFIVE
         </Typography>
         <div className={classes.demo}>
-          <List>
+          <List style={{ overflow: 'overlay' }}>
             {hifives.length === 0 && (
               <ListItem>
-                <ListItemText secondary="No one gived you a HiFIVE yet" />
+                <ListItemText secondary="No one gave you a HiFIVE yet" />
               </ListItem>
             )}
             {hifives

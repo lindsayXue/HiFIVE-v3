@@ -77,7 +77,7 @@ class Personal extends Component {
           {loading && <LinearProgress color="primary" />}
           {!loading && (
             <MUIDataTable
-              title="Personal"
+              title="Individual"
               data={usersData}
               columns={columns}
               options={options}

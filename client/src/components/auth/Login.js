@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { login } from '../../actions/auth'
@@ -53,9 +53,9 @@ const Login = ({
   setErrors,
   clearErrors,
   classes,
-  errors,
-  loading
+  errors
 }) => {
+  const [signinLoading] = useState(false)
   if (isAuthenticated) {
     return <Redirect to="/user/home" />
   }
@@ -66,7 +66,6 @@ const Login = ({
 
   const onSuccessSignin = response => {
     let id_token = response.getAuthResponse().id_token
-
     login(id_token, history)
   }
 
@@ -99,7 +98,7 @@ const Login = ({
           </Typography>{' '}
           Community
         </Typography>
-        {loading && (
+        {signinLoading && (
           <CircularProgress className={classes.progress} color="primary" />
         )}
         {/* <a href="http://localhost:5000/api/auth/google" target="_blank">
@@ -114,7 +113,7 @@ const Login = ({
           </Button>
         </a> */}
 
-        {!loading && (
+        {!signinLoading && (
           <GoogleLogin
             clientId={googleClientId}
             render={renderProps => (
@@ -163,8 +162,7 @@ Login.propTypes = {
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
   isAdmin: state.adminAuth.isAdmin,
-  errors: state.errors,
-  loading: state.auth.loading
+  errors: state.errors
 })
 
 export default withRouter(

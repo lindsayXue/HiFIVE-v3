@@ -13,7 +13,8 @@ const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2
+    paddingBottom: theme.spacing.unit * 2,
+    marginBottom: '20px'
   },
   backBtn: {
     float: 'right'
@@ -46,7 +47,10 @@ class Record extends Component {
     const columns = [
       {
         name: 'date',
-        label: 'Date'
+        label: 'Date',
+        options: {
+          sort: false
+        }
       },
       {
         name: 'type',
@@ -132,7 +136,7 @@ class Record extends Component {
                 !auth.user.accountState ||
                 !activity.activity ||
                 Object.keys(activity.activity).length === 0 ||
-                activity.activity.state === 'stop' ||
+                activity.activity.status === 'stop' ||
                 moment(new Date()).isBefore(moment(activity.activity.start))
               }
             >
