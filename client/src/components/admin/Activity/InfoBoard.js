@@ -21,7 +21,8 @@ const styles = theme => ({
     ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
-    textAlign: 'center'
+    textAlign: 'center',
+    marginTop: '20px'
   },
   createBtn: {
     float: 'right'

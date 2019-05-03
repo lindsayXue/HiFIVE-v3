@@ -42,11 +42,11 @@ router.get('/:id', async (req, res) => {
   }
 })
 
-// @route   POST api/adminposts/add
+// @route   POST api/adminposts
 // @desc    Add a post
 // @access  Admin
 router.post(
-  '/add',
+  '/',
   adminAuth,
   [
     check('title', 'Title is required')
