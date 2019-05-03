@@ -12,8 +12,7 @@ import {
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import FooterService from '../../../services/user/Footer'
-import { addFooter } from '../../../actions/footer'
+import { getFooter, addFooter } from '../../../actions/footer'
 import { setErrors, clearErrors } from '../../../actions/error'
 import ErrorInfo from '../../common/ErrorInfo'
 
@@ -33,28 +32,10 @@ const styles = theme => ({
 class Footer extends Component {
   state = {
     content: '',
-    footer: {
-      content: ''
-    },
-    rowsPerPage: 5,
-    page: 0,
+    footerOrigin: this.props.footer.footer,
     creating: false,
-    footerLoading: false,
     formLoading: false,
     noEditError: false
-  }
-
-  async componentDidMount() {
-    try {
-      const res = await FooterService.getFooter()
-      if (!res.data) {
-        return
-      } else {
-        this.setState({ footer: res.data, content: res.data.content })
-      }
-    } catch (err) {
-      this.props.setErrors(err.response.data)
-    }
   }
 
   onChange = e => {
@@ -71,29 +52,20 @@ class Footer extends Component {
     e.preventDefault()
     this.setState({ formLoading: true })
 
-    if (this.state.footer.content === this.state.content) {
+    if (
+      this.state.footerOrigin &&
+      this.state.footerOrigin.content === this.state.content
+    ) {
       return this.setState({ formLoading: false, noEditError: true })
     }
 
     const newFooter = {
       content: this.state.content
     }
-    this.props.addFooter(newFooter).then(async () => {
+    this.props.addFooter(newFooter).then(() => {
       this.setState({ formLoading: false })
-
       if (!this.props.errors.content) {
-        try {
-          this.setState({ footerLoading: true })
-          const res = await FooterService.getFooter()
-          this.setState({
-            footer: res.data,
-            footerLoading: false
-          })
-          this.clearForm()
-        } catch (err) {
-          this.setErrors(err.response.data)
-          this.setState({ footerLoading: false })
-        }
+        this.clearForm()
       }
     })
   }
@@ -113,15 +85,8 @@ class Footer extends Component {
   }
 
   render() {
-    const {
-      content,
-      footer,
-      footerLoading,
-      formLoading,
-      creating,
-      noEditError
-    } = this.state
-    const { classes, style, errors } = this.props
+    const { content, formLoading, creating, noEditError } = this.state
+    const { classes, style, errors, footer } = this.props
 
     return (
       <Paper className={classes.root} elevation={2} style={style}>
@@ -137,16 +102,12 @@ class Footer extends Component {
           </Button>
         </Typography>
 
-        {!footer || !footer.content ? (
+        {!footer.footer || !footer.footer.content ? (
           <Typography>
             Copyright &copy; {new Date().getFullYear()} HiFIVE
           </Typography>
         ) : (
-          <Typography>{footer.content}</Typography>
-        )}
-
-        {footerLoading && (
-          <CircularProgress className={classes.progress} color="primary" />
+          <Typography>{footer.footer.content}</Typography>
         )}
         <Dialog
           aria-labelledby="form-dialog-title"
@@ -210,6 +171,8 @@ class Footer extends Component {
 }
 
 Footer.propTypes = {
+  footer: PropTypes.object.isRequired,
+  getFooter: PropTypes.func.isRequired,
   addFooter: PropTypes.func.isRequired,
   clearErrors: PropTypes.func.isRequired,
   setErrors: PropTypes.func.isRequired,
@@ -217,10 +180,11 @@ Footer.propTypes = {
 }
 
 const mapStateToProps = state => ({
+  footer: state.footer,
   errors: state.errors
 })
 
 export default connect(
   mapStateToProps,
-  { addFooter, setErrors, clearErrors }
+  { getFooter, addFooter, setErrors, clearErrors }
 )(withStyles(styles)(Footer))

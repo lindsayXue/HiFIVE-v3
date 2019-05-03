@@ -165,8 +165,8 @@ class InfoBoard extends Component {
               color="primary"
               onClick={this.onEditActivity}
             >
-              {activity.activity.status === 'running' && 'Stop activity'}
-              {activity.activity.status === 'stop' && 'Run activity'}
+              {activity.activity.status === 'In progress' && 'Pause activity'}
+              {activity.activity.status === 'Paused' && 'Start activity'}
             </Button>
           </div>
         )}

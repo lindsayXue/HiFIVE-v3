@@ -136,7 +136,7 @@ class Record extends Component {
                 !auth.user.accountState ||
                 !activity.activity ||
                 Object.keys(activity.activity).length === 0 ||
-                activity.activity.status === 'stop' ||
+                activity.activity.status === 'Paused' ||
                 moment(new Date()).isBefore(moment(activity.activity.start))
               }
             >

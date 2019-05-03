@@ -21,7 +21,7 @@ const ActivitySchema = new Schema({
   },
   status: {
     type: String,
-    default: 'running'
+    default: 'In progress'
   },
   createdAt: {
     type: Date,
