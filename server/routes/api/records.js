@@ -14,9 +14,9 @@ const Team = require('../../models/Team')
 const Activity = require('../../models/Activity')
 
 // Middleware
-const googleAuth = require('../../middlewares/googleAuth')
+const userAuth = require('../../middlewares/userAuth')
 
-const { check, oneOf, validationResult } = require('express-validator/check')
+const { check, validationResult } = require('express-validator/check')
 
 // @route   GET api/records
 // @desc    Get all records
@@ -44,7 +44,7 @@ router.get('/', async (req, res) => {
     res.json(records)
   } catch (err) {
     console.log(err)
-    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
+    res.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
 
@@ -53,7 +53,7 @@ router.get('/', async (req, res) => {
 // @access  Private
 router.post(
   '/add',
-  googleAuth,
+  userAuth,
   [
     check('date', 'Exercise date is required')
       .not()
@@ -84,7 +84,8 @@ router.post(
       return res.status(400).json({ errors: errors.mapped() })
     }
 
-    const { userId, date, duration, points, bonus } = req.body
+    const { date, duration, points, bonus } = req.body
+    const { id } = req.user
 
     try {
       let type
@@ -95,7 +96,7 @@ router.post(
       }
 
       const newRecord = new Record({
-        user: userId,
+        user: id,
         date,
         type,
         duration,
@@ -104,7 +105,7 @@ router.post(
       })
 
       // Add points to user
-      const updateUser = await User.findByIdAndUpdate(userId, {
+      const updateUser = await User.findByIdAndUpdate(id, {
         $inc: { points: req.body.points }
       })
 
@@ -133,26 +134,27 @@ router.post(
 // @route   GET api/records/user
 // @desc    Get user records
 // @access  Private
-router.get('/user', googleAuth, async (req, res) => {
+router.get('/user', userAuth, async (req, res) => {
+  const { id } = req.user
   try {
     let userRecords
     if (!!req.query.number) {
       let skip = !req.query.skip ? 0 : req.query.skip
-      userRecords = await Record.find({ user: req.query.userId })
+      userRecords = await Record.find({ user: id })
         .sort({
           date: -1
         })
         .skip(Number(skip))
         .limit(Number(req.query.number))
     } else {
-      userRecords = await Record.find({ user: req.query.userId }).sort({
+      userRecords = await Record.find({ user: id }).sort({
         date: -1
       })
     }
     res.json(userRecords)
   } catch (err) {
     console.log(err)
-    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
+    res.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
 

@@ -21,7 +21,7 @@ router.get('/', async (req, res) => {
     res.json(posts)
   } catch (err) {
     console.log(err)
-    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
+    res.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
 
@@ -38,7 +38,7 @@ router.get('/:id', async (req, res) => {
     }
   } catch (err) {
     console.log(err)
-    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
+    res.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
 
@@ -72,7 +72,7 @@ router.post(
       res.json(newPost)
     } catch (err) {
       console.log(err)
-      re.status(500).json({ errors: { server: { msg: 'Server error' } } })
+      res.status(500).json({ errors: { server: { msg: 'Server error' } } })
     }
   }
 )
@@ -86,7 +86,7 @@ router.delete('/:id', adminAuth, async (req, res) => {
     res.json({ success: true })
   } catch (err) {
     console.log(err)
-    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
+    res.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
 

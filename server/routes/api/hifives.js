@@ -8,16 +8,15 @@ const HiFIVE = require('../../models/HiFIVE')
 const User = require('../../models/User')
 
 // Middleware
-const googleAuth = require('../../middlewares/googleAuth')
+const userAuth = require('../../middlewares/userAuth')
 
-const { check, oneOf, validationResult } = require('express-validator/check')
+const { check, validationResult } = require('express-validator/check')
 
 // @route   GET api/hifives
 // @desc    Get all hifives
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const errors = {}
     let hifives
     if (!!req.body.number) {
       let skip = !req.body.skip ? 0 : req.body.skip
@@ -40,23 +39,24 @@ router.get('/', async (req, res) => {
     res.json(hifives)
   } catch (err) {
     console.log(err)
-    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
+    res.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
 
 // @route   GET api/hifives/user
 // @desc    Get user hifives
 // @access  Private
-router.get('/user/:userId', googleAuth, async (req, res) => {
+router.get('/user', userAuth, async (req, res) => {
+  const { id } = req.user
   try {
-    let hifives = await HiFIVE.find({ receiver: req.params.userId })
+    let hifives = await HiFIVE.find({ receiver: id })
       .sort({ createdAt: -1 })
       .populate('sender', ['name'])
 
     res.json(hifives)
   } catch (err) {
     console.log(err)
-    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
+    res.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
 
@@ -65,7 +65,7 @@ router.get('/user/:userId', googleAuth, async (req, res) => {
 // @access  Private
 router.post(
   '/add',
-  googleAuth,
+  userAuth,
   [
     check('receiver', 'Receiver is required')
       .not()
@@ -87,10 +87,11 @@ router.post(
       return res.status(400).json({ errors: errors.mapped() })
     }
 
-    const { sender, receiver, reason } = req.body
+    const { receiver, reason } = req.body
+    const { id } = req.user
     try {
       const newHiFIVE = new HiFIVE({
-        sender,
+        sender: id,
         receiver,
         reason
       })
@@ -109,7 +110,7 @@ router.post(
       res.json(newHiFIVE)
     } catch (err) {
       console.log(err)
-      re.status(500).json({ errors: { server: { msg: 'Server error' } } })
+      res.status(500).json({ errors: { server: { msg: 'Server error' } } })
     }
   }
 )
@@ -125,7 +126,7 @@ router.get('/rank', async (req, res) => {
     res.json(rank)
   } catch (err) {
     console.log(err)
-    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
+    res.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
 

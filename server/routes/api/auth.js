@@ -3,7 +3,7 @@ const router = express.Router()
 const passport = require('passport')
 
 // Middleware
-const googleAuth = require('../../middlewares/googleAuth')
+const userAuth = require('../../middlewares/userAuth')
 
 // Load User model
 const User = require('../../models/User')
@@ -11,10 +11,10 @@ const User = require('../../models/User')
 // @route   GET api/auth
 // @desc    Get user auth
 // @access  Public
-router.get('/', googleAuth, async (req, res) => {
-  const { googleId } = req.body
+router.get('/', userAuth, async (req, res) => {
+  const { id } = req.user
   try {
-    const userProfile = await User.findOne({ googleId }).select('-googleId')
+    const userProfile = await User.findById(id)
 
     if (!userProfile) {
       return res.status(404).json({ errors: [{ msg: 'User unregistered' }] })
@@ -23,7 +23,7 @@ router.get('/', googleAuth, async (req, res) => {
     res.json(userProfile)
   } catch (err) {
     console.log(err)
-    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
+    res.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
 

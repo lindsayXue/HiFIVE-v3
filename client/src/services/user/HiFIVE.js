@@ -10,7 +10,7 @@ export default {
   addHiFIVE(params) {
     return Api().post('hifives/add', params)
   },
-  getUserHiFIVE(userId) {
-    return Api().get(`hifives/user/${userId}`)
+  getUserHiFIVE() {
+    return Api().get(`hifives/user`)
   }
 }

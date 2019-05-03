@@ -31,7 +31,6 @@ class Record extends Component {
   async componentDidMount() {
     try {
       const res = await RecordService.getUserRecord({
-        userId: this.props.auth.user._id,
         number: 10
       })
       this.setState({ records: res.data, loading: false })

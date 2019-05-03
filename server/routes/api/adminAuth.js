@@ -16,11 +16,11 @@ const config = require('config')
 // @access  Public
 router.get('/auth', adminAuth, async (req, res) => {
   try {
-    const admin = await User.findById(req.user.id).select('-password')
+    const admin = await Admin.findById(req.user.id).select('-password')
     res.json(admin)
   } catch (err) {
     console.log(err)
-    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
+    res.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
 
@@ -52,7 +52,7 @@ router.post('/register', async (req, res) => {
     res.json(newAdmin)
   } catch (err) {
     console.log(err)
-    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
+    res.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
 
@@ -102,13 +102,13 @@ router.post(
           id: admin._id
         }
       }
-      const token = jwt.sign(payload, config.get('jwtSecret'), {
+      const token = jwt.sign(payload, config.get('jwtSecretAdmin'), {
         expiresIn: 3600
       })
       res.json({ succedd: true, token })
     } catch (err) {
       console.log(err)
-      re.status(500).json({ errors: { server: { msg: 'Server error' } } })
+      res.status(500).json({ errors: { server: { msg: 'Server error' } } })
     }
   }
 )

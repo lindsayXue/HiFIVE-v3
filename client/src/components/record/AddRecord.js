@@ -62,7 +62,6 @@ class AddRecord extends Component {
     })
 
     const newRecord = {
-      userId: this.props.auth.user._id,
       date: this.state.date,
       type: this.state.type,
       typeInput: this.state.typeInput,

@@ -1,5 +1,6 @@
-import React, { Fragment } from 'react'
-import { Typography, Grid } from '@material-ui/core'
+import React from 'react'
+import { Typography, Grid, Button } from '@material-ui/core'
+import { Link } from 'react-router-dom'
 
 const NotFound = () => {
   return (
@@ -8,7 +9,12 @@ const NotFound = () => {
         <Typography variant="h3" paragraph color="primary">
           <i className="fas fa-exclamation-triangle" /> Page Not Found
         </Typography>
-        <Typography variant="h5">Sorry, this page does not exist</Typography>
+        <Typography paragraph variant="h5">
+          Sorry, this page does not exist
+        </Typography>
+        <Button variant="contained" color="primary" component={Link} to="/">
+          Back
+        </Button>
       </Grid>
     </Grid>
   )

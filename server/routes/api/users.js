@@ -14,6 +14,9 @@ const Activity = require('../../models/Activity')
 // Load Team model
 const Team = require('../../models/Team')
 
+const jwt = require('jsonwebtoken')
+const config = require('config')
+
 const { check, validationResult } = require('express-validator/check')
 
 // @route   GET api/users/login
@@ -27,10 +30,22 @@ router.get('/login', googleAuth, async (req, res) => {
     if (!user || Object.keys(user).length === 0) {
       return res.status(404).json({ errors: [{ msg: 'User unregistered' }] })
     }
-    res.json(user)
+
+    // Sign JWT Token
+    const payload = {
+      user: {
+        id: user._id
+      }
+    }
+
+    const token = jwt.sign(payload, config.get('jwtSecretUser'), {
+      expiresIn: 3600
+    })
+
+    res.json({ user, token })
   } catch (err) {
     console.log(err)
-    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
+    res.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
 
@@ -131,23 +146,25 @@ router.post(
       )
 
       await newUser.save()
+
+      // Sign JWT Token
+      const payload = {
+        user: {
+          id: user._id
+        }
+      }
+
+      const token = jwt.sign(payload, config.get('jwtSecretUser'), {
+        expiresIn: 3600
+      })
+
       return res.json({
-        _id: newUser._id,
-        name: newUser.name,
-        email: newUser.email,
-        ageRange: newUser.ageRange,
-        fitnessLevel: newUser.fitnessLevel,
-        gender: newUser.gender,
-        department: newUser.department,
-        teamRandom: newUser.teamRandom,
-        team: newUser.team,
-        points: newUser.points,
-        hifive: newUser.points,
-        accountState: newUser.accountState
+        token,
+        user: newUser
       })
     } catch (err) {
       console.log(err)
-      re.status(500).json({ errors: { server: { msg: 'Server error' } } })
+      res.status(500).json({ errors: { server: { msg: 'Server error' } } })
     }
   }
 )
@@ -175,7 +192,7 @@ router.get('/', async (req, res) => {
     res.json(users)
   } catch (err) {
     console.log(err)
-    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
+    res.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
 
@@ -192,7 +209,7 @@ router.get('/winner', async (req, res) => {
     res.json(winner)
   } catch (err) {
     console.log(err)
-    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
+    res.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
 
@@ -216,6 +233,7 @@ router.get('/:id', async (req, res) => {
 // @access  Admin
 router.put(
   '/edit',
+  adminAuth,
   [
     check('points', 'Points is required')
       .not()
@@ -224,7 +242,6 @@ router.put(
       .not()
       .isEmpty()
   ],
-  adminAuth,
   async (req, res) => {
     const errors = validationResult(req)
 
@@ -277,7 +294,7 @@ router.put(
       res.json({ success: 'success' })
     } catch (err) {
       console.log(err)
-      re.status(500).json({ errors: { server: { msg: 'Server error' } } })
+      res.status(500).json({ errors: { server: { msg: 'Server error' } } })
     }
   }
 )

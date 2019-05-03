@@ -31,7 +31,7 @@ class HiFIVE extends Component {
 
   async componentDidMount() {
     try {
-      const res = await HiFIVEService.getUserHiFIVE(this.props.auth.user._id)
+      const res = await HiFIVEService.getUserHiFIVE()
       this.setState({
         hifives: res.data
       })

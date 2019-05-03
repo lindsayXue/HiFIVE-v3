@@ -28,7 +28,7 @@ router.get('/', async (req, res) => {
     res.json(bonuses)
   } catch (err) {
     console.log(err)
-    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
+    res.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
 
@@ -63,7 +63,7 @@ router.post(
       res.json(newBonus)
     } catch (err) {
       console.log(err)
-      re.status(500).json({ errors: { server: { msg: 'Server error' } } })
+      res.status(500).json({ errors: { server: { msg: 'Server error' } } })
     }
   }
 )
@@ -82,7 +82,7 @@ router.delete('/:id', adminAuth, async (req, res) => {
     res.json({ msg: 'Bonus removed' })
   } catch (err) {
     console.log(err)
-    re.status(500).json({ errors: { server: { msg: 'Server error' } } })
+    res.status(500).json({ errors: { server: { msg: 'Server error' } } })
   }
 })
 

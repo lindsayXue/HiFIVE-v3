@@ -21,17 +21,16 @@ router.get('/', async (req, res) => {
   }
 })
 
-// @route   add api/footer
-// @desc    Add footer
+// @route   PUT api/footer
+// @desc    Edit footer
 // @access  Admin
-router.post('/', adminAuth, async (req, res) => {
+router.put('/', adminAuth, async (req, res) => {
   try {
-    const newFooter = new Footer({
-      content: req.body.content
-    })
+    const footer = await Footer.findOne()
+    footer.content = req.body.content
 
-    await newFooter.save()
-    res.json(newFooter)
+    await footer.save()
+    res.json(footer)
   } catch (err) {
     onsole.log(err)
     res.status(500).json({ servererror: 'Server error' })

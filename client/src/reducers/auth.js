@@ -29,18 +29,16 @@ export default function(state = initialState, action) {
       }
     }
     case LOGIN_SUCCESS: // Just Login but no Register
-      localStorage.setItem('token', payload)
       return {
         ...state,
-        token: localStorage.getItem('token'),
-        user: null,
-        isAuthenticated: false,
         loading: false
       }
     case REGISTER_SUCCESS:
+      localStorage.setItem('token', payload.token)
       return {
         ...state,
-        user: payload,
+        token: localStorage.getItem('token'),
+        user: payload.user,
         isAuthenticated: true,
         loading: false
       }

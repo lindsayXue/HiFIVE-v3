@@ -32,13 +32,13 @@ export const loadUser = () => async dispatch => {
 }
 
 // Login User
-export const login = (token, history) => async dispatch => {
+export const login = (googleToken, history) => async dispatch => {
+  setAuthToken(googleToken)
   try {
-    setAuthToken(token)
     const res = await AuthService.login()
+    setAuthToken(res.data.token)
     dispatch({
-      type: LOGIN_SUCCESS,
-      payload: token
+      type: LOGIN_SUCCESS
     })
     dispatch({
       type: REGISTER_SUCCESS,
@@ -47,8 +47,7 @@ export const login = (token, history) => async dispatch => {
   } catch (err) {
     if (err.response.status === 404) {
       dispatch({
-        type: LOGIN_SUCCESS,
-        payload: token
+        type: LOGIN_SUCCESS
       })
       return history.push('/register')
     }
@@ -67,7 +66,7 @@ export const login = (token, history) => async dispatch => {
 export const register = (newUser, history) => async dispatch => {
   try {
     const res = await AuthService.register(newUser)
-
+    setAuthToken(res.data.token)
     dispatch({
       type: REGISTER_SUCCESS,
       payload: res.data
