@@ -5,21 +5,9 @@ import { connect } from 'react-redux'
 import { Link as RouterLink } from 'react-router-dom'
 import { Line } from 'react-chartjs-2'
 import moment from 'moment'
-import {
-  Typography,
-  Paper,
-  Button,
-  Table,
-  TableHead,
-  TableBody,
-  TableCell,
-  TableRow,
-  TableFooter,
-  TablePagination,
-  LinearProgress
-} from '@material-ui/core'
-import TablePaginationActionsWrapped from '../common/TablePaginationActions'
+import { Typography, Paper, Button, LinearProgress } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
+import MUIDataTable from 'mui-datatables'
 
 const styles = theme => ({
   root: {
@@ -29,18 +17,13 @@ const styles = theme => ({
   },
   backBtn: {
     float: 'right'
-  },
-  tableWrapper: {
-    overflowX: 'auto'
   }
 })
 
 class Record extends Component {
   state = {
     records: [],
-    page: 0,
-    rowsPerPage: 5,
-    isLoading: true,
+    loading: true,
     error: null
   }
 
@@ -50,25 +33,62 @@ class Record extends Component {
         userId: this.props.auth.user._id,
         number: 10
       })
-      this.setState({ records: res.data, isLoading: false })
+      this.setState({ records: res.data, loading: false })
     } catch (err) {
       this.setState({ error: err.response.data })
     }
   }
 
-  handleChangePage = (event, page) => {
-    this.setState({ page })
-  }
-
-  handleChangeRowsPerPage = event => {
-    this.setState({ page: 0, rowsPerPage: event.target.value })
-  }
-
   render() {
     const { classes, style, activity, auth } = this.props
-    const { records, rowsPerPage, page, isLoading } = this.state
-    const emptyRows =
-      rowsPerPage - Math.min(rowsPerPage, records.length - page * rowsPerPage)
+    const { records, loading } = this.state
+
+    const columns = [
+      {
+        name: 'date',
+        label: 'Date'
+      },
+      {
+        name: 'type',
+        label: 'Type',
+        options: {
+          sort: false
+        }
+      },
+      {
+        name: 'duration',
+        label: 'Duration',
+        options: {
+          sort: false
+        }
+      },
+      {
+        name: 'points',
+        label: 'Points',
+        options: {
+          sort: false
+        }
+      }
+    ]
+
+    const recordData = records.map(record => ({
+      date: moment(record.date).format('MMM DO YYYY'),
+      type: record.type,
+      duration: record.duration,
+      points: record.points
+    }))
+
+    const options = {
+      print: false,
+      filter: false,
+      viewColumns: false,
+      selectableRows: 'none',
+      responsive: 'scroll',
+      rowsPerPage: 5,
+      rowsPerPageOptions: [5],
+      empty: true,
+      download: false
+    }
 
     const data = {
       labels: records
@@ -97,61 +117,6 @@ class Record extends Component {
       maintainAspectRatio: false
     }
 
-    const recordBoard = (
-      <Table className={classes.table}>
-        <TableHead>
-          <TableRow>
-            <TableCell>Date</TableCell>
-            <TableCell align="right">Type</TableCell>
-            <TableCell align="right">Duration</TableCell>
-            <TableCell align="right">Points</TableCell>
-          </TableRow>
-        </TableHead>
-
-        <TableBody>
-          {records.length === 0 && (
-            <TableRow color="secondary">
-              <TableCell>No record yet</TableCell>
-            </TableRow>
-          )}
-          {records
-            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map(record => (
-              <TableRow key={record._id}>
-                <TableCell component="th" scope="row">
-                  {moment(record.date).format('MMM Do')}
-                </TableCell>
-                <TableCell align="right">{record.type}</TableCell>
-                <TableCell align="right">{record.duration}</TableCell>
-                <TableCell align="right">{record.points}</TableCell>
-              </TableRow>
-            ))}
-          {emptyRows > 0 && (
-            <TableRow style={{ height: 48 * emptyRows }}>
-              <TableCell colSpan={6} />
-            </TableRow>
-          )}
-        </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TablePagination
-              rowsPerPageOptions={[5]}
-              colSpan={3}
-              count={records.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              SelectProps={{
-                native: true
-              }}
-              onChangePage={this.handleChangePage}
-              onChangeRowsPerPage={this.handleChangeRowsPerPage}
-              ActionsComponent={TablePaginationActionsWrapped}
-            />
-          </TableRow>
-        </TableFooter>
-      </Table>
-    )
-
     return (
       <Paper className={classes.root} elevation={1} style={style}>
         <Typography variant="h5" color="primary" paragraph>
@@ -176,8 +141,15 @@ class Record extends Component {
         <p>
           <Line width={400} height={300} data={data} options={chartOptions} />
         </p>
-        {isLoading && <LinearProgress color="primary" />}
-        <div className={classes.tableWrapper}>{!isLoading && recordBoard}</div>
+        {loading && <LinearProgress color="primary" />}
+        {!loading && (
+          <MUIDataTable
+            title="History"
+            data={recordData}
+            columns={columns}
+            options={options}
+          />
+        )}
       </Paper>
     )
   }

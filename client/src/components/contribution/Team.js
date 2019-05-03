@@ -55,7 +55,7 @@ class Team extends Component {
 
     return (
       <Paper className={classes.root} elevation={1} style={style}>
-        <Typography variant="h5" component="h3" color="primary">
+        <Typography variant="h5" component="h3">
           Team
         </Typography>
         <p>
