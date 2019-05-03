@@ -9,7 +9,7 @@ import { withStyles } from '@material-ui/core/styles'
 import googleLogo from '../../assets/google-logo.png'
 import ErrorInfo from '../common/ErrorInfo'
 import { Redirect } from 'react-router-dom'
-import { setErrors, clearError } from '../../actions/error'
+import { setErrors, clearErrors } from '../../actions/error'
 import Logo from '../../assets/hifive.png'
 
 const config = require('../../config/config')
@@ -51,7 +51,7 @@ const Login = ({
   login,
   history,
   setErrors,
-  clearError,
+  clearErrors,
   classes,
   errors,
   loading
@@ -79,7 +79,7 @@ const Login = ({
   }
 
   const onErrorClose = () => {
-    clearError('googleServer')
+    clearErrors(['googleServer'])
   }
 
   return (
@@ -154,7 +154,7 @@ const Login = ({
 Login.propTypes = {
   login: PropTypes.func.isRequired,
   setErrors: PropTypes.func.isRequired,
-  clearError: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   isAdmin: PropTypes.bool.isRequired,
   errors: PropTypes.object.isRequired
@@ -170,6 +170,6 @@ const mapStateToProps = state => ({
 export default withRouter(
   connect(
     mapStateToProps,
-    { login, setErrors, clearError }
+    { login, setErrors, clearErrors }
   )(withStyles(styles)(Login))
 )

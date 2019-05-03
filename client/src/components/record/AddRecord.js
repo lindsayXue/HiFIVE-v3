@@ -21,7 +21,7 @@ import {
 import DatePicker from '../common/DatePicker'
 import ErrorInfo from '../common/ErrorInfo'
 import { addRecord } from '../../actions/record'
-import { clearError } from '../../actions/error'
+import { clearErrors } from '../../actions/error'
 
 class AddRecord extends Component {
   state = {
@@ -44,7 +44,7 @@ class AddRecord extends Component {
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value })
-    this.props.clearError(e.target.name)
+    this.props.clearErrors([e.target.name])
   }
 
   onSubmit = e => {
@@ -76,7 +76,7 @@ class AddRecord extends Component {
 
   handleDateChange = value => {
     this.setState({ date: value })
-    this.props.clearError('date')
+    this.props.clearErrors(['date'])
   }
 
   onErrorClose = () => {
@@ -289,7 +289,7 @@ AddRecord.propTypes = {
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
   addRecord: PropTypes.func.isRequired,
-  clearError: PropTypes.func.isRequired
+  clearErrors: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -300,5 +300,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { addRecord, clearError }
+  { addRecord, clearErrors }
 )(withRouter(AddRecord))

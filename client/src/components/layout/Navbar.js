@@ -32,7 +32,7 @@ const Navbar = ({ classes, isAuthenticated, isAdmin }) => {
             <img src={Logo} width="40" height="40" alt="Logo" />
           </Link>
           <Typography className={classes.navTitle} variant="h6" color="inherit">
-            {isAdmin ? 'HiFIVE Admin system' : 'HiFIVE'}
+            {isAdmin ? 'HiFIVE Admin System' : 'HiFIVE'}
           </Typography>
           {isAuthenticated && <UserNavbar />}
           {isAdmin && <AdminNavbar />}

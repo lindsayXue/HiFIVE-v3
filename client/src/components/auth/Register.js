@@ -18,7 +18,7 @@ import {
   Paper
 } from '@material-ui/core'
 import ErrorInfo from '../common/ErrorInfo'
-import { clearError } from '../../actions/error'
+import { clearErrors } from '../../actions/error'
 
 class Register extends Component {
   state = {
@@ -62,7 +62,7 @@ class Register extends Component {
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value })
-    this.props.clearError(e.target.name)
+    this.props.clearErrors([e.target.name])
   }
 
   onTeamRandomChange = e => {
@@ -87,7 +87,7 @@ class Register extends Component {
   }
 
   onErrorClose = () => {
-    this.props.clearError('server')
+    this.props.clearErrors(['server'])
   }
 
   render() {
@@ -313,7 +313,8 @@ class Register extends Component {
 Register.propTypes = {
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
-  register: PropTypes.func.isRequired
+  register: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -323,5 +324,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { register, clearError }
+  { register, clearErrors }
 )(withRouter(Register))

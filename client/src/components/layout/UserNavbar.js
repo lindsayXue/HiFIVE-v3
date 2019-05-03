@@ -23,9 +23,9 @@ const styles = {
   pageNavItem: {
     color: 'white'
   },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20
+  menuButton: {},
+  logoutBtnMobile: {
+    width: '100%'
   }
 }
 
@@ -75,17 +75,15 @@ class UserNavbar extends Component {
       </Hidden>
     )
     const logoutLink = (
-      <Button
-        className={classes.link}
-        color="inherit"
-        onClick={this.onLogoutClick}
-      >
-        Logout
-      </Button>
+      <Hidden smDown>
+        <Button color="inherit" onClick={this.onLogoutClick}>
+          Logout
+        </Button>
+      </Hidden>
     )
     const authLinksMobile = (
-      <div>
-        <MenuList>
+      <Fragment>
+        <MenuList className={classes.pageNavMobile}>
           <MenuItem
             component={RouterLink}
             to="/user/home"
@@ -100,8 +98,15 @@ class UserNavbar extends Component {
           >
             User
           </MenuItem>
+          <MenuItem
+            component="button"
+            onClick={this.onLogoutClick}
+            className={classes.logoutBtnMobile}
+          >
+            Logout
+          </MenuItem>
         </MenuList>
-      </div>
+      </Fragment>
     )
     return (
       <Fragment>

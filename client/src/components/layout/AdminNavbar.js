@@ -23,9 +23,9 @@ const styles = {
   pageNavItem: {
     color: 'white'
   },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20
+  menuButton: {},
+  logoutBtnMobile: {
+    width: '100%'
   }
 }
 
@@ -93,18 +93,27 @@ class AdminNavbar extends Component {
           >
             Users
           </MenuItem>
+          <MenuItem
+            component="button"
+            onClick={this.onAdminLogoutClick}
+            className={classes.logoutBtnMobile}
+          >
+            Logout
+          </MenuItem>
         </MenuList>
       </div>
     )
 
     const adminLogout = (
-      <Button
-        className={classes.link}
-        color="inherit"
-        onClick={this.onAdminLogoutClick}
-      >
-        Logout
-      </Button>
+      <Hidden smDown>
+        <Button
+          className={classes.link}
+          color="inherit"
+          onClick={this.onAdminLogoutClick}
+        >
+          Logout
+        </Button>
+      </Hidden>
     )
     return (
       <Fragment>
@@ -133,7 +142,6 @@ class AdminNavbar extends Component {
             {adminLinksMobile}
           </div>
         </Drawer>
-
         {adminLinks}
         {adminLogout}
       </Fragment>

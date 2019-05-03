@@ -8,7 +8,7 @@ import { Grid, TextField, Button, Typography, Paper } from '@material-ui/core'
 import AutoComplete from '../common/AutoComplete'
 import ErrorInfo from '../common/ErrorInfo'
 import { addHiFIVE } from '../../actions/hifive'
-import { clearError } from '../../actions/error'
+import { clearErrors } from '../../actions/error'
 
 class AddHiFIVE extends Component {
   state = {
@@ -32,14 +32,14 @@ class AddHiFIVE extends Component {
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value })
-    this.props.clearError(e.target.name)
+    this.props.clearErrors([e.target.name])
   }
 
   onAutoComleteChange = name => value => {
     this.setState({
       [name]: [value]
     })
-    this.props.clearError('receiver')
+    this.props.clearErrors(['receiver'])
   }
 
   onSubmit = e => {
@@ -136,7 +136,9 @@ class AddHiFIVE extends Component {
 
 AddHiFIVE.propTypes = {
   auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
+  clearErrors: PropTypes.func.isRequired,
+  addHiFIVE: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -146,5 +148,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { addHiFIVE, clearError }
+  { addHiFIVE, clearErrors }
 )(withRouter(AddHiFIVE))

@@ -3,7 +3,7 @@ import { setErrors } from './error'
 
 export const addBonus = data => async dispatch => {
   try {
-    const res = await AdminBonusService.addBonus(data)
+    await AdminBonusService.addBonus(data)
   } catch (err) {
     const errors = err.response.data.errors
     if (errors) {

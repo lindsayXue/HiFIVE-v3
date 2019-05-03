@@ -1,4 +1,4 @@
-import { SET_ERRORS, CLEAR_ERROR } from './types'
+import { SET_ERRORS, CLEAR_ERRORS } from './types'
 
 export const setErrors = errors => dispatch => {
   dispatch({
@@ -7,9 +7,11 @@ export const setErrors = errors => dispatch => {
   })
 }
 
-export const clearError = errorName => dispatch => {
-  dispatch({
-    type: CLEAR_ERROR,
-    payload: errorName
+export const clearErrors = errorsName => dispatch => {
+  errorsName.forEach(error => {
+    dispatch({
+      type: CLEAR_ERRORS,
+      payload: error
+    })
   })
 }

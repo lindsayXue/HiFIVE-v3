@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom'
 import { Grid, TextField, Button, Typography, Paper } from '@material-ui/core'
 import ErrorInfo from '../common/ErrorInfo'
 import { adminLogin } from '../../actions/adminAuth'
-import { clearError } from '../../actions/error'
+import { clearErrors } from '../../actions/error'
 import { Redirect } from 'react-router-dom'
 import Logo from '../../assets/hifive.png'
 
@@ -15,7 +15,7 @@ const Login = ({
   adminLogin,
   errors,
   history,
-  clearError
+  clearErrors
 }) => {
   const [formData, setFormData] = useState({
     username: '',
@@ -33,7 +33,7 @@ const Login = ({
   }
 
   const onChange = e => {
-    clearError([e.target.name])
+    clearErrors([e.target.name])
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
@@ -49,7 +49,7 @@ const Login = ({
   }
 
   const onErrorClose = () => {
-    clearError('server')
+    clearErrors(['server'])
   }
 
   return (
@@ -119,7 +119,8 @@ Login.propTypes = {
   isAdmin: PropTypes.bool.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   errors: PropTypes.object.isRequired,
-  adminLogin: PropTypes.func.isRequired
+  adminLogin: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -130,5 +131,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { adminLogin, clearError }
+  { adminLogin, clearErrors }
 )(withRouter(Login))

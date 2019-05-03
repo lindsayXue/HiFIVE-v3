@@ -26,17 +26,18 @@ class Activity extends Component {
         container
         justify="center"
         alignItems="flex-start"
-        spacing={40}
+        spacing={16}
       >
-        <Grid item lg={4} md={5}>
+        <Grid item lg={4} md={5} xs={11}>
           <Grow in timeout={1000}>
             <InfoBoard />
           </Grow>
+
           <Grow in timeout={1000}>
             <Bonus />
           </Grow>
         </Grid>
-        <Grid item lg={7} md={9}>
+        <Grid item lg={7} md={6} xs={11}>
           <Grow in timeout={1000}>
             <Users />
           </Grow>
