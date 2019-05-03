@@ -6,6 +6,7 @@ import { Grid, Grow } from '@material-ui/core'
 import InfoBoard from './InfoBoard'
 import Bonus from './Bonus'
 import Post from './Post'
+import Team from './Team'
 
 const styles = theme => ({
   root: {
@@ -41,6 +42,11 @@ class Activity extends Component {
         <Grid item md={3} xs={11}>
           <Grow in timeout={1000}>
             <Post />
+          </Grow>
+        </Grid>
+        <Grid item lg={9} xs={11}>
+          <Grow in timeout={1000}>
+            <Team />
           </Grow>
         </Grid>
       </Grid>

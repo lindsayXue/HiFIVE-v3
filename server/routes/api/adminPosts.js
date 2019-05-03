@@ -14,7 +14,7 @@ const { check, validationResult } = require('express-validator/check')
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const posts = await AdminPost.find().sort({ date: -1 })
+    const posts = await AdminPost.find().sort({ createdAt: -1 })
     // if (posts.length == 0) {
     //   return res.status(400).json({ nopostsfound: 'No post found' })
     // }

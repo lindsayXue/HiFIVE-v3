@@ -40,7 +40,7 @@ const styles = theme => ({
 class Post extends Component {
   state = {
     title: '',
-    url: '',
+    url: 'http://',
     posts: [],
     rowsPerPage: 5,
     page: 0,
@@ -69,7 +69,7 @@ class Post extends Component {
   }
 
   clearForm = () => {
-    this.setState({ title: '', url: '', creating: false })
+    this.setState({ title: '', url: 'http://', creating: false })
   }
 
   onSubmit = e => {
@@ -137,6 +137,10 @@ class Post extends Component {
       creating
     } = this.state
     const { classes, style, errors } = this.props
+
+    const emptyRows =
+      rowsPerPage - Math.min(rowsPerPage, posts.length - page * rowsPerPage)
+
     return (
       <Paper className={classes.root} elevation={2} style={style}>
         <Typography variant="h5" color="primary" paragraph>
@@ -183,6 +187,7 @@ class Post extends Component {
                 </ListItemSecondaryAction>
               </ListItem>
             ))}
+          {emptyRows > 0 && <ListItem style={{ height: 48 * emptyRows }} />}
         </List>
         <Pagination
           data={posts}

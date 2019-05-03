@@ -137,6 +137,10 @@ class Bonus extends Component {
       creating
     } = this.state
     const { classes, style, errors } = this.props
+
+    const emptyRows =
+      rowsPerPage - Math.min(rowsPerPage, bonuses.length - page * rowsPerPage)
+
     return (
       <Paper className={classes.root} elevation={2} style={style}>
         <Typography variant="h5" color="primary" paragraph>
@@ -176,6 +180,7 @@ class Bonus extends Component {
                 </ListItemSecondaryAction>
               </ListItem>
             ))}
+          {emptyRows > 0 && <ListItem style={{ height: 48 * emptyRows }} />}
         </List>
         <Pagination
           data={bonuses}
