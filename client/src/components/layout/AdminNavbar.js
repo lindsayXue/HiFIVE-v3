@@ -117,7 +117,7 @@ class AdminNavbar extends Component {
     )
     return (
       <Fragment>
-        <Hidden smUp>
+        <Hidden mdUp>
           <IconButton
             className={classes.menuButton}
             color="inherit"

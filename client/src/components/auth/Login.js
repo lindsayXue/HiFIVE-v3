@@ -70,6 +70,7 @@ const Login = ({
   }
 
   const onFailSignin = response => {
+    console.log(response)
     setErrors({
       googleServer: {
         msg: 'Something wrong with Google Signin'
@@ -132,6 +133,7 @@ const Login = ({
                 Signin with Google
               </Button>
             )}
+            isSignedIn
             buttonText="Signin with Google"
             onSuccess={onSuccessSignin}
             onFailure={onFailSignin}
