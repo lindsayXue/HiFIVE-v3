@@ -13,14 +13,6 @@ import './App.css'
 
 import { loadUser } from './actions/auth'
 import { loadAdmin } from './actions/adminAuth'
-import setAuthToken from './services/setAuthToken'
-
-if (localStorage.token) {
-  setAuthToken(localStorage.token)
-}
-if (localStorage.adminToken) {
-  setAuthToken(localStorage.adminToken)
-}
 
 const App = () => {
   useEffect(() => {

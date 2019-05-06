@@ -89,6 +89,7 @@ router.post(
 
     const { receiver, reason } = req.body
     const { id } = req.user
+    console.log(id)
     try {
       const newHiFIVE = new HiFIVE({
         sender: id,

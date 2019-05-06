@@ -9,7 +9,7 @@ import {
 } from '../actions/types'
 
 const initialState = {
-  token: localStorage.getItem('token'),
+  token: null,
   isAuthenticated: false,
   user: null,
   loading: true
@@ -37,7 +37,7 @@ export default function(state = initialState, action) {
       localStorage.setItem('token', payload.token)
       return {
         ...state,
-        token: localStorage.getItem('token'),
+        token: payload.token,
         user: payload.user,
         isAuthenticated: true,
         loading: false

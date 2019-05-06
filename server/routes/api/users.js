@@ -150,7 +150,7 @@ router.post(
       // Sign JWT Token
       const payload = {
         user: {
-          id: user._id
+          id: newUser._id
         }
       }
 

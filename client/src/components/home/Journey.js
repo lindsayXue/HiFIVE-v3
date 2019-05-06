@@ -34,7 +34,7 @@ class Journey extends Component {
   state = {
     distanceNZ: 2122000
   }
-  ß
+
   render() {
     const { classes, style } = this.props
     const { distanceNZ } = this.state

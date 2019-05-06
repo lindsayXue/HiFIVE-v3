@@ -18,6 +18,8 @@ module.exports = async function(req, res, next) {
     const email = payload['email']
     // If request specified a G Suite domain:
     // const domain = payload['hd'];
+    console.log('googleToken', req.header('x-auth-token'))
+    console.log('google token decoded')
     req.body.googleId = userid
     req.body.email = email
     next()

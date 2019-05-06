@@ -133,7 +133,6 @@ const Login = ({
                 Signin with Google
               </Button>
             )}
-            isSignedIn
             buttonText="Signin with Google"
             onSuccess={onSuccessSignin}
             onFailure={onFailSignin}

@@ -79,7 +79,7 @@ class AddRecord extends Component {
   }
 
   onErrorClose = () => {
-    this.setState({ error: null })
+    this.props.clearErrors(['server'])
   }
 
   render() {

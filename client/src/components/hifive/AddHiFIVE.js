@@ -56,7 +56,7 @@ class AddHiFIVE extends Component {
   }
 
   onErrorClose = () => {
-    this.setState({ error: null })
+    this.props.clearErrors(['server'])
   }
 
   render() {
