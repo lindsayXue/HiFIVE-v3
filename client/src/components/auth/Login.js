@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { login } from '../../actions/auth'
@@ -8,7 +8,6 @@ import { Grid, Button, CircularProgress, Typography } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import googleLogo from '../../assets/google-logo.png'
 import ErrorInfo from '../common/ErrorInfo'
-import { Redirect } from 'react-router-dom'
 import { setErrors, clearErrors } from '../../actions/error'
 import Logo from '../../assets/hifive.png'
 
@@ -45,64 +44,67 @@ const styles = theme => ({
   }
 })
 
-const Login = ({
-  isAuthenticated,
-  isAdmin,
-  login,
-  history,
-  setErrors,
-  clearErrors,
-  classes,
-  errors
-}) => {
-  const [signinLoading] = useState(false)
-  if (isAuthenticated) {
-    return <Redirect to="/user/home" />
+class Login extends Component {
+  state = {
+    signinLoading: false
   }
 
-  if (isAdmin) {
-    return <Redirect to="/admin/activity" />
+  componentDidMount() {
+    if (this.props.isAuthenticated) {
+      this.props.history.push('/user/home')
+    }
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.isAuthenticated) {
+      console.log('redirect')
+      this.props.history.push('/user/home')
+    }
   }
 
-  const onSuccessSignin = response => {
+  onSuccessSignin = response => {
+    this.setState({ signinLoading: true })
     let id_token = response.getAuthResponse().id_token
-    login(id_token, history)
+    this.props.login(id_token, this.props.history).then(() => {
+      this.setState({ signinLoading: false })
+    })
   }
 
-  const onFailSignin = response => {
+  onFailSignin = response => {
     console.log(response)
-    setErrors({
+    this.props.setErrors({
       googleServer: {
         msg: 'Something wrong with Google Signin'
       }
     })
   }
 
-  const onErrorClose = () => {
-    clearErrors(['googleServer'])
+  onErrorClose = () => {
+    this.props.clearErrors(['googleServer'])
   }
-
-  return (
-    <Grid container justify="center" style={{ marginTop: '10rem' }}>
-      <Grid item md={4} sm={8} xs={12} className={classes.content}>
-        <img
-          className={classes.logo}
-          src={Logo}
-          width="50"
-          height="50"
-          alt="Logo"
-        />
-        <Typography variant="h5" paragraph>
-          Welcome to{' '}
-          <Typography inline component="span" variant="h5" color="primary">
-            HiFIVE
-          </Typography>{' '}
-          Community
-        </Typography>
-        {signinLoading && (
-          <CircularProgress className={classes.progress} color="primary" />
-        )}
-        {/* <a href="http://localhost:5000/api/auth/google" target="_blank">
+  render() {
+    const { classes, errors } = this.props
+    const { signinLoading } = this.state
+    return (
+      <Grid container justify="center" style={{ marginTop: '10rem' }}>
+        <Grid item md={4} sm={8} xs={12} className={classes.content}>
+          <img
+            className={classes.logo}
+            src={Logo}
+            width="50"
+            height="50"
+            alt="Logo"
+          />
+          <Typography variant="h5" paragraph>
+            Welcome to{' '}
+            <Typography inline component="span" variant="h5" color="primary">
+              HiFIVE
+            </Typography>{' '}
+            Community
+          </Typography>
+          {signinLoading && (
+            <CircularProgress className={classes.progress} color="primary" />
+          )}
+          {/* <a href="http://localhost:5000/api/auth/google" target="_blank">
           <Button variant="outlined" color="primary">
             {' '}
             <img
@@ -114,41 +116,42 @@ const Login = ({
           </Button>
         </a> */}
 
-        {!signinLoading && (
-          <GoogleLogin
-            clientId={googleClientId}
-            render={renderProps => (
-              <Button
-                variant="outlined"
-                color="primary"
-                className={classes.button}
-                onClick={renderProps.onClick}
-                disabled={renderProps.disabled}
-              >
-                <img
-                  src={googleLogo}
-                  className={classes.googleLogo}
-                  alt="Google Logo"
-                />
-                Signin with Google
-              </Button>
-            )}
-            buttonText="Signin with Google"
-            onSuccess={onSuccessSignin}
-            onFailure={onFailSignin}
-            cookiePolicy={'single_host_origin'}
-          />
-        )}
-        {errors.googleServer && (
-          <ErrorInfo
-            variant="error"
-            message={errors.googleServer.msg}
-            onClose={onErrorClose}
-          />
-        )}
+          {!signinLoading && (
+            <GoogleLogin
+              clientId={googleClientId}
+              render={renderProps => (
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  className={classes.button}
+                  onClick={renderProps.onClick}
+                  disabled={renderProps.disabled}
+                >
+                  <img
+                    src={googleLogo}
+                    className={classes.googleLogo}
+                    alt="Google Logo"
+                  />
+                  Signin with Google
+                </Button>
+              )}
+              buttonText="Signin with Google"
+              onSuccess={this.onSuccessSignin}
+              onFailure={this.onFailSignin}
+              cookiePolicy={'single_host_origin'}
+            />
+          )}
+          {errors.googleServer && (
+            <ErrorInfo
+              variant="error"
+              message={errors.googleServer.msg}
+              onClose={this.onErrorClose}
+            />
+          )}
+        </Grid>
       </Grid>
-    </Grid>
-  )
+    )
+  }
 }
 
 Login.propTypes = {
