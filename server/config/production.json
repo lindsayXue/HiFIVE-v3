@@ -1,9 +1,0 @@
-{
-  "mongoURI": "mongodb+srv://lingzixue113:Hifiveadmin@hifive-a3lw6.mongodb.net/hifivev3?retryWrites=true/",
-  "jwtSecretUser": "hahahahahahahauserofhifivenz",
-  "jwtSecretAdmin": "administratorofhifivenz",
-  "google": {
-    "clientId": "909776054271-l3v0sar1i5nqir67jjo0pn9bv252f9i1.apps.googleusercontent.com",
-    "clientSecret": "uzXGVj0WLHF-dEE4cUxp9Mbz"
-  }
-}

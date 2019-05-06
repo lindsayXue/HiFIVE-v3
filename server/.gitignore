@@ -2,3 +2,4 @@
 config/default.json
 /seed
 config/passport_setup.js
+config/production.json
