@@ -87,11 +87,10 @@ export const register = (newUser, history) => async dispatch => {
 
 // Logout
 export const logout = () => async dispatch => {
-  console.log('logout')
   try {
-    await AuthService.logout()
     dispatch(clearActivity())
     dispatch({ type: LOGOUT })
+    await AuthService.logout()
   } catch (err) {
     console.log(err)
   }
