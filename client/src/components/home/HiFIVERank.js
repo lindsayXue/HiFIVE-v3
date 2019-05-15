@@ -4,6 +4,8 @@ import { LinearProgress } from '@material-ui/core'
 import MUIDataTable from 'mui-datatables'
 
 class HiFIVERank extends Component {
+  _isMounted = false
+
   state = {
     rank: [],
     loading: true,
@@ -11,12 +13,21 @@ class HiFIVERank extends Component {
   }
 
   async componentDidMount() {
+    this._isMounted = true
     try {
       const res = await HiFIVEService.getRank()
-      this.setState({ rank: res.data, loading: false })
+      if (this._isMounted) {
+        this.setState({ rank: res.data, loading: false })
+      }
     } catch (err) {
-      this.setState({ error: err.response.data })
+      if (this._isMounted) {
+        this.setState({ error: err.response.data })
+      }
     }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
   }
 
   render() {

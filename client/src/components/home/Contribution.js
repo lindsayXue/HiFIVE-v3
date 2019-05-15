@@ -19,6 +19,8 @@ const styles = theme => ({
 })
 
 class Contribution extends Component {
+  _isMounted = false
+
   state = {
     userWinner: [],
     teamWinner: [],
@@ -26,22 +28,31 @@ class Contribution extends Component {
   }
 
   async componentDidMount() {
+    this._isMounted = true
     try {
       const resUser = await UserService.getUserWinner()
       const resTeam = await TeamService.getTeamWinner()
       const winnerUserData = resUser.data
       const winnerTeamData = resTeam.data
-      this.setState({
-        userWinner: winnerUserData.map(winner => {
-          return { name: winner.name, points: winner.points }
-        }),
-        teamWinner: winnerTeamData.map(winner => {
-          return { name: winner.name, points: winner.points }
+      if (this._isMounted) {
+        this.setState({
+          userWinner: winnerUserData.map(winner => {
+            return { name: winner.name, points: winner.points }
+          }),
+          teamWinner: winnerTeamData.map(winner => {
+            return { name: winner.name, points: winner.points }
+          })
         })
-      })
+      }
     } catch (err) {
-      this.setState({ error: err.response.data })
+      if (this._isMounted) {
+        this.setState({ error: err.response.data })
+      }
     }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
   }
 
   render() {

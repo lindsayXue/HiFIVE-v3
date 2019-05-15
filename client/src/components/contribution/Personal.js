@@ -18,6 +18,7 @@ const styles = theme => ({
 })
 
 class Personal extends Component {
+  _isMounted = false
   state = {
     users: [],
     loading: true,
@@ -25,12 +26,21 @@ class Personal extends Component {
   }
 
   async componentDidMount() {
+    this._isMounted = true
     try {
       const res = await UserService.getUsers()
-      this.setState({ users: res.data, loading: false })
+      if (this._isMounted) {
+        this.setState({ users: res.data, loading: false })
+      }
     } catch (err) {
-      this.setState({ error: err.response.data })
+      if (this._isMounted) {
+        this.setState({ error: err.response.data })
+      }
     }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
   }
 
   render() {

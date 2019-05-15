@@ -1,4 +1,4 @@
-import Api from '../Api'
+import Api from './AdminApi'
 
 export default {
   addBonus(params) {

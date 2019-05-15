@@ -16,7 +16,7 @@ const config = require('config')
 // @access  Public
 router.get('/auth', adminAuth, async (req, res) => {
   try {
-    const admin = await Admin.findById(req.user.id).select('-password')
+    const admin = await Admin.findById(req.admin.id).select('-password')
     res.json(admin)
   } catch (err) {
     console.log(err)
@@ -103,7 +103,7 @@ router.post(
         }
       }
       const token = jwt.sign(payload, config.get('jwtSecretAdmin'), {
-        expiresIn: 3600
+        expiresIn: 3600 // 24 hours
       })
       res.json({ succedd: true, token })
     } catch (err) {

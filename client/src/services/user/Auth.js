@@ -1,4 +1,4 @@
-import Api from '../Api'
+import Api from './Api'
 
 export default {
   signinGoogle() {
@@ -7,8 +7,11 @@ export default {
   register(credentials) {
     return Api().post('users/register', credentials)
   },
-  login() {
-    return Api().get('users/login')
+  // login() {
+  //   return Api().get('users/login')
+  // },
+  logout() {
+    return Api().get('auth/logout')
   },
   getUserAuth() {
     return Api().get('auth')

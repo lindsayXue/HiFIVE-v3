@@ -6,6 +6,8 @@ import PropTypes from 'prop-types'
 import { Grid } from '@material-ui/core'
 
 class Rank extends Component {
+  _isMounted = false
+
   state = {
     pointsRank: 0,
     hifiveRank: 0,
@@ -13,18 +15,27 @@ class Rank extends Component {
   }
 
   async componentDidMount() {
+    this._isMounted = true
     try {
       const res = await UserService.getUserRank({
         points: this.props.auth.user.points,
         hifive: this.props.auth.user.hifive
       })
-      this.setState({
-        pointsRank: res.data.pointsRank,
-        hifiveRank: res.data.hifiveRank
-      })
+      if (this._isMounted) {
+        this.setState({
+          pointsRank: res.data.pointsRank,
+          hifiveRank: res.data.hifiveRank
+        })
+      }
     } catch (err) {
-      this.setState({ error: err.response.data })
+      if (this._isMounted) {
+        this.setState({ error: err.response.data })
+      }
     }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
   }
 
   async componentWillReceiveProps(nextProps) {
@@ -33,12 +44,17 @@ class Rank extends Component {
         points: nextProps.auth.user.points,
         hifive: nextProps.auth.user.hifive
       })
-      this.setState({
-        pointsRank: res.data.pointsRank,
-        hifiveRank: res.data.hifiveRank
-      })
+      if (this._isMounted) {
+        this.setState({
+          pointsRank: res.data.pointsRank,
+          hifiveRank: res.data.hifiveRank
+        })
+      }
     } catch (err) {
-      this.setState({ error: err.response.data })
+      if (this._isMounted) {
+        console.log('rank set state error')
+        this.setState({ error: err.response.data })
+      }
     }
   }
 

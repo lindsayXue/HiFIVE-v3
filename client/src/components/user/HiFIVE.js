@@ -22,6 +22,8 @@ const styles = theme => ({
 })
 
 class HiFIVE extends Component {
+  _isMounted = false
+
   state = {
     hifives: [],
     page: 0,
@@ -30,14 +32,23 @@ class HiFIVE extends Component {
   }
 
   async componentDidMount() {
+    this._isMounted = true
     try {
       const res = await HiFIVEService.getUserHiFIVE()
-      this.setState({
-        hifives: res.data
-      })
+      if (this._isMounted) {
+        this.setState({
+          hifives: res.data
+        })
+      }
     } catch (err) {
-      this.setState({ error: err.response.data })
+      if (this._isMounted) {
+        this.setState({ error: err.response.data })
+      }
     }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
   }
 
   handleChangePage = (e, page) => {

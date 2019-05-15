@@ -12,13 +12,7 @@ const User = require('../../models/User')
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const errors = {}
     const teams = await Team.find()
-    // if (teams.length == 0) {
-    //   errors.noteamfound = 'No team found'
-    //   return res.status(400).json(errors)
-    // }
-
     res.json(teams)
   } catch (err) {
     res.status(500).json({ errors: { server: { msg: 'Server error' } } })

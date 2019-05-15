@@ -38,6 +38,9 @@ class Register extends Component {
     if (this.props.auth.isAuthenticated) {
       return this.props.history.push('/user/home')
     }
+    if (this.props.isAdmin) {
+      return this.props.history.push('/admin/activity')
+    }
     try {
       const res = await TeamService.getTeams()
       const teams = res.data
@@ -57,6 +60,9 @@ class Register extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
       return this.props.history.push('/user/home')
+    }
+    if (nextProps.isAdmin) {
+      return this.props.history.push('/admin/activity')
     }
   }
 
@@ -312,6 +318,7 @@ class Register extends Component {
 
 Register.propTypes = {
   auth: PropTypes.object.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
   errors: PropTypes.object.isRequired,
   register: PropTypes.func.isRequired,
   clearErrors: PropTypes.func.isRequired
@@ -319,6 +326,7 @@ Register.propTypes = {
 
 const mapStateToProps = state => ({
   auth: state.auth,
+  isAdmin: state.adminAuth.isAdmin,
   errors: state.errors
 })
 

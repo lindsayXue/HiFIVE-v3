@@ -16,17 +16,24 @@ const styles = theme => ({
 })
 
 class ExerciseHistory extends Component {
+  _isMounted = false
   state = {
     records: [],
     error: null
   }
   async componentDidMount() {
+    this._isMounted = true
     try {
       const res = await RecordService.getRecods()
-      this.setState({ records: res.data })
+      if (this._isMounted) {
+        this.setState({ records: res.data })
+      }
     } catch (err) {
       console.log(err)
     }
+  }
+  componentWillUnmount() {
+    this._isMounted = false
   }
   render() {
     const { classes, style } = this.props

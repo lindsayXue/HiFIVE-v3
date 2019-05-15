@@ -4,6 +4,7 @@ import { LinearProgress } from '@material-ui/core'
 import MUIDataTable from 'mui-datatables'
 
 class HiFIVEHis extends Component {
+  _isMounted = false
   state = {
     history: [],
     loading: true,
@@ -11,12 +12,21 @@ class HiFIVEHis extends Component {
   }
 
   async componentDidMount() {
+    this._isMounted = true
     try {
       const res = await HiFIVEService.getHistory()
-      this.setState({ history: res.data, loading: false })
+      if (this._isMounted) {
+        this.setState({ history: res.data, loading: false })
+      }
     } catch (err) {
-      this.setState({ error: err.response.data })
+      if (this._isMounted) {
+        this.setState({ error: err.response.data })
+      }
     }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
   }
 
   render() {

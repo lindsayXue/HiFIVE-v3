@@ -2,7 +2,6 @@ const express = require('express')
 const router = express.Router()
 
 // Middleware
-const googleAuth = require('../../middlewares/googleAuth')
 const adminAuth = require('../../middlewares/adminAuth')
 
 // Load User model
@@ -14,47 +13,16 @@ const Activity = require('../../models/Activity')
 // Load Team model
 const Team = require('../../models/Team')
 
-const jwt = require('jsonwebtoken')
-const config = require('config')
+// const jwt = require('jsonwebtoken')
+// const config = require('config')
 
 const { check, validationResult } = require('express-validator/check')
-
-// @route   GET api/users/login
-// @desc    Login user
-// @access  Public
-router.get('/login', googleAuth, async (req, res) => {
-  const { googleId } = req.body
-  try {
-    let user = await User.findOne({ googleId }).select('-googleId')
-
-    if (!user || Object.keys(user).length === 0) {
-      return res.status(404).json({ errors: [{ msg: 'User unregistered' }] })
-    }
-
-    // Sign JWT Token
-    const payload = {
-      user: {
-        id: user._id
-      }
-    }
-
-    const token = jwt.sign(payload, config.get('jwtSecretUser'), {
-      expiresIn: 3600
-    })
-
-    res.json({ user, token })
-  } catch (err) {
-    console.log(err)
-    res.status(500).json({ errors: { server: { msg: 'Server error' } } })
-  }
-})
 
 // @route   POST api/users/register
 // @desc    Register user
 // @access  Public
 router.post(
   '/register',
-  googleAuth,
   [
     check('name', 'Name is required')
       .not()
@@ -89,8 +57,6 @@ router.post(
     }
 
     const {
-      googleId,
-      email,
       name,
       ageRange,
       fitnessLevel,
@@ -98,6 +64,8 @@ router.post(
       jobDesc,
       department
     } = req.body
+
+    const { googleId, email } = req.user
 
     try {
       let user = await User.find({ googleId })
@@ -146,22 +114,7 @@ router.post(
       )
 
       await newUser.save()
-
-      // Sign JWT Token
-      const payload = {
-        user: {
-          id: newUser._id
-        }
-      }
-
-      const token = jwt.sign(payload, config.get('jwtSecretUser'), {
-        expiresIn: 3600
-      })
-
-      return res.json({
-        token,
-        user: newUser
-      })
+      res.json(newUser)
     } catch (err) {
       console.log(err)
       res.status(500).json({ errors: { server: { msg: 'Server error' } } })

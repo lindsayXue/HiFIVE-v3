@@ -38,6 +38,7 @@ const styles = theme => ({
 })
 
 class Post extends Component {
+  _isMounted = false
   state = {
     title: '',
     url: 'http://',
@@ -50,12 +51,19 @@ class Post extends Component {
   }
 
   async componentDidMount() {
+    this._isMounted = true
     try {
       const res = await PostService.getPosts()
-      this.setState({ posts: res.data })
+      if (this._isMounted) {
+        this.setState({ posts: res.data })
+      }
     } catch (err) {
       this.props.setErrors(err.response.data)
     }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
   }
 
   handleChangePage = (e, page) => {

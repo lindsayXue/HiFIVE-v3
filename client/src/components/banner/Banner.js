@@ -23,21 +23,29 @@ const styles = theme => ({
 })
 
 class Banner extends Component {
+  _isMounted = false
+
   state = {
     team: '',
     posts: []
   }
 
   async componentDidMount() {
+    this._isMounted = true
     try {
       if (this.props.auth.user) {
         const teamRes = await TeamService.getUserTeam(this.props.auth.user.team)
-        this.setState({ team: teamRes.data })
+        if (this._isMounted) {
+          this.setState({ team: teamRes.data })
+        }
       }
       this.props.getActivity()
     } catch (err) {
       console.log(err)
     }
+  }
+  componentWillUnmount() {
+    this._isMounted = false
   }
 
   render() {

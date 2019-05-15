@@ -22,6 +22,8 @@ const styles = theme => ({
 })
 
 class Member extends Component {
+  _isMounted = false
+
   state = {
     members: [],
     page: 0,
@@ -30,16 +32,25 @@ class Member extends Component {
   }
 
   async componentDidMount() {
+    this._isMounted = true
     try {
       const res = await TeamService.getTeamMember(this.props.auth.user.team)
-      this.setState({
-        members: res.data.filter(
-          member => member._id !== this.props.auth.user._id
-        )
-      })
+      if (this._isMounted) {
+        this.setState({
+          members: res.data.filter(
+            member => member._id !== this.props.auth.user._id
+          )
+        })
+      }
     } catch (err) {
-      this.setState({ error: err.response.data })
+      if (this._isMounted) {
+        this.setState({ error: err.response.data })
+      }
     }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
   }
 
   handleChangePage = (e, page) => {

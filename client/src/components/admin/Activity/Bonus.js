@@ -38,6 +38,7 @@ const styles = theme => ({
 })
 
 class Bonus extends Component {
+  _isMounted = false
   state = {
     name: '',
     points: '',
@@ -50,12 +51,19 @@ class Bonus extends Component {
   }
 
   async componentDidMount() {
+    this._isMounted = true
     try {
       const res = await BonusService.getBonuses()
-      this.setState({ bonuses: res.data })
+      if (this._isMounted) {
+        this.setState({ bonuses: res.data })
+      }
     } catch (err) {
       this.props.setErrors(err.response.data)
     }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
   }
 
   handleChangePage = (e, page) => {

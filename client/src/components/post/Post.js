@@ -26,6 +26,7 @@ const styles = theme => ({
 })
 
 class Post extends Component {
+  _isMounted = false
   state = {
     posts: [],
     isLoading: true,
@@ -33,12 +34,17 @@ class Post extends Component {
   }
 
   async componentDidMount() {
+    this._isMounted = true
     const res = await PostService.getPosts()
     this.setState({ posts: res.data, isLoading: false })
     try {
     } catch (err) {
       this.setState({ error: err.response.data })
     }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
   }
 
   render() {

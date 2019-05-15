@@ -85,9 +85,9 @@ router.post(
     }
 
     const { date, duration, points, bonus } = req.body
-    const { id } = req.user
 
     try {
+      const user = await User.findOne({ googleId: req.user.googleId })
       let type
       if (req.body.type === 'Other') {
         type = req.body.typeInput
@@ -96,7 +96,7 @@ router.post(
       }
 
       const newRecord = new Record({
-        user: id,
+        user: user._id,
         date,
         type,
         duration,
@@ -105,7 +105,7 @@ router.post(
       })
 
       // Add points to user
-      const updateUser = await User.findByIdAndUpdate(id, {
+      const updateUser = await User.findByIdAndUpdate(user._id, {
         $inc: { points: req.body.points }
       })
 
@@ -135,19 +135,19 @@ router.post(
 // @desc    Get user records
 // @access  Private
 router.get('/user', userAuth, async (req, res) => {
-  const { id } = req.user
   try {
+    const user = await User.findOne({ googleId: req.user.googleId })
     let userRecords
     if (!!req.query.number) {
       let skip = !req.query.skip ? 0 : req.query.skip
-      userRecords = await Record.find({ user: id })
+      userRecords = await Record.find({ user: user._id })
         .sort({
           date: -1
         })
         .skip(Number(skip))
         .limit(Number(req.query.number))
     } else {
-      userRecords = await Record.find({ user: id }).sort({
+      userRecords = await Record.find({ user: user._id }).sort({
         date: -1
       })
     }

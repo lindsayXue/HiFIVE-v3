@@ -24,6 +24,8 @@ import { addRecord } from '../../actions/record'
 import { clearErrors } from '../../actions/error'
 
 class AddRecord extends Component {
+  _isMounted = false
+
   state = {
     date: '',
     type: '',
@@ -34,12 +36,21 @@ class AddRecord extends Component {
   }
 
   async componentDidMount() {
+    this._isMounted = true
     try {
       const res = await BonusService.getBonuses()
-      this.setState({ bonusOptions: res.data })
+      if (this._isMounted) {
+        this.setState({ bonusOptions: res.data })
+      }
     } catch (err) {
-      this.setState({ error: err.response.data })
+      if (this._isMounted) {
+        this.setState({ error: err.response.data })
+      }
     }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
   }
 
   onChange = e => {

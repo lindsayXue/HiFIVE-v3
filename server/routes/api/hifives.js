@@ -47,9 +47,9 @@ router.get('/', async (req, res) => {
 // @desc    Get user hifives
 // @access  Private
 router.get('/user', userAuth, async (req, res) => {
-  const { id } = req.user
   try {
-    let hifives = await HiFIVE.find({ receiver: id })
+    const user = await User.findOne({ googleId: req.user.googleId })
+    const hifives = await HiFIVE.find({ receiver: user._id })
       .sort({ createdAt: -1 })
       .populate('sender', ['name'])
 
@@ -88,11 +88,10 @@ router.post(
     }
 
     const { receiver, reason } = req.body
-    const { id } = req.user
-    console.log(id)
     try {
+      const user = await User.findOne({ googleId: req.user.googleId })
       const newHiFIVE = new HiFIVE({
-        sender: id,
+        sender: user._id,
         receiver,
         reason
       })

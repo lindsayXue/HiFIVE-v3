@@ -36,6 +36,8 @@ const styles = theme => ({
 })
 
 class UserList extends Component {
+  _isMounted = false
+
   state = {
     userList: [],
     userEditing: {},
@@ -50,13 +52,22 @@ class UserList extends Component {
     noEditError: false
   }
   async componentDidMount() {
+    this._isMounted = true
     try {
       const res = await UserService.getUsers()
-      this.setState({ userList: res.data })
+      if (this._isMounted) {
+        this.setState({ userList: res.data })
+      }
     } catch (err) {
       console.log(err)
-      this.props.setErrors(err.response.data)
+      if (this._isMounted) {
+        this.props.setErrors(err.response.data)
+      }
     }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
   }
 
   handleClose = e => {

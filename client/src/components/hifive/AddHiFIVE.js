@@ -11,6 +11,8 @@ import { addHiFIVE } from '../../actions/hifive'
 import { clearErrors } from '../../actions/error'
 
 class AddHiFIVE extends Component {
+  _isMounted = false
+
   state = {
     receiver: [],
     reason: '',
@@ -18,16 +20,23 @@ class AddHiFIVE extends Component {
   }
 
   async componentDidMount() {
+    this._isMounted = true
     try {
       const res = await UserService.getUsers()
-      this.setState({
-        receiverOptions: res.data.filter(
-          e => e._id !== this.props.auth.user._id
-        )
-      })
+      if (this._isMounted) {
+        this.setState({
+          receiverOptions: res.data.filter(
+            e => e._id !== this.props.auth.user._id
+          )
+        })
+      }
     } catch (err) {
       console.log(err)
     }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
   }
 
   onChange = e => {

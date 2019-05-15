@@ -22,6 +22,8 @@ const styles = theme => ({
 })
 
 class Record extends Component {
+  _isMounted = false
+
   state = {
     records: [],
     loading: true,
@@ -29,14 +31,23 @@ class Record extends Component {
   }
 
   async componentDidMount() {
+    this._isMounted = true
     try {
       const res = await RecordService.getUserRecord({
         number: 10
       })
-      this.setState({ records: res.data, loading: false })
+      if (this._isMounted) {
+        this.setState({ records: res.data, loading: false })
+      }
     } catch (err) {
-      this.setState({ error: err.response.data })
+      if (this._isMounted) {
+        this.setState({ error: err.response.data })
+      }
     }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
   }
 
   render() {

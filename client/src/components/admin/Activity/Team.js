@@ -26,18 +26,29 @@ const styles = theme => ({
 })
 
 class Team extends Component {
+  _isMounted = false
   state = {
     teams: [],
     error: null
   }
 
   async componentDidMount() {
+    this._isMounted = true
+
     try {
       const res = await TeamService.getTeams()
-      this.setState({ teams: res.data })
+      if (this._isMounted) {
+        this.setState({ teams: res.data })
+      }
     } catch (err) {
-      this.setState({ error: err.response.data })
+      if (this._isMounted) {
+        this.setState({ error: err.response.data })
+      }
     }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
   }
 
   render() {

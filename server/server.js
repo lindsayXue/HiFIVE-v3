@@ -2,7 +2,12 @@ const express = require('express')
 const connectDB = require('./config/db')
 const cors = require('cors')
 const Routes = require('./routes/index')
-// const passportSetup = require('./config/passport_setup')
+const cookieParser = require('cookie-parser')
+const session = require('express-session')
+const passport = require('passport')
+
+// Passport Config
+require('./config/passport_setup')(passport)
 const path = require('path')
 
 const app = express()
@@ -14,7 +19,31 @@ connectDB()
 app.use(express.json({ extended: false }))
 
 // Cors
-app.use(cors())
+app.use(
+  cors({
+    origin: true,
+    credentials: true
+  })
+)
+
+app.use(cookieParser())
+
+const config = require('config')
+const cookieAge = 24 * 60 * 60 * 1000 // 24 hours
+app.use(
+  session({
+    secret: config.get('sessionSecret'),
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: cookieAge
+    }
+  })
+)
+
+// Passport Middleware
+app.use(passport.initialize())
+app.use(passport.session())
 
 //User Routes
 app.use('/api', Routes)
