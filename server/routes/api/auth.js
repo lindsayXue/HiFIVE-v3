@@ -8,6 +8,9 @@ const User = require('../../models/User')
 // Middleware
 const userAuth = require('../../middlewares/userAuth')
 
+// Config
+const config = require('config')
+
 // @route   GET api/auth
 // @desc    Get user auth
 // @access  Public
@@ -37,7 +40,9 @@ router.get(
 router.get(
   '/google/callback',
   passport.authenticate('google', {
-    failureRedirect: 'http://localhost:3000?error=google signin error'
+    failureRedirect: `${config.get(
+      'google.redirectURL'
+    )}?error=google signin error`
   }),
   async (req, res) => {
     try {
@@ -46,12 +51,12 @@ router.get(
       })
       if (!user) {
         // return res.status(404).json({ errors: [{ msg: 'User unregistered' }] })
-        return res.redirect('http://localhost:3000/register')
+        return res.redirect(`${config.get('google.redirectURL')}/register`)
       }
-      res.redirect('http://localhost:3000/')
+      res.redirect(config.get('google.redirectURL'))
     } catch (err) {
       console.log(err)
-      res.redirect('http://localhost:3000?error=server error')
+      res.redirect(`${config.get('google.redirectURL')}?error=server error`)
     }
   }
 )

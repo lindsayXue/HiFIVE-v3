@@ -77,6 +77,11 @@ class Login extends Component {
   render() {
     const { classes } = this.props
     const { error, signinLoading } = this.state
+
+    let googleButtonHref = 'http://localhost:5000/api/auth/google'
+    if (process.env.NODE_ENV === 'production') {
+      googleButtonHref = 'https://www.hifivenz.org/api/auth/google'
+    }
     return (
       <Grid container justify="center" style={{ marginTop: '10rem' }}>
         <Grid item md={4} sm={8} xs={12} className={classes.content}>
@@ -100,7 +105,7 @@ class Login extends Component {
           {!signinLoading && (
             <Button
               component="a"
-              href="http://localhost:5000/api/auth/google"
+              href={googleButtonHref}
               variant="outlined"
               color="primary"
               onClick={this.onLoginClick}
