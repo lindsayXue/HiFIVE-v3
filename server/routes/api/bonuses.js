@@ -76,7 +76,7 @@ router.delete('/:id', adminAuth, async (req, res) => {
     const bonus = await Bonus.findByIdAndDelete(req.params.id)
 
     if (!bonus) {
-      return res.status(404).json({ msg: 'Bonus not found' })
+      return res.json({ msg: 'Bonus not found' })
     }
 
     res.json({ msg: 'Bonus removed' })

@@ -76,7 +76,10 @@ class HiFIVE extends Component {
               .map(hi => (
                 <ListItem key={hi._id}>
                   <ListItemText primary={hi.sender.name} />
-                  <ListItemText secondary={hi.reason} />
+                  <ListItemText
+                    secondary={hi.reason}
+                    style={{ textAlign: 'right' }}
+                  />
                 </ListItem>
               ))}
           </List>

@@ -21,7 +21,7 @@ export default () => {
       return response
     },
     err => {
-      if (err.response.status === 401) {
+      if (err.response.status && err.response.status === 401) {
         store.dispatch(adminLogout())
       }
       // Do something with response error

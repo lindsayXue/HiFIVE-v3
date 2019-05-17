@@ -4,8 +4,8 @@ export default {
   signinGoogle() {
     return Api().get('/auth/google')
   },
-  register(credentials) {
-    return Api().post('users/register', credentials)
+  register(params) {
+    return Api().post('users/register', params)
   },
   // login() {
   //   return Api().get('users/login')

@@ -5,7 +5,6 @@ import {
   LOGOUT,
   USER_LOADED
 } from './types'
-import setAuthToken from '../services/setAuthToken'
 import AuthService from '../services/user/Auth'
 import { setErrors } from './error'
 import { clearActivity } from './activity'
@@ -64,7 +63,6 @@ export const loadUser = () => async dispatch => {
 export const register = (newUser, history) => async dispatch => {
   try {
     const res = await AuthService.register(newUser)
-    setAuthToken(res.data.token)
     dispatch({
       type: REGISTER_SUCCESS,
       payload: res.data

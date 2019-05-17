@@ -18,7 +18,7 @@ router.get('/', userAuth, async (req, res) => {
   try {
     const user = await User.findOne({ googleId: req.user.googleId })
     if (!user) {
-      return res.status(401).json({ errors: [{ msg: 'User unauthorised' }] })
+      return res.status(404).json({ errors: [{ msg: 'User unregistered' }] })
     }
     res.json(user)
   } catch (err) {

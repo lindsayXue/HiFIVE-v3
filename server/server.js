@@ -23,6 +23,7 @@ app.use(express.json({ extended: false }))
 app.use(
   cors({
     origin: true,
+    // methods: ['GET', 'PUT', 'POST'],
     credentials: true
   })
 )
