@@ -13,4 +13,3 @@ Get the project using git:
 - In server directory, run npm dev to test in development mode.
 
 ![image](https://drive.google.com/uc?export=view&id=10eWgZ_F7A38K2Alx6A_yYuvm2H5lmL7T)
-10eWgZ_F7A38K2Alx6A_yYuvm2H5lmL7T
