@@ -12,16 +12,17 @@ import { setErrors } from './error'
 export const loadAdmin = () => async dispatch => {
   if (localStorage.adminToken) {
     setAuthToken(localStorage.adminToken)
-  }
-  try {
-    await AuthService.getAdminAuth()
-    dispatch({
-      type: ADMIN_LOADED
-    })
-  } catch (err) {
-    dispatch({
-      type: ADMIN_AUTH_ERROR
-    })
+
+    try {
+      await AuthService.getAdminAuth()
+      dispatch({
+        type: ADMIN_LOADED
+      })
+    } catch (err) {
+      dispatch({
+        type: ADMIN_AUTH_ERROR
+      })
+    }
   }
 }
 

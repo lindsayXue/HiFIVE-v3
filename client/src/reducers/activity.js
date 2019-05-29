@@ -34,8 +34,7 @@ export default function(state = initialState, action) {
         loading: false
       }
     case CLEAR_ACTIVITY_ERROR:
-      delete state.errors[payload]
-      return { ...state }
+      return { ...state, errors: {} }
     default:
       return state
   }
