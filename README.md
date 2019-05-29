@@ -7,6 +7,6 @@ HiFIVE website project. The website is made for client from Christchurch hospita
 Get the project using git:
 
 - git clone https://github.com/lindsayXue/HiFIVE-v3.git.
-- Run npm install to get project dependencies installed. Npm is installed when you install node.js.
+- Run npm install in both server and client directory to get project dependencies installed. Npm is installed when you install node.js.
 - Run cd server.
 - Run npm dev to test in development mode.
