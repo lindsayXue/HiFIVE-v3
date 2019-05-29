@@ -12,4 +12,32 @@ Get the project using git:
 - Cd server/config, add passport_setup.js file which include passport google oauth2.0 setup.
 - In server directory, run npm dev to test in development mode.
 
-![image](https://drive.google.com/uc?export=view&id=10eWgZ_F7A38K2Alx6A_yYuvm2H5lmL7T)
+## How does the project look like?
+
+### LOGIN
+
+![LOGIN](https://drive.google.com/uc?export=view&id=10eWgZ_F7A38K2Alx6A_yYuvm2H5lmL7T)
+
+### REGISTER
+
+![REGISTER](https://drive.google.com/uc?export=view&id=1YCd6no4cF6ipW670cqdASxn3w9b-rnK4)
+
+### HOME
+
+![HOME](https://drive.google.com/uc?export=view&id=1OJE3wOVdlGXwMMVSsA6lglVVtreusLkt)
+
+### PROFILE
+
+![PROFILE](https://drive.google.com/uc?export=view&id=1WCJee48mEgtbHf1zVRKCqRfmqh2Bcr64)
+
+### ADMIN LOGIN
+
+![ADMIN LOGIN](https://drive.google.com/uc?export=view&id=1m3-4_s3tNzyF2F3M_WBs5Cp5ppla_ree)
+
+### ADMIN ACTIVITY
+
+![ADMIN ACTIVITY](https://drive.google.com/uc?export=view&id=1R50IiRYQVigKc_Vl-BzzBn3Jmbe-NHnS)
+
+### ADMIN USERS
+
+![ADMIN USERS](https://drive.google.com/uc?export=view&id=1cViEhp8tB95h21F1UX7RNpl8GohAFl2f)
